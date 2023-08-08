@@ -1,0 +1,302 @@
+﻿<!--Aba Equipamentos-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 2}" ng-show="passoAtivoAbasFixas == 2">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Data Início</th>
+                <th>Data Término</th>
+                <th>Preço Hora</th>
+                <th>Horas</th>
+                <th>Total</th>
+                <th>Debitar</th>
+                <th>Cobrado</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="equipamento in $parent.listaEquipamentosEvento">
+                <td>{{equipamento.equipamentoId}}</td>
+                <td>{{equipamento.descricaoEquipamento}}</td>
+                <td>{{equipamento.dataHoraInicio | date:'short'}}</td>
+                <td>{{equipamento.dataHoraFinal | date:'short'}}</td>
+                <td>{{equipamento.precoHora | currency}}</td>
+                <td>{{equipamento.horasTrabalhadas}}</td>
+                <td>{{calcularValorHorasTotalDebitarEquipamento(equipamento.precoHora, equipamento.horasTrabalhadas) | currency}}</td>
+                <td>{{equipamento.debitar == true ? "Sim" : "Não"}}</td>
+                <td>{{equipamento.cobrado == true ? "Sim" : "Não"}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || equipamento.cobrado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoEquipamento(equipamento)" data-toggle="modal"
+                       data-container="body" data-placement="top" data-original-title="Editar equipamento" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || equipamento.cobrado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaEquipamento(equipamento)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir equipamento" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirEquipamento" ng-click="modalInclusaoEquipamento()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Novo Equipamento</button>
+    </div>
+</div>
+
+<!--Modal de Inclusão de equipamentos-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoEquipamento" tabindex="-1" role="modalInclusaoEquipamentos" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Equipamento</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Equipamento
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="equipamentoId"
+                                       data-field-text="descricao"                                       
+                                       lista-pre-definida="listaEquipamentosCombo"
+                                       placeholder="Equipamento"
+                                       class="form-control"
+                                       name="equipamentoId"
+                                       ng-model="inclusaoEquipamento.equipamentoId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço/Hora
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="inclusaoEquipamento.precoHora"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Início
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataInicial"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="inclusaoEquipamento.dataHoraInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Término
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataFinal"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="inclusaoEquipamento.dataHoraFinal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       ng-model="inclusaoEquipamento.horasTrabalhadas"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="inclusaoEquipamento.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="inclusaoEquipamento.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" 
+                            data-dismiss="modal" 
+                            ng-disabled="inclusaoEquipamento.dataHoraInicio > inclusaoEquipamento.dataHoraFinal" 
+                            ng-click="salvarEquipamento()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Edição de equipamentos-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoEquipamento" tabindex="-1" role="modalEdicaoEquipamento" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Equipamento</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Equipamento
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="equipamentoId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaEquipamentosCombo"
+                                       placeholder="Equipamento"
+                                       class="form-control"
+                                       name="equipamentoId"
+                                       ng-model="edicaoEquipamento.equipamentoId"
+                                       ng-change="alteracaoEquipamentoSelecionado(edicaoEquipamento.equipamentoId);"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço/Hora
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-change="calcularValorTotal(edicaoEquipamento)"
+                                       ng-model="edicaoEquipamento.precoHora"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Início
+                                </label> 
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataInicial"
+                                       ng-change="calcularHoras(edicaoEquipamento)"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="edicaoEquipamento.dataHoraInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Término
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataFinal"
+                                       cb-datetime-picker
+                                       ng-change="calcularHoras(edicaoEquipamento)"
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="edicaoEquipamento.dataHoraFinal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       ng-model="edicaoEquipamento.horasTrabalhadas"
+                                       ng-change="calcularValorTotal(edicaoEquipamento)"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="edicaoEquipamento.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="edicaoEquipamento.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" 
+                            data-dismiss="modal" 
+                            ng-disabled="edicaoEquipamento.dataHoraInicio > edicaoEquipamento.dataHoraFinal" 
+                            ng-click="salvarEdicaoEquipamento()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA EQUIPAMENTO-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirEquipamento()">
+    <p>Deseja realmente excluir o Equipamento Evento?</p>
+</cb-confirmation-modal>

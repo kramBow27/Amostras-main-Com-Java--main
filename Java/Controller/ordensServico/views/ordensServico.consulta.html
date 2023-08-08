@@ -1,0 +1,130 @@
+﻿<h3 class="page-title">
+    Ordens de Serviço <small>Consultar</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Ordens de Serviço - Consultar
+        </li>
+    </ul>
+</div>
+<!-- END PAGE HEADER-->
+<div class="portlet box blue-hoki">
+    <div class="portlet-title">
+        <div class="caption">
+            Consultar Ordem de Serviço {{tipoBusca}}
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form" name="consultaForm">
+            <div class="form-body">
+
+                <div class="note note-danger" ng-if="formErrors && formErrors.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in formErrors">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <!-- Consulta por Número -->
+                <div class="row" ng-if="tipoConsulta == 1">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group" cb-form-validation field="Ano" validators="{number: true, maxlength: 4, required: true}" form-input="consultaForm.anoOrdemServico">
+                            <label>Ano</label>
+                            <input type="number" class="form-control" name="anoOrdemServico" ng-model="camposBuscaOs.anoOrdemServico" maxlength="4" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="form-group" cb-form-validation field="Número" validators="{number: true, required: true}" form-input="consultaForm.ordemServico">
+                            <label>Número</label>
+                            <input type="number" class="form-control" name="ordemServico" ng-model="camposBuscaOs.ordemServico" required>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-actions right">
+                <a type="button" class="btn default textDecorN" href="#/dashboard.html">Cancelar</a>
+                <button type="submit" class="btn green" ng-disabled="consultaForm.$invalid" ng-click="consultarOrdemServico()">Procurar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="portlet box blue" ng-show="dadosBusca">
+    <div class="portlet-title">
+        <div class="caption">
+            Resultados da Busca
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form">
+            <div class="form-body">
+                <!-- Consulta por CDC -->
+                <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-condensed table-hover table-clickable">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Situação</th>
+                            <th>Endereço</th>
+                            <th>Número</th>
+                            <th>Complemento</th>
+                            <th>Bairro</th>
+                            <th>Compromissário</th>
+                            <th>Proprietário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in dadosBusca" ui-sref="ligacao.detalhes.geral.resumo({ ligacaoId: item.ligacaoId })">
+                            <td>{{item.ligacaoId}}</td>
+                            <td>{{item.situacao == 'S' ? 'Inativo' : 'Ativo'}}</td>
+                            <td>{{item.endereco}}</td>
+                            <td>{{item.numero}}</td>
+                            <td>{{item.complemento}}</td>
+                            <td>{{item.bairro}}</td>
+                            <td>{{item.nomeCompromissario}}</td>
+                            <td>{{item.nomeProprietario}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-actions right" ng-show="dadosBuscaFonetica">
+                <button class="btn warning" ng-click="dadosBusca = null;">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="portlet box blue" ng-show="dadosBuscaFonetica && !dadosBusca">
+    <div class="portlet-title">
+        <div class="caption">
+            Resultados da Busca
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form">
+            <div class="form-body">
+                <!-- Consulta por CDC -->
+                <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-condensed table-hover table-clickable">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Bairro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in dadosBuscaFonetica" ng-click="buscarLogradouro(item.logradouroId)">
+                            <td>{{item.logradouroId}} - <span ng-show="item.abreviacao">{{item.abreviacao}} </span><span ng-show="item.titulo">{{item.titulo}} </span>{{item.nome}}</td>
+                            <td>{{item.bairro}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

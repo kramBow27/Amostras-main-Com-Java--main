@@ -1,0 +1,82 @@
+﻿<div class="modal fade bs-modal-lg" id="modalProgramarColetorOrdemServico" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Programar Coletor Ordens de Serviço</h4>
+            </div>
+            <form name="programacaoColetorOrdensServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label class="control-label labelInfo">
+                                Tipo Programação:
+                            </label>
+                            <input type="hidden"
+                                   cb-select2=""
+                                   data-field-id="key"
+                                   data-field-text="value"
+                                   data-api-url="Api/Enums/TipoProgramacao"
+                                   class="form-control"
+                                   name="tipoProgramacao"
+                                   ng-model="dadosProgramacaoColetorOs.tipoProgramacao">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group" cb-form-validation="$parent.programacaoColetorOrdensServicoForm.centroCustoId">
+                                <label class="control-label labelInfo">
+                                    Departamento <span ng-show="dadosProgramacaoColetorOs.tipoProgramacao == 2" class="required">*</span>
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="centroCustoId"
+                                       data-field-text="descricao"
+                                       data-api-url="Api/CentrosCusto"
+                                       class="form-control"
+                                       name="centroCustoId"
+                                       ng-model="dadosProgramacaoColetorOs.centroCustoId"
+                                       ng-disabled="dadosProgramacaoColetorOs.tipoProgramacao != 2"
+                                       ng-required="dadosProgramacaoColetorOs.tipoProgramacao != 1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group" cb-form-validation="$parent.programacaoColetorOrdensServicoForm.equipeId">
+                                <label class="control-label labelInfo">
+                                    Equipe <span ng-show="dadosProgramacaoColetorOs.tipoProgramacao == 1" class="required">*</span>
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="equipeId"
+                                       data-field-text="descricao"
+                                       data-api-url="Api/Equipes/EquipesColetores"
+                                       class="form-control"
+                                       name="equipeId"
+                                       ng-model="dadosProgramacaoColetorOs.equipeId"
+                                       ng-required="dadosProgramacaoColetorOs.tipoProgramacao != 2"
+                                       ng-disabled="dadosProgramacaoColetorOs.tipoProgramacao != 1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" ng-click="" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-click="programarColetorOs(dadosProgramacaoColetorOs)" ng-disabled="programacaoColetorOrdensServicoForm.$invalid">
+                        Programar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

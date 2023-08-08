@@ -1,0 +1,329 @@
+﻿<!--Aba Mão de Obra-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 3}" ng-show="passoAtivoAbasFixas == 3">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>R.E.</th>
+                <th>Nome</th>
+                <th>Data Início</th>
+                <th>Data Término</th>
+                <th>Preço Hora</th>
+                <th>Horas</th>
+                <th>Total</th>
+                <th>Observação</th>
+                <th>Debitar</th>
+                <th>Cobrado</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="maoObra in $parent.dadosAbasComplementaresEvento.maodeObra">
+                <td>{{maoObra.re}}</td>
+                <td>{{maoObra.nomeFuncionario}}</td>
+                <td>{{maoObra.dataInicio | date:'short'}}</td>
+                <td>{{maoObra.dataTermino | date:'short'}}</td>
+                <td>{{maoObra.precoHora | currency}}</td>
+                <td>{{maoObra.horasTrabalhadas}}</td>
+                <td>{{calcularTotalHorasMaoObra(maoObra.horasTrabalhadas, maoObra.precoHora) | currency}}</td>
+                <td>{{maoObra.observacao}}</td>
+                <td>{{maoObra.debitar == true ? "Sim" : "Não"}}</td>
+                <td>{{maoObra.cobrado == true ? "Sim" : "Não"}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || maoObra.cobrado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoMaoDeObra(maoObra)" data-toggle="modal"
+                       data-container="body" data-placement="top" data-original-title="Editar material" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || maoObra.cobrado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaMaoDeObra(maoObra)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir material" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirMaoDeObra" ng-click="modalInclusaoMaoDeObra()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Nova Mão de Obra</button>
+    </div>
+</div>
+
+<!--Modal Inclusão mão de obra-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoMaoDeObra" tabindex="-1" role="modalInclusaoMaoDeObra" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Mão de Obra</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Funcionário
+                                </label>
+                                <input type="hidden"
+                                       cb-select-ajax=""
+                                       data-field-id="re"
+                                       data-field-text="nomeFuncionario"
+                                       data-api-url="api/Funcionarios/ComboPesquisavel"
+                                       placeholder="Funcionário"
+                                       class="form-control"
+                                       name="re"
+                                       ng-model="inclusaoMaoDeObra.RE"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço/Hora
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="inclusaoMaoDeObra.precoHora"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Início
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataInicio"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="inclusaoMaoDeObra.dataInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Término
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataTermino"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="inclusaoMaoDeObra.dataTermino">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horasTrabalhadas"
+                                       ng-model="inclusaoMaoDeObra.horasTrabalhadas"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="inclusaoMaoDeObra.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Observação:
+                                </label>
+                                <textarea class="form-control"
+                                          name="observacao"
+                                          ng-model="inclusaoMaoDeObra.observacao"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="inclusaoMaoDeObra.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" 
+                            data-dismiss="modal" 
+                            ng-disabled="inclusaoMaoDeObra.dataInicio > inclusaoMaoDeObra.dataTermino" 
+                            ng-click="salvarMaoDeObra()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal Edição mão de obra-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoMaoDeObra" tabindex="-1" role="modalEdicaoMaoDeObra" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Mão de Obra</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Funcionário
+                                </label>
+                                <input type="hidden"
+                                       cb-select-ajax=""
+                                       data-field-id="re"
+                                       data-field-text="nomeFuncionario"
+                                       data-api-url="api/Funcionarios/ComboPesquisavel"
+                                       placeholder="Funcionário"
+                                       class="form-control"
+                                       name="re"
+                                       init-value="maoObra"
+                                       ng-model="edicaoMaoDeObra.re"
+                                       ng-change="alteracaoFuncionarioSelecionado(edicaoMaoDeObra)"
+                                       required>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço/Hora
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="edicaoMaoDeObra.precoHora"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Início
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataInicial"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-model="edicaoMaoDeObra.dataInicio"
+                                       ng-change="calcularHoras(edicaoMaoDeObra)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Data Término
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dataFinal"
+                                       cb-datetime-picker
+                                       date-format="dd/mm/yyyy hh:ii"
+                                       ng-change="calcularHoras(edicaoMaoDeObra)"
+                                       ng-model="edicaoMaoDeObra.dataTermino">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       ng-model="edicaoMaoDeObra.horasTrabalhadas"
+                                       ng-change="calcularValorTotal(edicaoMaoDeObra)"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="edicaoMaoDeObra.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Observação:
+                                </label>
+                                <textarea class="form-control"
+                                          name="observacao"
+                                          ng-model="edicaoMaoDeObra.observacao"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="edicaoMaoDeObra.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" 
+                            data-dismiss="modal" 
+                            ng-disabled="edicaoMaoDeObra.dataInicio > edicaoMaoDeObra.dataTermino" 
+                            ng-click="salvarEdicaoMaoDeObra()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA MAO DE OBRA-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirMaoDeObra()">
+    <p>Deseja realmente excluir a Mão de Obra Evento?</p>
+</cb-confirmation-modal>

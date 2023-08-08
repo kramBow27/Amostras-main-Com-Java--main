@@ -1,0 +1,380 @@
+﻿<div>
+    <div class="portlet box" ng-class="statusOsClasse(dadosOrdemServico.statusId)">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-comments"></i>Ordem de Serviço {{dadosOrdemServico.ordemServicoId}} - Status: {{dadosOrdemServico.status}}
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form class="horizontal-form form-condensed" name="editarDadosBasicosOsForm">
+                <div class="form-body">
+                    <div class="tabbable tabs-left">
+                        <ul class="nav nav-tabs">
+                            <li ng-class="{'active': abaAtivaDetalhesOs == 1}" ng-click="abaAtivaDetalhesOs = 1">
+                                <a data-toggle="tab">
+                                    Detalhes
+                                </a>
+                            </li>
+                            <li ng-class="{'active': abaAtivaDetalhesOs == 2}" ng-click="abaAtivaDetalhesOs = 2">
+                                <a data-toggle="tab">
+                                    Dados Complementares
+                                </a>
+                            </li>
+                            <li ng-class="{'active': abaAtivaDetalhesOs == 3}" ng-click="abaAtivaDetalhesOs = 3" ng-hide="osAbertasLigacao == null || osAbertasLigacao.length == '0'">
+                                <a data-toggle="tab">
+                                    O.S. Abertas para Ligação
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <!--Aba Detalhes-->
+                            <div ng-show="abaAtivaDetalhesOs == 1">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Data de Abertura:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="dataAbertura"
+                                                   disabled
+                                                   cb-datetime-picker
+                                                   date-format="dd/mm/yyyy hh:ii:ss"
+                                                   ng-model="dadosOrdemServico.dataAbertura">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group"
+                                             cb-form-validation field="Prioridade" form-input="editarDadosBasicosOsForm.prioridadeChamado" validators="{required: true}">
+                                            <label class="control-label labelInfo">
+                                                Prioridade:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="prioridadeChamado"
+                                                   lista-pre-definida="dadosOrdemServico.listaPrioridade"
+                                                   ng-model="dadosOrdemServico.prioridadeChamado"
+                                                   required>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group"
+                                             cb-form-validation field="Tipo de Chamado" form-input="editarDadosBasicosOsForm.tipoChamadoId" validators="{required: true}">
+                                            <label class="control-label labelInfo">
+                                                Tipo de Chamado:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="tipoChamadoId"
+                                                   lista-pre-definida="dadosOrdemServico.listaTipoChamado"
+                                                   ng-model="dadosOrdemServico.tipoChamadoId"
+                                                   required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group"
+                                             cb-form-validation field="Encarregado" form-input="editarDadosBasicosOsForm.terceiroId" validators="{required: true}">
+                                            <label class="control-label labelInfo">
+                                                Encarregado:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="terceiroId"
+                                                   lista-pre-definida="dadosOrdemServico.listaEncarregado"
+                                                   ng-model="dadosOrdemServico.reEncarregado"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group"
+                                             cb-form-validation field="Debitar de" form-input="editarDadosBasicosOsForm.debitarDe" validators="{required: true}">
+                                            <label class="control-label labelInfo">
+                                                Debitar de:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="debitarDe"
+                                                   lista-pre-definida="dadosOrdemServico.listaDebitar"
+                                                   ng-model="dadosOrdemServico.debitarDe"
+                                                   required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Empreiteira:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="reFuncionarioIdEncarregado"
+                                                   lista-pre-definida="dadosOrdemServico.listaTerceiro"
+                                                   ng-model="dadosOrdemServico.terceiroId">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Área de Manutenção:
+                                            </label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="codigo"
+                                                   data-field-text="descricao"
+                                                   ng-disabled="desabilitarCamposOS()"
+                                                   class="form-control textInfo"
+                                                   name="areaManutencaoId"
+                                                   lista-pre-definida="dadosOrdemServico.listaAreaManutencao"
+                                                   ng-model="dadosOrdemServico.areaManutencaoId">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Departamento Responsável Atual:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="departamentoResponsavelAtual"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.departamentoResponsavelAtual">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Mensagem:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="mensagem"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.mensagem">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Aba Dados Complementares-->
+                            <div ng-show="abaAtivaDetalhesOs == 2">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Impressa por:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="reImprimiu"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.nomeFuncionarioImprimiu">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Data:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="dataHoraImpressao"
+                                                   disabled
+                                                   cb-datetime-picker
+                                                   date-format="dd/mm/yyyy hh:ii:ss"
+                                                   ng-model="dadosOrdemServico.dataHoraImpressao">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Encerrada por:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="nomeFuncionarioEncerrou"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.nomeFuncionarioEncerrou">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Data:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="dataHoraEncerramento"
+                                                   disabled
+                                                   cb-datetime-picker
+                                                   date-format="dd/mm/yyyy hh:ii:ss"
+                                                   ng-model="dadosOrdemServico.dataHoraEncerramento">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Reativada por:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="nomeFuncionarioReativou"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.nomeFuncionarioReativou">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Data:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="dataHoraReativacao"
+                                                   disabled
+                                                   cb-datetime-picker
+                                                   date-format="dd/mm/yyyy hh:ii:ss"
+                                                   ng-model="dadosOrdemServico.dataHoraReativacao">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Bloqueada por:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control textInfo"
+                                                   name="nomeFuncionarioNaoEncerrar"
+                                                   disabled
+                                                   ng-model="dadosOrdemServico.nomeFuncionarioNaoEncerrar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="abaAtivaDetalhesOs == 3">
+                                <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Ordem de Serviço</th>
+                                            <th>Tipo Chamado</th>
+                                            <th>Data Abertura</th>
+                                            <th>Departamento Responsável Atual</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in osAbertasLigacao">
+                                            <td><a class="textDecorN" ui-sref="ordensServico.editar.geral.chamados({ordemServicoId: item.ordemServicoId})">{{item.ordemServicoId}}</a></td>
+                                            <td>{{item.descricaoTipoChamado}}</td>
+                                            <td>{{item.dataAbertura | date:'short'}}</td>
+                                            <td>{{item.departamentoAtual}}</td>
+                                            <td>{{item.status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-actions right">
+                    <button class="btn green-meadow" ng-click="abrirModalCartaRetornoOs()" ng-show="exibeCartaRetorno && dadosOrdemServico.statusId == 3" >Imprimir Carta Retorno</button>
+
+                    <button class="btn red" ng-click="abrirModalCancelamentoOS()" ng-disabled="desabilitarCancelarOS()">Cancelar</button>
+                    <button class="btn green" ng-click="abrirModalAtualizarOS()" ng-disabled="desabilitarAtualizarOS()">Atualizar</button>
+
+                    <!--Botões alternantes baseados na flag Bloqueada (statusId == 4)-->
+                    <button class="btn yellow-casablanca" ng-show="dadosOrdemServico.statusId != 4" ng-disabled="desabilitarBloquearOS()" ng-click="abrirModalBloquearOS()">Bloquear</button>
+                    <button class="btn yellow-casablanca" ng-show="dadosOrdemServico.statusId == 4" ng-disabled="desabilitarDesbloquearOS()" ng-click="abrirModalDesbloquearOS()">Desbloquear</button>
+
+                    <!--Botões alternantes baseados na flag Encerrada (statusId == 3)-->
+                    <button class="btn blue" ng-show="dadosOrdemServico.statusId != 3 && dadosOrdemServico.statusId != 5" ng-click="abrirModalEncerrarOS()" ng-disabled="desabilitarEncerrarOS()">Encerrar</button>
+                    <button class="btn blue" ng-show="dadosOrdemServico.statusId == 3 || dadosOrdemServico.statusId == 5" ng-click="abrirModalReativarOS()" ng-disabled="desabilitarReativarOS()">Reativar</button>
+
+                    <button class="btn yellow" ng-click="clickBotaoVoltar()">Voltar</button>
+
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <cb-confirmation-modal data-handler="modalImpressaoOrdemServico" data-title="Impressão" data-confirm-click="gerarOrdemServico(ordemServicoId)">
+        <p>Confirma a impressão de Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalImpressaoOrdemServicoExecutada" data-title="Impressão" data-confirm-click="gerarOrdemServicoExecutada(ordemServicoId)">
+        <p>Confirma a impressão de Ordem de Serviço Executada?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalImpressaoDocumentosOrdemServico" data-title="Impressão de Documentos" data-confirm-click="imprimirDocumentosOrdemServico(ordemServicoId)">
+        <p>Confirma a impressão dos documentos do Evento?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalBloqueioOrdemServico" data-title="Bloqueio de O.S." data-confirm-click="executarBloqueioOS()">
+        <p>Confirma o bloqueio da Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalDesbloqueioOrdemServico" data-title="Desbloqueio de O.S." data-confirm-click="executarDesbloqueioOS()">
+        <p>Confirma o desbloqueio da Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalEncerramentoOrdemServico" data-title="Encerramento de O.S." data-confirm-click="executarEncerramentoOS()">
+        <p>Confirma o encerramento da Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalReativacaoOrdemServico" data-title="Reativação de O.S." data-confirm-click="executarReativacaoOS()">
+        <p>Confirma a reativação da Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalAtualizacaoOrdemServico" data-title="Atualização de O.S." data-confirm-click="executarAtualizacaoOS()">
+        <p>Confirma a atualização de dados da Ordem de Serviço?</p>
+    </cb-confirmation-modal>
+
+    <cb-confirmation-modal data-handler="modalImpressaoCartaRetornoOrdemServico" data-title="Impressão de Carta Retorno" data-confirm-click="imprimirCartaRetornoOs(ordemServicoId)">
+        <p>Confirma a impressão da Carta Retorno?</p>
+    </cb-confirmation-modal>
+
+    <div ng-include="'app/modules/ordensServico/views/modalCancelamentoOrdemServico.html'"></div>
+    <div ng-include="'app/modules/ordensServico/views/modalLancarServico.html'"></div>
+</div>

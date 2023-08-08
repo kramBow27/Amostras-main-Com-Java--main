@@ -1,0 +1,126 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Guia Recolhimento</h3>
+            </div>
+            <div class="panel-body form">
+                <div class="form-body">
+                    <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Número</th>
+                                <th>Requerente</th>
+                                <th>Data</th>
+                                <th>Vencimento</th>
+                                <th>Pagamento</th>
+                                <th>Cancelamento</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="guia in guiasRecolhimento">
+                                <td>{{guia.guiaRecolhimentoId}}</td>
+                                <td>{{guia.requerente}}</td>
+                                <td>{{guia.data | date:'shortDate'}}</td>
+                                <td>{{guia.dataVencimento | date:'shortDate'}}</td>
+                                <td>{{guia.dataPagamento | date:'shortDate'}}</td>
+                                <td>{{guia.dataCancelamento | date:'shortDate'}}</td>
+                                <td>
+                                    <a class="btn btn-default fa fa-search font-green" ui-sref ="ordensServico.editar.geral.guiaRecolhimentoDetalhes({id : guia.guiaRecolhimentoId})"
+                                            data-container="body" data-placement="top" data-original-title="Mais detalhes" cb-tooltip></a>
+
+                                    <button class="btn btn-default fa fa-print font-grey-silver" target="_blank" data-container="body" data-placement="top" data-toggle="modal" href="#modalImpressaoGuiaRecolhimento"
+                                            data-original-title="Imprimir guia" cb-tooltip ng-disabled="guia.dataCancelamento || guia.dataPagamento "></button>
+
+                                    <button class="btn btn-default fa fa-envelope font-yellow-gold" data-container="body" data-placement="top" data-toggle="modal" data-original-title="Enviar Guia de Recolhimento por e-mail" cb-tooltip
+                                            ng-click="abrirModalEmail(guia.guiaRecolhimentoId)" ng-disabled="guia.dataCancelamento || guia.dataPagamento"></button>
+
+                                    <button class="btn btn-default fa fa-times font-red" data-container="body" data-placement="top" data-original-title="Cancelar guia" cb-tooltip data-toggle="modal" 
+                                            ng-click="abrirModalCancelamento(guia.guiaRecolhimentoId)"  ng-disabled="guia.dataCancelamento || guia.dataPagamento"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Imprimir Guia Recolhimento-->
+<cb-confirmation-modal data-handler="modalImpressaoGuiaRecolhimento" data-title="Impressão" data-confirm-click="gerarGuiaRecolhimento()">
+    <p>Confirma a impressão de Guia de Recolhimento?</p>
+</cb-confirmation-modal>
+
+<!--Modal envio Guia Recolhimento por email-->
+<div class="modal fade bs-modal-lg" id="modalEnviaGuiaRecolhimento" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Enviar Guia Recolhimento por E-mail</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="note note-danger" ng-if="remoteErrors">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in remoteErrors">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label">
+                            E-mail
+                        </label>
+                        <input type="email" required name="email" placeholder="Email" ng-model="email" class="form-control input-sm">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn blue-hoki" ng-disabled="!email || verificaEmailValido(email) == false" ng-click="enviarEmail()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Cancelar Guia Recolhimento-->
+<div class="modal fade bs-modal-lg" id="modalCancelar" tabindex="-1" role="modalCancelar" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Cancelar Guia Recolhimento</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label">
+                            Observação:
+                        </label>
+                        <input type="text"
+                               name="observacao"
+                               ng-model="observacao"
+                               class="form-control input-sm">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Fechar</button>
+                <button type="button"
+                        class="btn green"
+                        data-dismiss="modal"
+                        ng-click="cancelarGuiaRecolhimento(observacao)">
+                    Cancelar Guia
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿<!--MODAL CONFIRMACAO TAREFA-->
+<div class="modal fade" id="modalConfirmaTarefaExclusaoLigacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Deseja excluir a ligação?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">CDC: </label>
+                        <input class="form-control" ng-model="dadosLigacao.cdc" disabled/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Identificação: </label>
+                        <input class="form-control" ng-model="dadosLigacao.identificacao" disabled/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Hidrômetro: </label>
+                        <input class="form-control" ng-model="dadosLigacao.hidrometro" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Nome Solicitante: </label>
+                        <input class="form-control" ng-model="dadosLigacao.nomeSolicitante" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label">Endereço: </label>
+                        <input class="form-control" ng-model="dadosLigacao.endereco" disabled/>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">&nbsp; </label>
+                        <input class="form-control" ng-model="dadosLigacao.numero" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Bairro: </label>
+                        <input class="form-control" ng-model="dadosLigacao.bairro" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">CEP: </label>
+                        <input class="form-control" ng-model="dadosLigacao.cep" disabled/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Complemento: </label>
+                        <input class="form-control" ng-model="dadosLigacao.complemento" disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Não</button>
+                <button type="button" class="btn blue" ng-click="excluirLigacao(dadosLigacao)">Excluir Ligação</button>
+            </div>
+        </div>
+    </div>
+</div>

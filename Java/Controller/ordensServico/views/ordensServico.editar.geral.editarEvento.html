@@ -1,0 +1,207 @@
+﻿<div class="portlet box" ng-class="defineClassePortletStatusEvento()">
+    <div class="portlet-title">
+        <div class="caption">
+            Manutenção do Evento - Status: {{statusEvento.descricao}}
+        </div>
+    </div>
+    <div class="portlet-body form">
+
+        <div class="form-body">
+            <ng-form class="horizontal-form form-condensed" id="edicaoEventoForm" name="edicaoEventoForm" novalidate>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">
+                                Serviço:
+                            </label>
+                            <input type="hidden"
+                                   cb-select2=""
+                                   data-field-id="tipoServicoId"
+                                   data-field-text="descricao"
+                                   api-url="Api/TiposServicosComplementos/ListaTiposServico"
+                                   class="form-control textInfo"
+                                   name="tipoServicoId"
+                                   ng-model="tipoServicoId"
+                                   disabled>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="alert alert-warning" ng-show="permissaoEvento.mensagens.length > 0">
+                    <p ng-repeat="mensagem in permissaoEvento.mensagens">{{mensagem}}</p>
+                </div>
+                <div ng-hide="permissaoEvento.mensagens.length == 0">
+                    <hr />
+                </div>
+                <div class="text-right">
+                    <button class="btn blue" id="imprimirTermoLiberacaoHabitese" ng-show="exibeTermoLiberacaoHabitese" ng-click="imprimirTermoLiberacaoHabitese()">Liberação Habite-se</button>
+                    <button class="btn yellow-casablanca" id="termoParcelamento" ng-show="exibeTermoParcelamento" ng-click="modalReferenciaTermoParcelamento()">Termo de Parcelamento</button>
+                    <button class="btn yellow" id="inserirObservacao" ng-click="modalInclusaoObservacao()" ng-disabled="desabilitarNovoEvento()">Nova Observação</button>
+                    <button class="btn blue-dark" id="alterarServico" ng-click="modalAlterarServicoEvento()" ng-disabled="desabilitarAtualizarEvento() || !permissaoEvento.alterarServicoEvento">Alterar Serviço</button>
+                    <button class="btn green" id="encaminharEvento" ng-disabled="permissaoEvento.mensagens.length > 0" ng-click="modalEncaminharEvento()">Encaminhar Evento</button>
+                    <button class="btn blue" ng-disabled="desabilitarNovoEvento()" ui-sref="ordensServico.editar.geral.novoEvento()">Novo Evento</button>
+                    <button class="btn yellow-casablanca" ng-show="exibeCartaRetorno" id="cartaRetorno" ng-click="imprimirCartaRetorno()">Imprimir Carta Retorno</button>
+                    <button class="button btn green" ng-show="statusEvento.statusId == 1" ng-click="modalProgramarColetor()">Programar Coletor</button>
+                </div>
+                <div>
+                    <hr />
+                </div>
+                <!--Aba Observações-->
+                <div class="portlet box yellow" ng-hide="dadosAbasComplementaresEvento.observacoes.length == 0">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Observações
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-pane">
+                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Funcionário</th>
+                                        <th>Descrição</th>
+                                        <th>Tipo</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="observacao in dadosAbasComplementaresEvento.observacoes">
+                                        <td>{{observacao.dataRegistro | date:'short'}}</td>
+                                        <td>{{observacao.nomeFuncionario}}</td>
+                                        <td ng-bind-html="observacao.descricao"></td>
+                                        <td>{{observacao.tipo}}</td>
+                                        <td>
+                                            <button ng-disabled="observacao.alteracaoBloqueada" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoObservacao(observacao)" data-toggle="modal"
+                                                    data-container="body" data-placement="top" data-original-title="Editar material" tooltip></button>&nbsp;&nbsp;&nbsp;
+                                            <button ng-disabled="observacao.exclusaoBloqueada" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalExcluiObservacao(observacao)" href="#modalPergunta"
+                                                    data-container="body" data-placement="top" data-original-title="Excluir material" tooltip data-toggle="modal"></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-right">
+                                <button class="btn blue" id="imprimirObservacoesEvento" ng-click="imprimirObservacoesEvento()">Imprimir Observações</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="dadosAbasComplementaresEvento.observacoes.length == 0">
+                    <hr />
+                </div>
+                <!--Aba Tarefas-->
+                <div class="portlet box blue-dark" ng-hide="dadosAbasComplementaresEvento.tarefas.length == 0">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Tarefas
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-pane">
+                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Executou</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-repeat="tarefa in dadosAbasComplementaresEvento.tarefas">
+                                        <td>{{tarefa.descricaoTarefa}}</td>
+                                        <td>{{tarefa.executou == true ? "Sim" : "Não"}}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn blue-dark" ng-click="modalConfirmacao(tarefa)" ng-disabled="(tarefa.executou && tarefa.tarefaId != 13) || desabilitarAtualizarEvento()">
+                                                <span class="glyphicon glyphicon-check">&nbsp;Executar</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="dadosAbasComplementaresEvento.tarefas.length == 0">
+                    <hr />
+                </div>
+
+                <div class="note note-danger" ng-if="errosFormularioEdicaoEvento && errosFormularioEdicaoEvento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioEdicaoEvento">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="edicaoEventoForm"></cb-geracao-campos-directive>
+                    </div>
+                </div>
+
+            </ng-form>
+
+            <hr />
+
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 1}"><a ng-click="abaMateriais()"> Materiais </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 2}"><a ng-click="abaEquipamentos()"> Equipamentos </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 3}"><a ng-click="abaMaoDeObra()"> Mão de Obra </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 4}"><a ng-click="abaServicos()"> Serviços </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 5}" ng-show="verificaTipoOrdemServico()"><a ng-click="abaArtigos()"> Artigos </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 6}" ng-show="verificaTipoOrdemServico()"><a ng-click="abaManobraDescarga()"> Manobra e Descarga </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 7}"><a ng-click="abaInformacoesAdicionais()"> Informações Adicionais </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 10}"><a ng-click="abaFuncoes()"> Funções </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 12}"><a ng-click="abaValas()"> Valas </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 13}"><a ng-click="abaAndamentos()"> Andamentos </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 11}"><a ng-click="abaDocumentos()"> Documentos </a></li>
+                    <li ng-class="{'active' : passoAtivoAbasFixas == 9}"><a ng-click="abaFotos()"> Fotos </a></li>
+                </ul>
+                <div class="tab-content">
+                    <div ui-view></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions right">
+            <button class="btn default" ui-sref="ordensServico.editar.geral.eventos({eventoId: eventoId})">Cancelar</button>
+            <button class="btn blue" ng-click="executarAtualizacaoEvento()" ng-disabled="verificarFormularioInvalido(edicaoEventoForm) || desabilitarAtualizarEvento()">Atualizar</button>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaCorte.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaReligacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaDocumento.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaEndereco.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaLacre.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaInstalacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaExclusaoLigacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaInstalacaoEsgoto.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaAlteracaoSituacaoHidrometro.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaRetirarRetencaoContas.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalHistoricoEncerramento.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalHistoricoVistoria.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaAtualizaDadosLacre.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTrocaHidrometro.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaCobrancaServico.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaCriacaoNovaLigacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaInativacaoLigacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaAlteracaoCadastral.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaTrocaTitularidade.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalObservacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalEncaminharEvento.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalAlterarServicoEvento.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaInclusaoLigacaoImobiliaria.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaExcluirLigacaoImobiliaria.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalConfirmaTarefaIncluirUsuarioLigacao.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalReferenciaTermoParcelamento.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalBloqueiaServicosLancados.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalProgramarColetorOrdemServico.html'"></div>

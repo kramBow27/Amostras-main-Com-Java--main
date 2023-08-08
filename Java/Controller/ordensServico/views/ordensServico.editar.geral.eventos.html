@@ -1,0 +1,54 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Eventos</h3>
+            </div>
+            <div class="panel-body form">
+                <div class="form-body">
+                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed table-clickable">
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Data de Abertura</th>
+                                <th>Serviço</th>
+                                <th>Data de Início</th>
+                                <th>Data de Término</th>
+                                <th>Data da Ocorrência</th>
+                                <th>Ocorrência</th>
+                                <th>Status</th>
+                                <th class="text-right">Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ordemServicoDetalhes.eventos" ng-class="tipoEventoClasse(item.status)">
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.eventoId}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.dataAbertura | date:'short'}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.descricaoTipoServico}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.dataInicio | date:'short'}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.dataTermino | date:'short'}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.dataOcorrencia | date:'short'}}</td>
+                                <td ui-sref="ordensServico.editar.geral.editarEvento({eventoId: item.eventoId})">{{item.ocorrencia}}</td>
+                                <td>{{item.status}}</td>
+                                <td class="text-right">
+                                    <button class="btn btn-default fa fa-arrow-circle-up font-blue"
+                                            ng-click="operar(item.eventoId, 'A')"
+                                            ng-disabled="item.status != 'Aberto' && item.status != 'Aguardando'"
+                                            data-container="body" data-placement="top" cb-tooltip></button>
+
+                                    <button class="btn btn-default fa fa-arrow-circle-down font-blue"
+                                            ng-click="operar(item.eventoId, 'P')"
+                                            ng-disabled="item.status != 'Aberto' && item.status != 'Aguardando'"
+                                            data-container="body" data-placement="top" cb-tooltip></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions right">
+                    <button class="btn blue" ng-disabled="desabilitarNovoEvento()" ui-sref="ordensServico.editar.geral.novoEvento()">Novo Evento</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

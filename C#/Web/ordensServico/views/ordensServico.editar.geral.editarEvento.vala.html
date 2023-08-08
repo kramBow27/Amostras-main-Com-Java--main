@@ -1,0 +1,298 @@
+﻿<!--Aba Vala-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 12}" ng-show="passoAtivoAbasFixas == 12">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Vala</th>
+                <th>Largura</th>
+                <th>Comprimento</th>
+                <th>Valor do M² do Recapeamento</th>
+                <th>Valor Total do Recapeamento</th>
+                <th>Cobrar</th>
+                <th>Cobrado</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="vala in $parent.dadosAbasComplementaresEvento.vala">
+                <td>{{vala.tipoValaDescricao}}</td>
+                <td>{{vala.largura != null ? vala.largura + " m" : null}}</td>
+                <td>{{vala.comprimento != null ? vala.comprimento + " m" : null}}</td>
+                <td>{{vala.valorM2 | currency}}</td>
+                <td>{{calculaArea(vala.largura, vala.comprimento, vala.valorM2) | currency}}</td>
+                <td>{{vala.cobrar == true ? "Sim" : "Não"}}</td>
+                <td>{{vala.cobrado == true ? "Sim" : "Não"}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || vala.cobrado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoVala(vala)" data-toggle="modal"
+                            data-container="body" data-placement="top" data-original-title="Editar material" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || vala.cobrado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalExcluirVala(vala.eventoValaId)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir material" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirVala" ng-click="modalInclusaoVala()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Nova Vala</button>
+    </div>
+</div>
+
+<!--Modal Inclusão de Vala-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoVala" tabindex="-1" role="form" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Vala</h4>
+            </div>
+            <form name="incluirValaForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Tipo de Vala:
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="tipoValaId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaValasCombo"
+                                       class="form-control"
+                                       name="tipoValaId"
+                                       required
+                                       ng-change="getPrecoUnitario(inclusaoVala.tipoValaId, 1)"
+                                       ng-model="inclusaoVala.tipoValaId" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Valor do M² do Recapeamento:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="valorm2"
+                                       ng-change="calculaAreaModal(inclusaoVala.largura, inclusaoVala.comprimento, inclusaoVala.valorM2)"
+                                       ng-model="inclusaoVala.valorM2"
+                                       ui-money-mask
+                                       ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Comprimento (M):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="comprimento"
+                                       ng-change="calculaAreaModal(inclusaoVala.largura, inclusaoVala.comprimento, inclusaoVala.valorM2)" 
+                                       ng-model="inclusaoVala.comprimento"
+                                       required
+                                       ui-number-mask />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Largura (M):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="largura"
+                                       ng-change="calculaAreaModal(inclusaoVala.largura, inclusaoVala.comprimento, inclusaoVala.valorM2)"
+                                       ng-model="inclusaoVala.largura"
+                                       required
+                                       ui-number-mask />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Total do Recapeamento(R$):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="comprimento"
+                                       ng-model="total"
+                                       disabled
+                                       ui-money-mask />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Cobrar:
+                                </label>
+                                <input type="checkbox"
+                                       value="false"
+                                       ng-init="inclusaoVala.cobrar=false"
+                                       name="cobrar"
+                                       ng-model="inclusaoVala.cobrar" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue"
+                            ng-click="gravar(inclusaoVala)"
+                            ng-disabled="incluirValaForm.$invalid">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal Edição de Vala-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoVala" tabindex="-1" role="form" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Vala</h4>
+            </div>
+            <form name="edicaoValaForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Tipo de Vala:
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="tipoValaId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaValasCombo"
+                                       class="form-control"
+                                       name="tipoValaId"
+                                       ng-change="getPrecoUnitario(edicaoVala.tipoValaId, 2)"
+                                       required
+                                       ng-model="edicaoVala.tipoValaId" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Valor do M² do Recapeamento:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="valorm2"
+                                       ng-model="edicaoVala.valorM2"
+                                       ui-money-mask
+                                       ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Comprimento (M):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="comprimento"
+                                       ng-change="calculaAreaModal(edicaoVala.largura, edicaoVala.comprimento, edicaoVala.valorM2)"
+                                       ng-model="edicaoVala.comprimento"
+                                       required
+                                       ui-number-mask />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Largura (M):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="largura"
+                                       ng-change="calculaAreaModal(edicaoVala.largura, edicaoVala.comprimento, edicaoVala.valorM2)"
+                                       ng-model="edicaoVala.largura"
+                                       required
+                                       ui-number-mask />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Total do Recapeamento (R$):
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="total"
+                                       disabled
+                                       ui-money-mask />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Cobrar:
+                                </label>
+                                <input type="checkbox"
+                                       value="false"
+                                       ng-init="edicaoVala.cobrar=false"
+                                       name="cobrar"
+                                       ng-model="edicaoVala.cobrar" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" 
+                            ng-click="editarVala(edicaoVala)"
+                            ng-disabled="edicaoValaForm.$invalid">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA EXCLUSAO VALA-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirVala()">
+    <p>Deseja realmente excluir a Vala do Evento?</p>
+</cb-confirmation-modal>

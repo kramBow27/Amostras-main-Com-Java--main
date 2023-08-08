@@ -1,0 +1,27 @@
+﻿<!--MODAL CONFIRMACAO TAREFA-->
+<div class="modal fade" id="modalConfirmaTarefaDocumento" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Deseja executar a tarefa {{dados.descricaoTarefa}}?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Inscrição Cadastral: </label>
+                        <input class="form-control" ng-model="dadosAlteracaoDocumento.inscricaoCadastral" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">CPF: </label>
+                        <input class="form-control" ng-model="dadosAlteracaoDocumento.documento" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Não</button>
+                <button type="button" class="btn blue" ng-click="confirmarTarefa(dados)">Sim</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

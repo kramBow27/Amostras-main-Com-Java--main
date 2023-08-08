@@ -1,0 +1,44 @@
+﻿<div class="modal fade" id="modalAlterarServicoEvento" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Alterar
+                </h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.alterarServicoEventoForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label labelInfo">Serviço: <span class="required">*</span></label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="tipoServicoId"
+                                       data-field-text="descricao"
+                                       data-api-url="Api/TiposServicosComplementos/ListaTiposServicoAtivos?valor=''"
+                                       placeholder="Serviço"
+                                       class="form-control"
+                                       name="tipoServicoId"
+                                       ng-model="dadosAlterarServicoEvento.tipoServicoId"
+                                       required>
+                                <p ng-show="editarForm.alterarServicoEventoForm.$error.required && !editarForm.tipoServicoId.$pristine"
+                                   class="help-block">
+                                    O campo "Serviço" é obrigatório
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="alterarServicoEvento(dadosAlterarServicoEvento)"
+                        ng-disabled="alterarServicoEventoForm.$invalid">
+                    Alterar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,55 @@
+﻿<div class="form-body">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Dados da Ordem de Serviço</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Área Manutenção: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.areaManutencao}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Empreiteira: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.nomeEmpreiteira}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Data impressão: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.dataImpressao | date:'short'}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Funcionário: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.nomeFuncionarioImprimiu}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Data de Encerramento: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.dataEncerramento | date:'short'}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-4 col-xs-12">Funcionário: </label>
+                                <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.detalhesOs.nomeFuncionarioEncerrou}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

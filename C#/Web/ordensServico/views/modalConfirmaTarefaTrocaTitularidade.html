@@ -1,0 +1,195 @@
+﻿<!--MODAL CONFIRMACAO CRIAÇÃO NOVA LIGAÇÃO-->
+<div class="modal fade bs-modal-lg" id="modalConfirmaTarefaTrocaTitularidade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.trocaTitularidadeForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="note note-danger" ng-if="errosModalConfirmaTarefaTroca">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li>{{ errosModalConfirmaTarefaTroca }}</li>
+                            </ul>
+                        </div>
+                        <div class="tabbable tabs-left">
+                            <div class="tab-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Cdc:</label>
+                                        <input type="text" class="form-control" ng-model="dadosTrocaTitularidade.ligacaoId" disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">CPF/CNPJ: <span class="required">*</span></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               ui-br-cpfcnpj-mask
+                                               name="cpfProprietario"
+                                               ng-model="dadosTrocaTitularidade.cpf"
+                                               required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Tipo Responsável: <span class="required">*</span></label>
+                                        <input type="hidden"
+                                               cb-select2=""
+                                               data-field-id="tipoResponsavelId"
+                                               data-field-text="descricao"
+                                               data-api-url="Api/TiposResponsaveis"
+                                               class="form-control"
+                                               name="tipoResponsavelId"
+                                               ng-model="dadosTrocaTitularidade.tipoResponsavelId"
+                                               required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Tipo: <span class="required">*</span></label>
+                                        <input type="hidden"
+                                               cb-select2=""
+                                               data-field-id="key"
+                                               data-field-text="value"
+                                               data-api-url="Api/Enums/Tipo"
+                                               class="form-control"
+                                               name="tipo"
+                                               ng-model="dadosTrocaTitularidade.tipo"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12" ng-if="dadosTrocaTitularidade.tipo == 'P' && cadPessoas == true">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                <input value="false"
+                                                       name="flagResponsavelImovel"
+                                                       type="checkbox"
+                                                       ng-model="dadosTrocaTitularidade.flagResponsavelImovel">
+                                                Responsável pelo Imóvel
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="control-label labelInfo">Nome Solicitante:<span class="required">*</span></label>
+                                        <input type="text" class="form-control" ng-model="dadosTrocaTitularidade.nome" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">RG: </label>
+                                        <input type="text" class="form-control" ng-model="dadosTrocaTitularidade.rg"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Data Nasc.:</label>
+                                        <input type="text"
+                                               name="dataNascimentoProprietario"
+                                               cb-datetime-picker
+                                               date-format="dd/mm/yyyy"
+                                               ng-model="dadosTrocaTitularidade.dataNascimento"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Nome Mãe:</label>
+                                        <input type="text" class="form-control" ng-model="dadosTrocaTitularidade.nomeMae" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Email:</label>
+                                        <input type="text" class="form-control" ng-model="dadosTrocaTitularidade.email" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Início Responsabilidade: <span class="required">*</span></label>
+                                        <input type="text"
+                                               name="dataNascimentoProprietario"
+                                               cb-datetime-picker
+                                               date-format="mm/yyyy"
+                                               ng-model="dadosTrocaTitularidade.inicioResponsabilidade"
+                                               class="form-control"
+                                               required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Início de Referência do Débito:</label>
+                                        <input type="text"
+                                               name="inicioReferenciaDebito"
+                                               cb-datetime-picker
+                                               date-format="dd/mm/yyyy"
+                                               ng-model="dadosTrocaTitularidade.inicioReferenciaDebito"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Telefone (com DDD):</label>
+                                        <input type="text"
+                                               name="telefone"
+                                               ui-br-phone-number-mask="areaCode"
+                                               ng-maxlength="20"
+                                               ng-model="dadosTrocaTitularidade.telefone"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label labelInfo">Celular (com DDD):</label>
+                                        <input type="text"
+                                               name="celular"
+                                               ui-br-phone-number-mask="areaCode"
+                                               ng-maxlength="20"
+                                               ng-model="dadosTrocaTitularidade.celular"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4>Responsáveis Ligação</h4>
+                                <table datatable="ng"
+                                       dt-options="dtOptions"
+                                       dt-instance="dtInstance"
+                                       class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                                       id="tabelaOs">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>CPF/CNPJ</th>
+                                            <th>RG</th>
+                                            <th>Início Responsabilidade</th>
+                                            <th>Tipo Responsabilidade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-click="selecionarResponsavel(responsavel)"
+                                            ng-repeat="responsavel in dadosTrocaTitularidade.responsaveisLigacao"
+                                            ng-class="{'active': verificarResponsavelSelecionado(responsavel)}">
+                                            <td>{{responsavel.nome}}</td>
+                                            <td>{{responsavel.cpf | brCpfCnpj}}</td>
+                                            <td>{{responsavel.rg}}</td>
+                                            <td>{{responsavel.inicioResponsabilidade | date:'MM/yyyy'}}</td>
+                                            <td>{{responsavel.tipoResponsabilidade}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-disabled="trocaTitularidadeForm.$invalid || responsaveisSelecionados.length > 0"
+                        ng-click="criarResponsavel(dadosTrocaTitularidade)">
+                    Criar Responsável
+                </button>
+                <button type="button"
+                        class="btn blue"
+                        ng-disabled="trocaTitularidadeForm.$invalid || responsaveisSelecionados.length == 0"
+                        ng-click="atualizarResponsavel(dadosTrocaTitularidade)">
+                    Atualizar Responsável(is)
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

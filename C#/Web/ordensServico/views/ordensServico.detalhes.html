@@ -1,0 +1,89 @@
+﻿<h3 class="page-title">
+    Ordem de Serviço <small>Detalhes</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Ordem de Serviço - Destalhes da Ordem de Serviço
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <!--ng-show="ordemServicoDetalhes.dadosOs.status == 'Aberta'">-->
+        <div class="btn-group pull-right">
+            <menu-acoes ligacao-id="dadosLigacao.cdc" bairro-id="dadosLigacao.bairroId" numero-endereco="dadosLigacao.numeroEndereco"
+                        acoes-adicionais="acoesAdicionais"></menu-acoes>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="portlet box" ng-class="statusOsClasse(ordemServicoDetalhes.dadosOs.status)">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-comments"></i>Editar Ordem de Serviço {{ordemServicoDetalhes.dadosOs.ordemServicoId}} - Status: {{ordemServicoDetalhes.dadosOs.status}}
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal form-condensed">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-6 col-sm-4 col-xs-12">Data de Abertura: </label>
+                            <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.dadosOs.dataAbertura | date:'short'}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-6 col-sm-4 col-xs-12">Encarregado: </label>
+                            <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.dadosOs.nomeEncarregado}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-6 col-sm-4 col-xs-12">Tipo Chamado: </label>
+                            <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.dadosOs.descricaoTipoChamado}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-6 col-sm-4 col-xs-12">Departamento Responsável Atual: </label>
+                            <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.dadosOs.departamentoResponsavelAtual}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="ordemServicoDetalhes.dadosOs.mensagem">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-6 col-sm-4 col-xs-12">Mensagem: </label>
+                            <p class="text-danger col-md-6 col-sm-8 col-xs-12 form-control-static">{{ordemServicoDetalhes.dadosOs.mensagem}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button class="btn red" ng-click="abrirModalCancelamentoOs()" ng-disabled="ordemServicoDetalhes.dadosOs.status != 'Aberta'">Cancelar Ordem de Serviço</button>
+                <a class="btn yellow" href="#/ligacao/{{ordemServicoDetalhes.dadosOs.cdc}}/detalhes/chamadosOs">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ui-view></ui-view>
+
+<cb-confirmation-modal data-handler="modalImpressaoOrdemServico" data-title="Impressão" data-confirm-click="gerarOrdemServico(ordemServicoId)">
+    <p>Confirma a impressão de Ordem de Serviço?</p>
+</cb-confirmation-modal>
+
+<cb-confirmation-modal data-handler="modalImpressaoDocumentosOrdemServico" data-title="Impressão de Documentos" data-confirm-click="imprimirDocumentosOrdemServico(ordemServicoId)">
+    <p>Confirma a impressão dos documentos do Evento?</p>
+</cb-confirmation-modal>
+
+<div ng-include="'app/modules/ordensServico/views/modalCancelamentoOrdemServico.html'"></div>

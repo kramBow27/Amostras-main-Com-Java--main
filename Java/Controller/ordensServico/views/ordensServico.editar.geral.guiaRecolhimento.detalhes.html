@@ -1,0 +1,98 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Guia Recolhimento  <small>Detalhes</small></h3>
+            </div>
+            <div class="form">
+                <form>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Número</label>
+                                <input type="text" class="form-control" placeholder="00000000/00" ng-model="guiaRecolhimento.guiaRecolhimentoId" disabled>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Data</label>
+                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control" placeholder="00000000" ng-model="guiaRecolhimento.data" disabled>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Data Vencimento </label>
+                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control" ng-model="guiaRecolhimento.dataVencimento" disabled>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-8 col-xs-12">
+                                <label>Requerente</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.requerente" disabled>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-8 col-xs-12">
+                                <label>CPF/CNPJ:</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.cpf" disabled>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-6 col-xs-12">
+                                <label>Logradouro</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.logradouro" disabled>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Número</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.numeroImovel" disabled>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Bairro</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.bairro" disabled>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Telefone</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.telefone" disabled>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>CEP</label>
+                                <input type="text" class="form-control" ng-model="guiaRecolhimento.cep" disabled>
+                            </div>
+
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Data Cancelamento</label>
+                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control" ng-model="guiaRecolhimento.dataCancelamento" disabled>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Data Pagamento</label>
+                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control" ng-model="guiaRecolhimento.dataPagamento" disabled>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Data Baixa</label>
+                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control" ng-model="guiaRecolhimento.dataBaixa" disabled>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>CDC</label>
+                                <input type="text" class="form-control" placeholder="1" ng-model="guiaRecolhimento.ligacaoId" disabled>
+                            </div>
+
+                            <div class="form-group col-md-12 col-sm-6 col-xs-12">
+                                <label>Serviços</label>
+                                <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de Serviço</th>
+                                            <th>Quantidade</th>
+                                            <th>Valor Unitário do Serviço</th>
+                                            <th>Valor Total do Serviço</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="s in servicos" ng-show="s.descricao != null">
+                                            <td>{{s.descricao}}</td>
+                                            <td>{{s.quantidade}}</td>
+                                            <td>R${{s.valor}}</td>
+                                            <td>R${{s.valor * s.quantidade}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

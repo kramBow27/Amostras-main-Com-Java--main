@@ -1,0 +1,168 @@
+﻿<!--Aba Funções-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 10}" ng-show="passoAtivoAbasFixas == 10">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="funcao in dadosAbasComplementaresEvento.funcoes">
+                <td>{{funcao.descricao}}</td>
+                <td>{{funcao.quantidade}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoFuncao(funcao)" data-toggle="modal"
+                       data-container="body" data-placement="top" data-original-title="Editar funcao" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaFuncao(funcao)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir funcao" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirFuncao" ng-disabled="!$parent.permissaoEvento.abasHabilitadas" ng-click="modalInclusaoFuncao()">Nova Função</button>
+    </div>
+</div>
+
+<!--Modal de Inclusão de Função-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoFuncao" tabindex="-1" role="modalInclusaoFuncao" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Função</h4>
+            </div>
+            <form name="incluirForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                        <p>Os seguintes erros foram encontrados:</p>
+                        <ul>
+                            <li ng-repeat="error in postErrors">{{ error }}</li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Função
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="funcaoId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaFuncoesCombo"
+                                       placeholder="Função"
+                                       class="form-control"
+                                       name="funcaoId"
+                                       ng-model="inclusaoFuncao.funcaoId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Quantidade <span class="required">*</span>
+                                </label>
+                                <input placeholder="Quantidade"
+                                       class="form-control"
+                                       name="quantidade"
+                                       ng-model="inclusaoFuncao.quantidade"
+                                       ng-maxlength="3"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-disabled="incluirForm.$invalid" ng-click="salvarFuncao()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Edição de Função-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoFuncao" tabindex="-1" role="modalEdicaoFuncao" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Função</h4>
+            </div>
+            <form name="editarForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                        <p>Os seguintes erros foram encontrados:</p>
+                        <ul>
+                            <li ng-repeat="error in postErrors">{{ error }}</li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Função
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="funcaoId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaFuncoesCombo"
+                                       placeholder="Funcao"
+                                       class="form-control"
+                                       name="funcaoId"
+                                       ng-model="edicaoFuncao.funcaoId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"
+                             cb-form-validation field="Quantidade" form-input="editarForm.quantidade" validators="{maxlength: 3}">
+                                <label class="control-label labelInfo">
+                                    Quantidade
+                                </label>
+                                <input placeholder="Quantidade"
+                                       class="form-control"
+                                       name="quantidade"
+                                       ng-model="edicaoFuncao.quantidade"
+                                       ng-maxlength="3"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-disabled="editarForm.$invalid" ng-click="salvarEdicaoFuncao()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA FUNCAO-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirFuncao()">
+    <p>Deseja realmente excluir o Função Evento?</p>
+</cb-confirmation-modal>

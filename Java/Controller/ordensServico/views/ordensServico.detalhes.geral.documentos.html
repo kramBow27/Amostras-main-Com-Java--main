@@ -1,0 +1,188 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Documentos</h3>
+            </div>
+            <div class="panel-body form">
+                <div class="form-body">
+                    <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-bordered table-hover table-clickable">
+                        <thead>
+                            <tr>
+                                <th>Pré Visualização</th>
+                                <th>Serviço</th>
+                                <th>Data</th>
+                                <th>Nome do Arquivo</th>
+                                <th>Tipo</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-click="selecionarDocumento(doc)" class="trClickable" ng-repeat="doc in dados" ng-class="{'active': verificarDocumentoSelecionados(doc)}">
+                                <td>
+                                    <img ng-click="abrirDocumento(doc)"
+                                         ng-src="{{gerarPrevia(doc)}}"
+                                         alt="{{doc.nome}}" width="100" />
+                                </td>
+                                <td>{{doc.descricaoServico}}</td>
+                                <td>{{doc.dataGravacao | date:'shortDate'}}</td>
+                                <td>{{doc.nome}}</td>
+                                <td>{{doc.extensao}}</td>
+                                <td>
+                                    <button class="btn btn-default fa fa-times optionsIcon font-red" data-toggle="modal" data-target="#modalExcluir" ng-click="selecionarDoc(doc.documentoLigacaoId)"
+                                            data-container="body" data-placement="top" data-original-title="Excluir documento" tooltip></button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="form-actions right">
+                    <button class="button btn red"
+                            ng-click="baixarDocumentos(documentosSelecionados)"
+                            ng-disabled="documentosSelecionados.length == '0'">
+                        Baixar Documentos
+                    </button>
+                    <button class="btn blue"
+                            data-toggle="modal"
+                            ng-click="selecionarTodosDocumentos(dados)"
+                            ng-disabled="documentosSelecionados.length == dados.length">
+                        Selecionar Todos
+                    </button>
+                    <button class="btn yellow"
+                            data-toggle="modal"
+                            ng-click="limparTodosDocumentos(dados)"
+                            ng-disabled="documentosSelecionados.length == '0'">
+                        Limpar Seleção
+                    </button>
+                    <button class="btn blue"
+                            data-toggle="modal"
+                            href="#upload">
+                        Novo Documento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="upload" tabindex="-1" role="upload" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload de Arquivo</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        Selecionar arquivos
+                        <input type="file" nv-file-select="" uploader="uploader" multiple />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 40px">
+
+                        <h3>Fila de Upload</h3>
+                        <p>Arquivos na Fila: {{ uploader.queue.length }}</p>
+
+                        <table class="table table-bordered table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Nome</th>
+                                    <th ng-show="uploader.isHTML5">Tamanho</th>
+                                    <th ng-show="uploader.isHTML5">Progresso</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in uploader.queue">
+                                    <td><strong>{{ item.file.name }}</strong></td>
+                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="uploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-default font-green btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="fa fa-upload"></span> Upload
+                                        </button>
+                                        <button type="button" class="btn btn-default font-yellow btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                            <span class="fa fa-times"></span> Cancelar
+                                        </button>
+                                        <button type="button" class="btn btn-default font-red btn-xs" ng-click="item.remove()">
+                                            <span class="fa fa-trash-o"></span> Remover
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div>
+                            <div>
+                                Progresso da fila:
+                                <div class="progress" style="">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn green btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                <!--<button type="button" class="btn green btn-s" ng-click="teste()" ng-disabled="!uploader.getNotUploadedItems().length">-->
+                                <span class="fa fa-upload"></span> Executar upload de todos
+                            </button>
+                            <button type="button" class="btn yellow btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                <span class="fa fa-times"></span> Cancelar todos
+                            </button>
+                            <button type="button" class="btn red btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                <span class="fa fa-trash-o"></span> Remover todos
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn default"
+                        data-dismiss="modal">
+                    Fechar
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="apagarDocumento()">
+    <p>Confirma a exclusão do documento?</p>
+</cb-confirmation-modal>
+
+<div class="modal fade bs-modal-lg" id="modalImagem" tabindex="-1" role="modalImagem" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{documentoSelecionado.nome}}</h4>
+            </div>
+            <div class="modal-body">
+                <img ng-src="{{gerarPrevia(documentoSelecionado)}}" style="width:100%" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue" data-dismiss="modal" ng-click="download(documentoSelecionado.documentoLigacaoId)">
+                    Download
+                </button>
+                <button type="button" class="btn default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

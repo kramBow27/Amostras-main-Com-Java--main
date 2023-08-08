@@ -1,0 +1,100 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade bs-modal-lg in" id="modalConfirmaCobrancaServico" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th width="50px">Qtd. Parcelas</th>
+                                <th>Valor</th>
+                                <th ng-show="dadosCobrancaServicos.possuiGuiaRecolhimento">Nº Guia</th>
+                                <th ng-show="dadosCobrancaServicos.possuiGuiaRecolhimento">Desconto</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="servico in dadosCobrancaServicos.listaCobrancaServico" ng-class="{'warning ' : servico.valor <= 0}">
+                                <td>{{servico.descricaoServico}}</td>
+                                <td>
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.qtdParcelas"
+                                           ng-disabled="servico.flagServicoOuEvento" />
+                                </td>
+                                <td>
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.valor"
+                                           ui-money-mask 
+                                           ng-disabled="servico.flagServicoOuEvento" />
+                                </td> 
+                                <td ng-show="dadosCobrancaServicos.possuiGuiaRecolhimento">
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.guiaRecolhimento"
+                                           disabled />
+                                </td>
+                                <td ng-show="dadosCobrancaServicos.possuiGuiaRecolhimento">
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.desconto"
+                                           ui-money-mask 
+                                           disabled />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label>Cdc:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="hidden"
+                                   cb-select2=""
+                                   data-field-id="id"
+                                   data-field-text="descricao"
+                                   lista-pre-definida="listaCdc"
+                                   data-api-url="Api/Eventos/{{eventoId}}/ObterCdc"
+                                   class="form-control"
+                                   name="descricao"
+                                   ng-disabled="dadosCobrancaServicos.desativaCdc"
+                                   ng-model="dadosCobrancaServicos.cdc" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label>Referência:</label>
+                        </div>
+                        <div class="col-md-3" >
+                            <input class="form-control"
+                                   type="text"
+                                   cb-datetime-picker
+                                   date-format="mm/yyyy"
+                                   ng-model="dadosCobrancaServicos.referencia" />
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-click="cobrarServico(dadosCobrancaServicos)"
+                        ng-disabled="!dadosCobrancaServicos.cdc || dadosCobrancaServicos.valorNegativos">
+                    OK
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

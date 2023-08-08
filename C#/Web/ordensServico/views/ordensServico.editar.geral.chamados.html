@@ -1,0 +1,43 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Chamados</h3>
+            </div>
+            <div class="panel-body form">
+                <div class="form-body">
+                    <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover table-condensed table-clickable">
+                        <thead>
+                            <tr>
+                                <th>Chamado</th>
+                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId && tipoIntegracaoSistema == 1">Cdc</th>
+                                <th>Data de Abertura</th>
+                                <th>Atendimento</th>
+                                <th>Solicitante</th>
+                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId">Endereço</th>
+                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId">Bairro</th>
+                                <th ng-show="ordemServicoDetalhes.chamados[0].centroCustoId">Área Manutenção</th>
+                                <th ng-show="ordemServicoDetalhes.chamados[0].centroCustoId">Equipamento</th>
+                                <th>Observação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ordemServicoDetalhes.chamados" ui-sref="ordensServico.editar.geral.editarChamado({chamadoId: item.chamadoId})">
+                                <td><a class="textDecorN">{{item.chamadoId}}</a></td>
+                                <td ng-show="!item.centroCustoId && tipoIntegracaoSistema == 1">{{item.cdc}}</td>
+                                <td>{{item.dataAbertura | date:'short'}}</td>
+                                <td>{{item.descricaoAtendimento}}</td>
+                                <td>{{item.nomeSolicitante}}</td>
+                                <td ng-show="!item.centroCustoId">{{item.titulo}}{{item.endereco}}<span ng-show="item.numeroEndereco">, {{item.numeroEndereco}}</span></td>
+                                <td ng-show="!item.centroCustoId">{{item.bairro}}</td>
+                                <td ng-show="item.centroCustoId">{{item.descricaoAreaManutencao}}</td>
+                                <td ng-show="item.centroCustoId">{{item.descricaoEquipamento}}</td>
+                                <td>{{item.observacao}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,811 @@
+﻿<div class="portlet box" ng-class="statusChamadoClasse(dadosBasicosChamado.statusChamado)">
+    <div class="portlet-title">
+        <div class="caption">
+            Manutenção do Chamado - Status: {{dadosBasicosChamado.statusChamado}}
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form id="editarChamadoForm" class="horizontal-form form-condensed" name="editarChamadoForm" novalidate>
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Chamado</label>
+                            <input type="text" class="form-control"
+                                   name="Chamado" ng-model="dadosBasicosChamado.chamadoId"
+                                   readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Ordem de Serviço</label>
+                            <input type="text" class="form-control"
+                                   name="ordemServico" ng-model="dadosBasicosChamado.ordemServicoId"
+                                   readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Atendente</label>
+                            <input type="text" class="form-control"
+                                   name="Chamado" ng-model="dadosBasicosChamado.nomeAtendente"
+                                   readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Data de Término</label>
+                            <input type="text" class="form-control"
+                                   name="ordemServico" ng-model="dadosBasicosChamado.dataTermino"
+                                   readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Atendimento</label>
+                            <input type="text" class="form-control"
+                                   name="cep" ng-model="dadosBasicosChamado.descricaoAtendimento"
+                                   readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">Tipo de Chamado</label>
+                            <input type="text" class="form-control"
+                                   name="cep" ng-model="dadosBasicosChamado.descricaoTipoChamado"
+                                   readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <div class="form-actions right">
+                            <a class="btn green" data-toggle="modal" href="#modalImpressaoGuiaRecolhimento"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeGuia">
+                                Imprimir Guia Recolhimento
+                            </a>
+                            <a class="btn blue-dark" data-toggle="modal" href="#modalImpressaoContratoLigacaoNova"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeContratoLigacaoNova">
+                                Imprimir Contrato Ligação
+                            </a>
+                            <a class="btn blue-dark" data-toggle="modal" href="#modalImpressaoContratoLigacaoNova"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeTermo">
+                                Imprimir Termo/Contrato
+                            </a>
+                            <a class="btn yellow-casablanca" data-toggle="modal" href="#modalImpressaoTrocaTitularidade"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeTrocaTitularidade">
+                                Imprimir Troca de Titularidade
+                            </a>
+                            <a class="btn blue" data-toggle="modal" href="#modalTermoAdesao"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeContratoLigacaoNova">
+                                Imprimir Termo Adesão
+                            </a>
+                            <a class="btn yellow-gold" data-toggle="modal" href="#modalImpressaoTermoDoacao"
+                               target="_blank"
+                               ng-show="dadosBasicosChamado.imprimeTermoDoacao">
+                                Imprimir Termo Doação
+                            </a>
+                            <a class="btn blue-soft" data-toggle="modal" href="#modalImpressaoProtocolo"
+                               target="_blank" ng-show="dadosBasicosChamado.imprimeProtocolo">
+                                Imprimir Protocolo
+                            </a>
+                            <button class="btn purple" type="button" ng-click="modalEnvioEmail()"
+                                    ng-show="flagEnviaEmail && dadosBasicosChamado.imprimeProtocolo">
+                                Enviar Protocolo
+                            </button>
+                            <button class="btn green" data-toggle="modal" data-target="#modalGeraGuiaRecolhimento"
+                                    ng-show="flagGeraGuia">
+                                Gerar Guia de Recolhimento
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr ng-show="dados.exibe">
+
+                <div class="portlet-body form" ng-show="dados.exibe">
+                    <ng-form id="editarChamadoForm" class="horizontal-form form-condensed" name="editarChamadoForm" novalidate>
+
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{'active': tabActive == 1}" ng-click="tabActive = 1">
+                                    <a data-toggle="tab">
+                                        Informações da Ligação
+                                    </a>
+                                </li>
+                                <li ng-class="{'active': tabActive == 2}" ng-click="tabActive = 2">
+                                    <a data-toggle="tab">
+                                        Dados Ramais
+                                    </a>
+                                </li>
+                                <li ng-class="{'active': tabActive == 3}" ng-click="tabActive = 3">
+                                    <a data-toggle="tab">
+                                        Dados da Coleta de Lixo
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content form">
+
+                                <div ng-show="tabActive == 1">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Situaçao da Ligaçao:</label>
+                                                <input type="text" class="form-control"
+                                                       name="situacaoLigacao" ng-model="dados.situacao"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Situação Ligação de Água:</label>
+                                                <input type="text" class="form-control"
+                                                       name="situacaoAgua" ng-model="dados.agua"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Situação da Ligação de Esgoto:</label>
+                                                <input type="text" class="form-control"
+                                                       name="situacaoEsgoto" ng-model="dados.esgoto"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Tipo de Ligação:</label>
+                                                <input type="text" class="form-control"
+                                                       name="tipoLigacao" ng-model="dados.tipo"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Bloqueio:</label>
+                                                <input type="text" class="form-control"
+                                                       name="bloqueio" ng-model="dados.bloqueio"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Imobiliária Administradora:</label>
+                                                <input type="text" class="form-control"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Condomínio</label>
+                                                <input type="text" class="form-control"
+                                                       name="condominio" ng-model="dados.condominio"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Sub Condomínio</label>
+                                                <input type="text" class="form-control"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Data do Corte:</label>
+                                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control"
+                                                       name="dataCorte" ng-model="dados.dataCorte"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Tipo de Corte:</label>
+                                                <input type="text" class="form-control"
+                                                       name="tipoCorte" ng-model="dados.tipoCorte"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Hidrômetro:</label>
+                                                <input type="text" class="form-control"
+                                                       name="hidrometro" ng-model="dados.hidrometro"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Situação:</label>
+                                                <input type="text" class="form-control"
+                                                       name="situacaoHidrometro" ng-model="dados.situacaoHidrometro"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Data Instalação:</label>
+                                                <input type="text" cb-datetime-picker date-format="dd/mm/yyyy" class="form-control"
+                                                       name="dataInstalacao" ng-model="dados.dataInstalacao"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Marca:</label>
+                                                <input type="text" class="form-control"
+                                                       name="marca" ng-model="dados.marca"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Bitola:</label>
+                                                <input type="text" class="form-control"
+                                                       name="bitola" ng-model="dados.bitola"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Vazão:</label>
+                                                <input type="text" class="form-control"
+                                                       name="vazao" ng-model="dados.vazao"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="tabActive == 2">
+                                    <h4>Ramal de Água:</h4>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Posição:</label>
+                                                <input type="text" class="form-control"
+                                                       name="posicaoRamalAgua" ng-model="dados.posicaoRamalAgua"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Material:</label>
+                                                <input type="text" class="form-control"
+                                                       name="material" ng-model="dados.materialRamalAgua"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Profundidade:</label>
+                                                <input type="text" class="form-control"
+                                                       name="profundidadeRamalAgua" ng-model="dados.profundidadeRamalAgua"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Divisa:</label>
+                                                <input type="text" class="form-control"
+                                                       name="divisaRamalAgua" ng-model="dados.divisaRamalAgua"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Possui Caixa Padrão:</label>
+                                                <input type="text" class="form-control"
+                                                       name="possuiCaixaPadrao" ng-model="dados.possuiCaixaPadrao"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4>Ramal de Esgoto:</h4>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Posição:</label>
+                                                <input type="text" class="form-control"
+                                                       name="posicaoRamalEsgoto" ng-model="dados.posicaoRamalEsgoto"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Material:</label>
+                                                <input type="text" class="form-control"
+                                                       name="materialRamalEsgoto" ng-model="dados.materialRamalEsgoto"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Profundidade:</label>
+                                                <input type="text" class="form-control"
+                                                       name="profundidadeRamalEsgoto" ng-model="dados.profundidadeRamalEsgoto"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Divisa:</label>
+                                                <input type="text" class="form-control"
+                                                       name="divisaRamalEsgoto" ng-model="dados.divisaRamalEsgoto"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="tabActive == 3">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Área Construída:</label>
+                                                <input type="text" class="form-control"
+                                                       name="areaConstruida" ng-model="dados.areaConstruida"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Lixo Infectante:</label>
+                                                <input type="text" class="form-control"
+                                                       name="lixoInfectante" ng-model="dados.lixoInfectante"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Setor do Lixo:</label>
+                                                <input type="text" class="form-control"
+                                                       name="setorLixo" ng-model="dados.setorLixo"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Categoria Lixo:</label>
+                                                <input type="text" class="form-control"
+                                                       name="categoriaLixo" ng-model="dados.categoriaLixo"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Frequência:</label>
+                                                <input type="text" class="form-control"
+                                                       name="frequenciaLixo" ng-model="dados.frequenciaLixo"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label labelInfo">Economia do Lixo:</label>
+                                                <input type="text" class="form-control"
+                                                       name="economiaLixo" ng-model="dados.economiaLixo"
+                                                       readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-form>
+                </div>
+
+                <hr ng-show="modelPassosCamposGeracao.length > 0" />
+
+                <div class="note note-danger" ng-show="errosFormularioRegistroChamado && errosFormularioRegistroChamado.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioRegistroChamado">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="tabbable tabs-left" ng-show="modelPassosCamposGeracao.length > 0">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="editarChamadoForm"></cb-geracao-campos-directive>
+                    </div>
+                </div>
+
+                <hr ng-show="modelPassosCamposGeracao.length > 0" />
+
+                <div class="tabbable tabs-left" ng-show="modelPassosCamposGeracao.length > 0">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{'active' : passoAtivoAbasFixas == '2'}" ng-show="!dadosBasicosChamado.centroCustoId">
+                            <a ng-click="passoAtivoAbasFixas = '2'"> Serviços </a>
+                        </li>
+                        <li ng-class="{'active' : passoAtivoAbasFixas == '1'}" ng-show="!dadosBasicosChamado.centroCustoId">
+                            <a ng-click="passoAtivoAbasFixas = '1'"> Cadastros </a>
+                        </li>
+                        <li ng-class="{'active' : passoAtivoAbasFixas == '3'}">
+                            <a ng-click="passoAtivoAbasFixas = '3'"> Históricos </a>
+                        </li>
+                        <li ng-class="{'active' : passoAtivoAbasFixas == '4'}" ng-show="!dadosBasicosChamado.centroCustoId">
+                            <a ng-click="passoAtivoAbasFixas = '4'; getNegociacao()"> Contas </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+
+                        <!-- Aba de Cadastramento -->
+                        <div ng-show="passoAtivoAbasFixas == '1'">
+                            <table datatable="ng" dt-options="dtOptionsCadastros" class="table table-bordered table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>RG</th>
+                                        <th>CPF</th>
+                                        <th>Observações</th>
+                                        <th>Endereço</th>
+                                        <th>Número</th>
+                                        <th>Complemento</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cadastro in listaComplementarCadastros">
+                                        <td>{{cadastro.nome}}</td>
+                                        <td>{{cadastro.rg}}</td>
+                                        <td>{{cadastro.cpf | brCpf}}</td>
+                                        <td>{{cadastro.observacao}}</td>
+                                        <td>{{cadastro.endereco}}</td>
+                                        <td>{{cadastro.numero}}</td>
+                                        <td>{{cadastro.complemento}}</td>
+                                        <td>
+                                            <button class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEditarCadastroListaComplementar(cadastro, $index)"></button>
+                                            <button class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalExcluirCadastroListaComplementar($index)"></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pull-right">
+                                <button type="button" ng-disabled="dadosBasicosChamado.statusChamado == 'Executada'" ng-click="modalAdicionarCadastroListaComplementar()" class="btn green">Adicionar</button>
+                            </div>
+                        </div>
+
+                        <!-- Aba de Serviços -->
+                        <div ng-show="passoAtivoAbasFixas == '2'">
+                            <table datatable="ng" dt-options="dtOptionsServicos" class="table table-bordered table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Descrição</th>
+                                        <th>Qtd. Parcelas</th>
+                                        <th>Valor Serviço</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="servico in listaComplementarServicos">
+                                        <td>{{servico.tipoServicoId}}</td>
+                                        <td>{{servico.descricao}}</td>
+                                        <td>{{servico.qtdeParcelas}}</td>
+                                        <td>{{servico.precoUnitarioFixo | currency}}</td>
+                                        <td>
+                                            <button class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEditarServicoListaComplementar(servico, $index)" ng-disabled="servico.cobrado"></button>
+                                            <button class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalExcluirServicoListaComplementar($index)" ng-disabled="servico.cobrado"></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pull-right">
+                                <button type="button" ng-disabled="dadosBasicosChamado.statusChamado == 'Executada'" ng-click="modalAdicionarServicoListaComplementar()" class="btn green">Adicionar</button>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <div ng-show="tipoPagamento.alteraPagamento">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Valor Total:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="valorTotal"
+                                                   ng-model="tipoPagamento.total"
+                                                   ui-money-mask
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Forma de Pagamento:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="tipoPagamento"
+                                                   ng-model="tipoPagamento.tipoPagamento"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Quantidade de Parcelas:
+                                            </label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="qtdeParcelas"
+                                                   ng-model="tipoPagamento.qtdParcelasPag"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Percentual Desconto:
+                                            </label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="descontoPag"
+                                                   ng-model="tipoPagamento.descontoPag"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Valor do Desconto:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="valorDesconto"
+                                                   ui-money-mask
+                                                   ng-model="tipoPagamento.valorDesconto"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Valor Total Pagamento:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="valorDesconto"
+                                                   ui-money-mask
+                                                   ng-model="tipoPagamento.valorPagamento"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiNegociacao">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Valor Parcela:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="descontoPag"
+                                                   ui-money-mask
+                                                   ng-model="tipoPagamento.valorParcela"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="tipoPagamento.possuiEntrada">
+                                        <div class="form-group">
+                                            <label class="control-label labelInfo">
+                                                Valor Entrada:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="descontoPag"
+                                                   ui-money-mask
+                                                   ng-model="tipoPagamento.valorParcela"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Aba de Históricos do Chamado -->
+                        <div ng-show="passoAtivoAbasFixas == '3'">
+                            <table datatable="ng" dt-options="dtOptionsHistoricos" class="table table-bordered table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Funcionário</th>
+                                        <th>Descrição</th>
+                                        <th>Automático</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="historico in listaComplementarHistoricosChamado">
+                                        <td>{{historico.data | date:'short'}}</td>
+                                        <td>{{historico.nomeFuncionario}}</td>
+                                        <td ng-bind-html="historico.descricao"></td>
+                                        <td>{{historico.automatico == true ? 'Sim' : 'Não'}}</td>
+                                        <td>
+                                            <button class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-disabled="validarIdentidade(historico) || historico.automatico"
+                                                    ng-click="modalEditarHistoricoListaComplementar(historico, $index)"></button>
+
+                                            <button class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-disabled="validarIdentidade(historico) || historico.automatico"
+                                                    ng-click="modalExcluirHistoricoListaComplementar(historico)"></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pull-right">
+                                <button type="button" ng-click="imprimirHistoricos()" class="btn blue">Imprimir Históricos</button>
+                                <button type="button" ng-click="modalAdicionarHistoricoListaComplementar()" class="btn green">Adicionar</button>
+                            </div>
+                        </div>
+
+                        <!-- Aba de Contas -->
+                        <div ng-show="passoAtivoAbasFixas == '4'">
+                            <table datatable="ng" dt-options="dtOptionsContas" class="table table-bordered table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Mês</th>
+                                        <th>Ano</th>
+                                        <th>Data Vencimento</th>
+                                        <th>Valor</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="conta in listaComplementarContas">
+                                        <td>{{conta.contaId}}</td>
+                                        <td>{{conta.mes}}</td>
+                                        <td>{{conta.ano}}</td>
+                                        <td>{{conta.datavencimento | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{conta.valortotal | currency}}</td>
+                                        <td>{{conta.tipo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-actions right">
+                <button class="btn green" ng-disabled="editarChamadoForm.$invalid || !modelPassosCamposGeracao.length || dadosBasicosChamado.statusChamado == 'Executada'" ng-click="editarChamado()">
+                    Atualizar
+                </button>
+            </div>
+        </ng-form>
+    </div>
+</div>
+
+<!-- Modais de adição de novas linhas às tabelas de proprietários(aba fixa 1), serviços(aba fixa 2) e históricos do chamado (aba fixa 3). -->
+<!-- Modal Cadastros -->
+<div ng-include="'app/modules/chamados/views/chamados.modalCadastros.html'"></div>
+<!-- Modal Cadastros -->
+<div ng-include="'app/modules/chamados/views/chamados.modalServicos.html'"></div>
+<!-- Modal Histórico -->
+<div ng-include="'app/modules/chamados/views/chamados.modalHistorico.html'"></div>
+
+<!--Confirmação de exclusão de cadastro-->
+<cb-confirmation-modal data-handler="modalExcluirCadastro" data-title="Excluir cadastro" data-confirm-click="excluirCadastro()">
+    <p>Confirma a exclusão do cadastro?</p>
+</cb-confirmation-modal>
+
+<!--Confirmação de exclusão de serviço-->
+<cb-confirmation-modal data-handler="modalExcluirServico" data-title="Excluir serviço" data-confirm-click="excluirServico()">
+    <p>Confirma a exclusão do serviço?</p>
+</cb-confirmation-modal>
+
+<!--Confirmação de exclusão de histórico-->
+<cb-confirmation-modal data-handler="modalExcluirHistorico" data-title="Excluir histórico" data-confirm-click="excluirHistorico()">
+    <p>Confirma a exclusão do histórico?</p>
+</cb-confirmation-modal>
+
+<!--Confirmação das  impressoes -->
+<cb-confirmation-modal data-handler="modalImpressaoProtocolo" data-title="Impressão" data-confirm-click="gerarProtocolo()">
+    <p>Confirma a impressão do Protocolo?</p>
+</cb-confirmation-modal>
+<cb-confirmation-modal data-handler="modalImpressaoTrocaTitularidade" data-title="Impressão" data-confirm-click="gerarTrocaTitularidade()">
+    <p>Confirma a impressão da Troca de Titularidade?</p>
+</cb-confirmation-modal>
+<cb-confirmation-modal data-handler="modalImpressaoContratoLigacaoNova" data-title="Impressão" data-confirm-click="gerarContratoLigacaoNova()">
+    <p>Confirma a impressão do Contrato de Ligação Nova?</p>
+</cb-confirmation-modal>
+<cb-confirmation-modal data-handler="modalImpressaoGuiaRecolhimento" data-title="Impressão" data-confirm-click="imprimirGuiaRecolhimento()">
+    <p>Confirma a impressão de Guia de Recolhimento?</p>
+</cb-confirmation-modal>
+<cb-confirmation-modal data-handler="modalImpressaoTermoDoacao" data-title="Impressão" data-confirm-click="gerarTermoDoacao()">
+    <p>Confirma a impressão do Termo de Doação?</p>
+</cb-confirmation-modal>
+<cb-confirmation-modal data-handler="modalTermoAdesao" data-title="Impressão" data-confirm-click="gerarTermoAdesao()">
+    <p>Confirma a impressão do Termo de Adesão?</p>
+</cb-confirmation-modal>
+
+<!--Modal Enviar Protocolo para email-->
+<div class="modal fade bs-modal-lg" id="modalEnviarProtocoloEmail" tabindex="-1" role="" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Enviar Protocolo por E-mail</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="note note-danger" ng-if="remoteErrors">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in remoteErrors">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label">
+                            E-mail
+                        </label>
+                        <input type="email" required name="email" placeholder="Email" ng-model="email" class="form-control input-sm">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn blue-hoki" ng-disabled="!email || verificaEmailValido(email) == false" ng-click="enviarEmail()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<cb-confirmation-modal data-handler="modalGeraGuiaRecolhimento" data-title="Impressão" data-confirm-click="gerarGuiaRecolhimento()">
+    <p>Confirma a impressão de Guia de Recolhimento?</p>
+</cb-confirmation-modal>

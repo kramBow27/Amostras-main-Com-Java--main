@@ -1,0 +1,39 @@
+﻿<h3 class="page-title">
+    Ordem de Serviço <small>Editar</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Ordem de Serviço - Editar Ordem de Serviço
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button"
+                    class="btn btn-fit-height grey-salt dropdown-toggle"
+                    data-toggle="dropdown"
+                    data-hover="dropdown"
+                    data-delay="1000"
+                    data-close-others="true">
+                Ações <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a href="#modalImpressaoOrdemServico" data-toggle="modal">Imprimir O.S.</a>
+                    <a href="#modalImpressaoOrdemServicoExecutada" data-toggle="modal">Imprimir O.S. Executada</a>
+                    <a href="#modalImpressaoDocumentosOrdemServico" data-toggle="modal">Imprimir Fotos do Evento</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<dados-basicos-ordem-servico></dados-basicos-ordem-servico>
+
+<ui-view></ui-view>

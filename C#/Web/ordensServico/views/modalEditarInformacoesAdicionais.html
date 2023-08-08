@@ -1,0 +1,59 @@
+<div class="modal fade" id="modalEditarInformacoesAdicionais" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Informações Adicionais</h4>
+            </div>
+            <div class="modal-body">
+                <form name="$parent.informacaoAdicionalForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="tab-content">
+
+                        <div ng-repeat="informacao in informacoesAdicionais | orderBy: ordem">
+
+                            <label>
+                                {{informacao.nomeCampo}}
+                            </label>
+
+                            <input type="text" ng-if="informacao.tipo == 1" maxlength="{{informacao.tamanho}}" class="form-control" placeholder="Descrição" ng-model="informacao.valor">
+                            <input type="text"  ng-if="informacao.tipo == 2" maxlength="{{informacao.tamanho}}" ng-change="filterInput(informacao)" class="form-control" placeholder="Descrição" ng-model="informacao.valor">
+                            <input type="hidden"
+                                   ng-model="informacao.valor"
+                                   cb-select2=""
+                                   ng-if="informacao.tipo == 5"
+                                   data-field-text="descricao"
+                                   data-field-id="opcaoListaColetorId"
+                                   data-api-url="Api/OpcoesListaColetor/ObterOpcoesListaColetor?listaOpcaoId={{informacao.listaOpcaoId}}"
+                                   placeholder="Descricao"
+                                   class="form-control"
+                                   required>
+                            <input type="checkbox" ng-if="informacao.tipo == 4" ng-model="informacao.valor" ng-true-value="'true'" ng-false-value="'false'">
+
+                            <input type="text"
+                                   cb-parse-date
+                                   data-provide="datepicker"
+                                   data-date-format="dd/mm/yyyy"
+                                   data-date-language="pt-BR"
+                                   class="form-control"
+                                   ng-if="informacao.tipo == 3"
+                                   required
+                                   init-value="informacao.valor"
+                                   ng-model="informacao.valor">
+                        </div>
+
+                    </div>
+                    </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-click="alterarInformacoesAdicionaisEvento(informacoesAdicionais)">
+                    Gravar
+                </button>
+            </div>
+        </div>
+           
+        </div>
+        <!-- /.modal-content -->
+    </div>

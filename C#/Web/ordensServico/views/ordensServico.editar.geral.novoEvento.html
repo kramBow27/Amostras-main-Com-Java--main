@@ -1,0 +1,57 @@
+﻿<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            Manutenção de Evento
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form class="horizontal-form form-condensed" id="novoEventoForm" name="novoEventoForm" novalidate>
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label labelInfo">
+                                Tipo de Serviço:
+                            </label>
+                            <input type="hidden"
+                                   cb-select2=""
+                                   data-field-id="tipoServicoId"
+                                   data-field-text="descricao"
+                                   api-url="Api/TiposServicosComplementos/{{dadosOs.ordemServicoId}}/ListaTiposServicoNovoEvento"
+                                   class="form-control textInfo"
+                                   name="tipoServicoId"
+                                   ng-model="tipoServicoId">
+                        </div>
+                    </div>
+                </div>
+                
+                <hr ng-show="tipoServicoId" />
+
+                <div class="note note-danger" ng-if="errosFormularioNovoEvento && errosFormularioNovoEvento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioNovoEvento">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="tabbable tabs-left" ng-show="tipoServicoId">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="novoEventoForm"></cb-geracao-campos-directive>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button type="button" class="btn default" ui-sref="ordensServico.editar.geral.eventos({eventoId: eventoId})">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="executarCriacaoEvento()" ng-disabled="verificarFormularioInvalido(novoEventoForm)">Registrar</button>
+            </div>
+        </ng-form>
+    </div>
+</div>

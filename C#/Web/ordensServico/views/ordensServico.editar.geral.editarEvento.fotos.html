@@ -1,0 +1,10 @@
+﻿<!--Aba Fotos-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 9}" ng-show="passoAtivoAbasFixas == 9">
+    <div class="alert alert-info" ng-show="imagensEvento.length > 0">
+        <p>Clique na imagem para mais detalhes</p>
+    </div>
+    <div class="alert alert-warning" ng-show="imagensEvento.length == 0">
+        <p>Não há imagens disponíveis para este evento.</p>
+    </div>
+    <cb-galeria-imagens-directive images="imagensEvento" options="optionsGaleriaImagens"></cb-galeria-imagens-directive>
+</div>

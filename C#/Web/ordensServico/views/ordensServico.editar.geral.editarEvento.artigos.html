@@ -1,0 +1,193 @@
+﻿ <!--Aba Artigos-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 5}" ng-show="passoAtivoAbasFixas == 5">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Notificação / Multa</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="artigo in dadosAbasComplementaresEvento.artigos">
+                <td>{{artigo.titulo}}</td>
+                <td>{{artigo.descricaoArtigo}}</td>
+                <td>{{artigo.descricaoMultaNotificacao}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || artigo.processado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoArtigo(artigo)" data-toggle="modal"
+                            data-container="body" data-placement="top" data-original-title="Editar artigo" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || artigo.processado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaArtigo(artigo)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir artigo" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirArtigo" ng-click="modalInclusaoArtigo()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Novo Artigo</button>
+    </div>
+</div>
+
+<!--Modal de Inclusão de Artigo-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoArtigo" tabindex="-1" role="modalInclusaoArtigo" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Artigo</h4>
+            </div>
+            <form name="$parent.incluirArtigoEventoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Artigo<span class="required">*</span>
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="artigoId"
+                                       data-field-text="titulo"
+                                       lista-pre-definida="listaArtigosCombo"
+                                       placeholder="Artigo"
+                                       class="form-control"
+                                       name="artigoId"
+                                       ng-model="inclusaoArtigo.artigoId"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">Tipo: <span class="required">*</span></label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       ng-disabled="inclusaoArtigo.permiteEscolherTipo == false"
+                                       data-field-id="key"
+                                       data-field-text="value"
+                                       data-api-url="Api/Enums/TipoArtigo"
+                                       class="form-control"
+                                       name="tipo"
+                                       ng-model="inclusaoArtigo.tipo"
+                                       required>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Descrição
+                                    </label>
+                                    <textarea placeholder="Descrição"
+                                              class="form-control"
+                                              name="descricao"
+                                              ng-model="inclusaoArtigo.descricao"
+                                              disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-click="salvarArtigo()" ng-disabled="incluirArtigoEventoForm.$invalid || inclusaoArtigo.tipo == 3 ">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Edição de Artigo-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoArtigo" tabindex="-1" role="modalEdicaoArtigo" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Artigo</h4>
+            </div>
+            <form name="$parent.editarArtigoEventoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Artigo<span class="required">*</span>
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="artigoId"
+                                       data-field-text="titulo"
+                                       lista-pre-definida="listaArtigosCombo"
+                                       placeholder="Artigo"
+                                       class="form-control"
+                                       name="artigoId"
+                                       ng-model="edicaoArtigo.artigoId"
+                                       ng-change="alterarArtigoSelecionado(edicaoArtigo.artigoId)"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">Tipo: <span class="required">*</span></label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       ng-disabled="edicaoArtigo.permiteEscolherTipo == false"
+                                       data-field-id="key"
+                                       data-field-text="value"
+                                       data-api-url="Api/Enums/TipoArtigo"
+                                       class="form-control"
+                                       name="tipo"
+                                       ng-model="edicaoArtigo.tipo"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Descrição
+                                </label>
+                                <textarea placeholder="Descrição"
+                                          class="form-control"
+                                          name="descricao"
+                                          ng-model="edicaoArtigo.descricao"
+                                          disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-click="salvarEdicaoArtigo()" ng-disabled="editarArtigoEventoForm.$invalid || edicaoArtigo.tipo == 3 ">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA ARTIGO-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirArtigo()">
+    <p>Deseja realmente excluir o Artigo Evento?</p>
+</cb-confirmation-modal>

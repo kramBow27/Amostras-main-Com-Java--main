@@ -1,0 +1,330 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Ocorrência Telemetria <small>Detalhes Ocorrência Telemetria</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="telemetria.ocorrencias({tipoRecursoId: 7})">Ocorrências Telemetria</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Detalhes Ocorrência Telemetria
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="telemetria.ocorrencias({tipoRecursoId: 7})">Ver Lista</a>
+                </li>
+                <li>
+                    <a ui-sref="telemetria.incluirBairro({ocorrenciaTelemetriaId: tipoOcorrenciaTelemetriaId})">Novo Bairro</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="portlet box blue ">
+            <div class="portlet-title">
+                <div class="caption">
+                    Detalhes Ocorrência Telemetria
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form name="detalhesForm" class="horizontal-form" role="form" ng-submit="gravar(detalhesForm)" novalidate>
+                    <div class="form-body">
+
+                        <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li ng-repeat="error in postErrors">{{ error }}</li>
+                            </ul>
+                        </div>
+
+                        <!-- INICIO CAMPOS GERADOS -->
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="dataRegistro" form-input="detalhesForm.dataHoraRegistro">
+                                    <label class="control-label labelInfo">
+                                        Data Registro
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.dataHoraRegistro | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="dataRegistro" form-input="detalhesForm.reReg">
+                                    <label class="control-label labelInfo">
+                                        Funcionário
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.reReg}} - {{item.funcRegistrou}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Ocorrência
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricaoOcorrencia}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Data Inicio Ocorrência
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.dataHoraIncioOco  | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Data Fim Ocorrência
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.dataHoraTerminoOco  | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation="detalhesForm.observacao">
+                                    <label class="control-label labelInfo">
+                                        Observação
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.observacao}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.logradouroId">
+                                    <label class="control-label labelInfo">
+                                        Logradouro
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricaoLogradouro}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.bairroId">
+                                    <label class="control-label labelInfo">
+                                        Bairro
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricaoBairro}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.centroReservacaoId">
+                                    <label class="control-label labelInfo">
+                                        Centro Reservação
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricaoCentroReservacao}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="detalhesForm.zonaAbastecimentoId">
+                                    <label class="control-label labelInfo">
+                                        Zona Abastecimento
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricaoZonaAbastecimento}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Inutilizado <input value="false" name="inutilizado" type="checkbox" ng-model="item.inutilizado" disabled>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Maior 6 Horas <input name="maior6Horas" type="checkbox" ng-model="item.maior6Horas" disabled>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="dataRegistro" form-input="detalhesForm.dataInutilizacao">
+                                    <label class="control-label labelInfo">
+                                        Data Inutilização
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.dataInutilizacao | date:'dd/MM/yyyy HH:mm:ss'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="dataRegistro" form-input="detalhesForm.reInutilizou">
+                                    <label class="control-label labelInfo">
+                                        Funcionário
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.reInutilizou}} - {{item.funcInutilizou}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn green" ng-hide="!parametrosCliente.email" ng-disabled= "!parametrosCliente.email" ng-click="modalEnvioEmail()">Enviar Email</button>
+                                <button type="button" class="btn default" ng-click="cancelar()">Cancelar</button>
+                                <a class="btn blue" ui-sref="telemetria.editar({ocorrenciaTelemetriaId: tipoOcorrenciaTelemetriaId})">Editar</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">Bairros</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>Bairro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in bairros">
+                        <td>
+                            <a class="textDecorN" data-toggle="modal" ui-sref="telemetria.bairro({bairroId: item.setorAbastecimentoBairroId})">{{item.bairro}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-actions right">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                        <a class="btn blue" ui-sref="telemetria.incluirBairro({ocorrenciaTelemetriaId: tipoOcorrenciaTelemetriaId})">Novo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-------- MODAL ENVIAR EMAIL -------->
+<div class="modal fade bs-modal-lg" id="modalEnviarLigacoesOcorrenciaEmail" tabindex="-1" role="" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Enviar E-Mail da Ocorrência para as Ligações</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="note note-danger" ng-if="remoteErrors">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in remoteErrors">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <label class="control-label text-center">
+                            Confirma envio de E-Mail para as ligações?
+                        </label>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn blue-hoki" ng-click="enviarEmailLigacoesOcorrenciaTelemetria()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>

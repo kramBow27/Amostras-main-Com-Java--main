@@ -1,0 +1,149 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade" id="modalConfirmaTrocaHidrometro" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Data Troca: <span class="required">*</span></label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataTroca"
+                               required
+                               ng-model="dadosTrocaHidrometro.dataTroca">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Hidrômetro Retirado: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.hidrometroRetirado" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Referência: </label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.referencia" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Lei. Hidr. Ret.: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.leituraHidrRet" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Última Leitura: </label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.ultimaLeitura" disabled/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Sit. Hidro Ret.:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="situacaoHidrometroId"
+                               data-field-text="descricao"
+                               data-api-url="Api/situacoeshidrometros"
+                               placeholder="Situação Hidrômetro"
+                               class="form-control"
+                               name="SituacaoHidrometroRetId"
+                               ng-model="dadosTrocaHidrometro.situacaoHidrometroRetId"
+                               required>
+                        <p ng-show="editarForm.situacaoHidrometroRet.$error.required && !editarForm.situacaoHidrometroRet.$pristine"
+                           class="help-block">
+                            O campo "Situação Hidrômetro Retirado" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Hidrômetro Colocado: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.hidrometroColocado"  maxlength="{{campos.tamanhoConteudo}}"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Lei. Hidr. Colocado: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.leituraHidrColocado" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Sit. Hidro Col.:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="situacaoHidrometroId"
+                               data-field-text="descricao"
+                               data-api-url="Api/situacoeshidrometros"
+                               placeholder="Situação Hidrômetro"
+                               class="form-control"
+                               name="situacaoHidrometroColocadoId"
+                               ng-model="dadosTrocaHidrometro.situacaoHidrometroColocadoId"
+                               required>
+                        <p ng-show="editarForm.situacaoHidrometroAtual.$error.required && !editarForm.situacaoHidrometroAtual.$pristine"
+                           class="help-block">
+                            O campo "Situação Hidrômetro Atual" é obrigatório
+                        </p>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Data Atual do Lacre: </label>
+                        <input type="text" cb-datetime-picker date-format="dd/mm/yyyy"class="form-control" ng-model="dadosTrocaHidrometro.dataAtualLacre" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Nro. Atual do Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.nroAtualLacre" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Data Nova do Lacre: </label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataNovaLacre"
+                               required
+                               ng-model="dadosTrocaHidrometro.dataNovaLacre">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Nro. Novo do Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosTrocaHidrometro.nroNovoLacre" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Observações: </label>
+                        <textarea type="text" class="form-control" ng-model="dadosTrocaHidrometro.observacao" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="motivoTrocaId"
+                               data-field-text="descricao"
+                               data-api-url="Api/motivosTroca"
+                               placeholder="Motivo"
+                               class="form-control"
+                               name="motivoTrocaId"
+                               ng-model="dadosTrocaHidrometro.motivoId"
+                               required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" 
+                        class="btn blue" 
+                        ng-click="trocarHidrometro(dadosTrocaHidrometro)"
+                        ng-disabled="!dadosTrocaHidrometro.dataTroca || !dadosTrocaHidrometro.hidrometroRetirado || dadosTrocaHidrometro.leituraHidrRet.length == 0 || !dadosTrocaHidrometro.hidrometroColocado || dadosTrocaHidrometro.leituraHidrColocado.length == 0">
+                    Trocar Hidrômetro
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

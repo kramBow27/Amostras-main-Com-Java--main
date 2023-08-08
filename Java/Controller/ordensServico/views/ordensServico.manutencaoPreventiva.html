@@ -1,0 +1,144 @@
+﻿<h3 class="page-title">
+    Geração O.S. <small>Pesquisar Equipamentos Para Manutenção Preventiva</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Geração O.S.
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Manutenção Preventiva
+        </li>
+    </ul>
+</div>
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject">Pesquisar Equipamentos para Geração de Ordem de Serviço de Manutenção Preventiva</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form class="horizontal-form form-condensed" id="edicaoDocumentoForm" name="edicaoDocumentoForm" novalidate>
+            <div class="form-body">
+                <div class="note note-danger" ng-if="errosFormularioEdicaoDocumento && errosFormularioEdicaoDocumento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioEdicaoDocumento">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="edicaoDocumentoForm"></cb-geracao-campos-directive>
+                        <div ng-show="modelPassosCamposGeracao">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button class="btn blue" ng-disabled="edicaoDocumentoForm.$invalid || !modelPassosCamposGeracao.length" ng-click="pesquisarOrdemServico()">
+                    Pesquisar
+                </button>
+            </div>
+        </ng-form>
+    </div>
+</div>
+<div class="portlet box grey-cascade" ng-show="equipamentos.length > '0' && ordensServico.length == '0'">
+    <div class="portlet-title">
+        <div class="caption">Equipamento(s) para Manutenção Preventiva</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-bordered table-hover table-condensed table-clickable"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>Equipamento</th>
+                        <th>Área Manutenção</th>
+                        <th>Data Última Manutenção</th>
+                        <th>Data Prevista Manutenção</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="selecionarOrdemServico(item)"
+                        ng-repeat="item in equipamentos"
+                        ng-class="{'active': verificarOrdemServicoSelecionada(item)}">
+
+                        <td>{{item.descricaoEquipamento}}</td>
+                        <td>{{item.descricaoAreaManutencao}}</td>
+                        <td>{{item.dataUltimaManutencao | date:'dd/MM/yyyy'}}</td>
+                        <td>{{item.dataPrevistaManutencao | date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-actions right" ng-show="equipamentos.length > '0' && ordensServico.length == '0'">
+                <button class="button btn blue"
+                        ng-click="selecionarTodasOrdensServico(equipamentos)"
+                        ng-disabled="ordensServicoSelecionadas.length == equipamentos.length">
+                    Selecionar Todas
+                </button>
+                <button class="button btn yellow"
+                        ng-click="limparTodasOrdensServico(equipamentos)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0'">
+                    Limpar Seleção
+                </button>
+                <button class="button btn green"
+                        ng-click="gerarOSs(ordensServicoSelecionadas)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0'">
+                    Gerar O.S.
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet box grey-cascade" ng-show="ordensServico.length > '0'">
+    <div class="portlet-title">
+        <div class="caption">Ordem(ns) de Serviço Gerada(s) para Manutenção Preventiva </div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-bordered table-hover table-condensed table-clickable"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>Ordem de Serviço</th>
+                        <th>Código do Equipamento</th>
+                        <th>Descrição do Equipamento</th>
+                        <th>Tipo de Retorno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="selecionarOrdemServico(item)"
+                        ng-repeat="item in ordensServico">
+                        <td>
+                            <a class="textDecorN" data-toggle="modal" ui-sref="ordensServico.editar.geral.chamados({ordemServicoId: item.ordemServicoId})">{{item.ordemServicoId}}</a>
+                        </td>
+                        <td>{{item.equipamentoId}}</td>
+                        <td>{{item.descricaoEquipamento}}</td>
+                        <td>{{item.descricaoTipoRetornoGeracao}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

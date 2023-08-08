@@ -1,0 +1,24 @@
+﻿<!--Aba Andamentos-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 13}" ng-show="passoAtivoAbasFixas == 13">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Funcionário</th>
+                <th>Departamento Origem</th>
+                <th>Departamento Destino</th>
+                <th>Observação</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="andamentos in dadosAbasComplementaresEvento.andamentos">
+                <td>{{andamentos.dataAndamento | date:'short'}}</td>
+                <td>{{andamentos.funcionario}}</td>
+                <td>{{andamentos.departamentoOrigem}}</td>
+                <td>{{andamentos.departamentoDestino}}</td>
+                <td>{{andamentos.observacao}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

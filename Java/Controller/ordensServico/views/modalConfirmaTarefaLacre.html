@@ -1,0 +1,131 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade" id="modalConfirmaTarefaLacre" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.numeroEndereco" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Lacre: <span class="required">*</span></label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataLacre"
+                               required
+                               ng-model="dadosLacre.dataLacre1">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Número Lacre: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.numeroLacre1" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Lacre: </label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataLacre"
+                               required
+                               ng-model="dadosLacre.dataLacre2">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Número Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosLacre.numeroLacre2" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Tipo Lacre:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="tipoLacreId"
+                               data-field-text="descricao"
+                               data-api-url="Api/tiposlacres"
+                               placeholder="Tipo Lacre"
+                               class="form-control"
+                               name="tipoLacreId"
+                               ng-model="dadosLacre.tipoLacreId"
+                               required>
+                        <p ng-show="editarForm.tipoLacreId.$error.required && !editarForm.tipoLacreId.$pristine"
+                           class="help-block">
+                            O campo "Tipo Lacre" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Cor Lacre:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="id"
+                               data-field-text="descricao"
+                               data-api-url="Api/tiposservicoscomplementos/46/buscalistaopcoes"
+                               placeholder="Cor Lacre"
+                               class="form-control"
+                               name="id"
+                               ng-model="dadosLacre.corLacre">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="lacrarLigacao(dadosLacre)"
+                        ng-disabled="!dadosLacre.dataLacre1 || !dadosLacre.numeroLacre1">
+                    Lacrar Hidrômetro
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

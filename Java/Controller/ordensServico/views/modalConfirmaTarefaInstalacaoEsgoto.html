@@ -1,0 +1,101 @@
+﻿<!--MODAL CONFIRMACAO TAREFA IÑSTALAÇÃO ESGOTO-->
+<div class="modal fade" id="modalConfirmaTarefaInstalacaoEsgoto" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.numero" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacaoEsgoto.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Instalação: <span class="required">*</span></label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataInstalacao"
+                               required
+                               ng-model="dadosInstalacaoEsgoto.dataInstalacao">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" cb-form-validation="editarForm.situacaoEsgotoId" validators="{required: true}">
+                            <label class="control-label labelInfo">
+                                Situação Esgoto
+                                <span class="required">*</span>
+                            </label>
+                            <input type="hidden"
+                                   cb-select2=""
+                                   data-field-id="situacaoEsgotoId"
+                                   data-field-text="descricao"
+                                   data-api-url="Api/SituacaoEsgotos/ComboExisteEsgoto"
+                                   placeholder="Situação Esgoto"
+                                   class="form-control"
+                                   name="situacaoEsgotoId"
+                                   ng-model="dadosInstalacaoEsgoto.situacaoEsgotoId"
+                                   required>
+                            <p ng-show="editarForm.situacaoEsgotoId.$error.required && !editarForm.situacaoEsgotoId.$pristine"
+                               class="help-block">
+                                O campo "Situação Esgoto" é obrigatório
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="instalarEsgoto(dadosInstalacaoEsgoto)"
+                        ng-disabled="!dadosInstalacaoEsgoto.dataInstalacao
+                        || !dadosInstalacaoEsgoto.situacaoEsgotoId">
+                    Instalar Esgoto
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

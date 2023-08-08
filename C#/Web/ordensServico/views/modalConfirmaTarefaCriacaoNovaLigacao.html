@@ -1,0 +1,477 @@
+﻿<!--MODAL CONFIRMACAO CRIAÇÃO NOVA LIGAÇÃO-->
+<div class="modal fade bs-modal-lg" id="modalConfirmaTarefaCriacaoNovaLigacao" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.novaLigacaoForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{'active' : passoAtivoAbasNovaLigacao == 1}"><a ng-click="passoAtivoAbasNovaLigacao = 1"> Dados da Ligação </a></li>
+                                <li ng-class="{'active' : passoAtivoAbasNovaLigacao == 2}"><a ng-click="passoAtivoAbasNovaLigacao = 2"> Entrega </a></li>
+                                <li ng-class="{'active' : passoAtivoAbasNovaLigacao == 3}"><a ng-click="passoAtivoAbasNovaLigacao = 3" ng-show="dadosNovaLigacao.listaPessoas.length > 0"> Pessoa </a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <!--Aba Dados da Ligação-->
+                                <div ng-show="passoAtivoAbasNovaLigacao == 1">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.situacaoAguaId">
+                                                <label class="control-label labelInfo">
+                                                    Situação da Água <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="situacaoAguaId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/SituacaoAguas/Combo"
+                                                       class="form-control"
+                                                       name="situacaoAguaId"
+                                                       ng-model="dadosNovaLigacao.situacaoAguaId"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.situacaoEsgotoId">
+                                                <label class="control-label labelInfo">
+                                                    Situação do Esgoto <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="situacaoEsgotoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/SituacaoEsgotos/Combo"
+                                                       class="form-control"
+                                                       name="situacaoEsgotoId"
+                                                       ng-model="dadosNovaLigacao.situacaoEsgotoId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.situacaoLigacaoId">
+                                                <label class="control-label labelInfo">
+                                                    Situação da Ligação <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="situacaoLigacaoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/SituacoesLigacoes/Combo"
+                                                       class="form-control"
+                                                       name="situacaoLigacaoId"
+                                                       ng-model="dadosNovaLigacao.situacaoLigacaoId"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.situacaoHidrometroId">
+                                                <label class="control-label labelInfo">
+                                                    Situação do Hidrômetro Atual <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="situacaoHidrometroId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/SituacoesHidrometros/Combo"
+                                                       class="form-control"
+                                                       name="situacaoHidrometroId"
+                                                       ng-model="dadosNovaLigacao.situacaoHidrometroId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.condominioId">
+                                                <label class="control-label labelInfo">
+                                                    Condomínio
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select-ajax=""
+                                                       data-field-id="condominioId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/Condominios/PesquisarCodigo"
+                                                       init-value="dadosNovaLigacao.condominio"
+                                                       class="form-control"
+                                                       name="condominioId"
+                                                       ng-model="dadosNovaLigacao.condominioId">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.atividadeId">
+                                                <label class="control-label labelInfo">
+                                                    Atividade
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="atividadeId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/Atividades/Combo"
+                                                       class="form-control"
+                                                       name="atividadeId"
+                                                       ng-model="dadosNovaLigacao.atividadeId">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.zonaAbastecimentoId">
+                                                <label class="control-label labelInfo">
+                                                    Zona de Abastecimento <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="zonaAbastecimentoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/ZonasAbastecimento"
+                                                       class="form-control"
+                                                       name="zonaAbastecimentoId"
+                                                       ng-model="dadosNovaLigacao.zonaAbastecimentoId"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.bloqueioId">
+                                                <label class="control-label labelInfo">
+                                                    Bloqueio
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="classificacaoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/CodigosClassificacao/Combo"
+                                                       class="form-control"
+                                                       name="bloqueioId"
+                                                       ng-model="dadosNovaLigacao.bloqueioId">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.grupoSSBId">
+                                                <label class="control-label labelInfo">
+                                                    Grupo <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="grupoSSBId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/GruposSSB"
+                                                       class="form-control"
+                                                       name="grupoSSBId"
+                                                       ng-model="dadosNovaLigacao.grupoSSBId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.tipoLancamentoId">
+                                                <label class="control-label labelInfo">
+                                                    Tipo de Lançamento <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="tipoLancamentoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/TiposLancamento/Combo"
+                                                       class="form-control"
+                                                       name="tipoLancamentoId"
+                                                       ng-model="dadosNovaLigacao.tipoLancamentoId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.tipoLigacaoId">
+                                                <label class="control-label labelInfo">
+                                                    Tipo Ligação <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="tipoLigacaoId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/TiposLigacao/Combo"
+                                                       class="form-control"
+                                                       name="tipoLigacaoId"
+                                                       ng-model="dadosNovaLigacao.tipoLigacaoId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.identificacao">
+                                                <label class="control-label labelInfo">
+                                                    Identificação <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="identificacao"
+                                                       ng-model="dadosNovaLigacao.identificacao"
+                                                       class="form-control"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.dataExecucaoAgua">
+                                                <label class="control-label labelInfo">
+                                                    Data de Execução da Água <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="dataExecucaoAgua"
+                                                       cb-datetime-picker
+                                                       ui-date-mask="DD/MM/YYYY"
+                                                       ng-model="dadosNovaLigacao.dataExecucaoAgua"
+                                                       class="form-control"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.dataExecucaoEsgoto">
+                                                <label class="control-label labelInfo">
+                                                    Data da Execução do Esgoto <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="dataExecucaoEsgoto"
+                                                       cb-datetime-picker
+                                                       ui-date-mask="DD/MM/YYYY"
+                                                       ng-model="dadosNovaLigacao.dataExecucaoEsgoto"
+                                                       class="form-control"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.dataExecucao">
+                                                <label class="control-label labelInfo">
+                                                    Data da Execução <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="dataExecucao"
+                                                       cb-datetime-picker
+                                                       ui-date-mask="DD/MM/YYYY"
+                                                       ng-model="dadosNovaLigacao.dataExecucao"
+                                                       class="form-control"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.testada">
+                                                <label class="control-label labelInfo">
+                                                    Testada <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="testada"
+                                                       ng-model="dadosNovaLigacao.testada"
+                                                       class="form-control"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.hidrometro">
+                                                <label class="control-label labelInfo">
+                                                    Hidrômetro 
+                                                </label>
+                                                <input type="text"
+                                                       name="hidrometro"
+                                                       ng-model="dadosNovaLigacao.hidrometro"
+                                                      maxlength="{{campos.tamanhoConteudo}}"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.dataInstalacaoHidrometro">
+                                                <label class="control-label labelInfo">
+                                                    Data de Instalação do Hidrômetro
+                                                </label>
+                                                <input type="text"
+                                                       name="dataInstalacaoHidrometro"
+                                                       cb-datetime-picker
+                                                       ui-date-mask="DD/MM/YYYY"
+                                                       ng-model="dadosNovaLigacao.dataInstalacaoHidrometro"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.dataLacre">
+                                                <label class="control-label labelInfo">
+                                                    Data do Lacre
+                                                </label>
+                                                <input type="text"
+                                                       name="dataLacre"
+                                                       cb-datetime-picker
+                                                       ui-date-mask="DD/MM/YYYY"
+                                                       ng-model="dadosNovaLigacao.dataLacre"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.numeroLacre">
+                                                <label class="control-label labelInfo">
+                                                    Número do Lacre
+                                                </label>
+                                                <input type="text"
+                                                       name="numeroLacre"
+                                                       ng-model="dadosNovaLigacao.numeroLacre"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.numeroEndereco">
+                                                <label class="control-label labelInfo">
+                                                    Número do Endereço <span class="required">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="numeroEndereco"
+                                                       ng-model="dadosNovaLigacao.numeroEndereco"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Aba Entrega-->
+                                <div ng-show="passoAtivoAbasNovaLigacao == 2">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.rotaLeitura">
+                                                <label class="control-label labelInfo">
+                                                    Rota de Leitura<span class="required" ng-show="dadosNovaLigacao.obrigaRota">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       name="rotaLeitura"
+                                                       ng-model="dadosNovaLigacao.rotaLeitura"
+                                                       ng-required="dadosNovaLigacao.obrigaRota"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.sequenciaLeitura">
+                                                <label class="control-label labelInfo">
+                                                    Sequência de Leitura
+                                                </label>
+                                                <input type="text"
+                                                       name="sequenciaLeitura"
+                                                       ng-model="dadosNovaLigacao.sequenciaLeitura"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.rotaEntrega">
+                                                <label class="control-label labelInfo">
+                                                    Rota de Entrega
+                                                </label>
+                                                <input type="text"
+                                                       name="rotaEntrega"
+                                                       ng-model="dadosNovaLigacao.rotaEntrega"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.sequenciaEntrega">
+                                                <label class="control-label labelInfo">
+                                                    Sequência de Entrega
+                                                </label>
+                                                <input type="text"
+                                                       name="sequenciaEntrega"
+                                                       ng-model="dadosNovaLigacao.sequenciaEntrega"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.loteEntrega">
+                                                <label class="control-label labelInfo">
+                                                    Lote de Entrega
+                                                </label>
+                                                <input type="text"
+                                                       name="loteEntrega"
+                                                       ng-model="dadosNovaLigacao.loteEntrega"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group" cb-form-validation="$parent.novaLigacaoForm.grupoEntrega">
+                                                <label class="control-label labelInfo">
+                                                    Grupo de Entrega
+                                                </label>
+                                                <input type="text"
+                                                       name="grupoEntregaSsbId"
+                                                       ng-model="dadosNovaLigacao.grupoEntregaSsbId"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--Aba Pessoa-->
+                                <div ng-show="passoAtivoAbasNovaLigacao == 3 && dadosNovaLigacao.listaPessoas.length > 0">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                                        <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover table-condensed table-clickable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pessoa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dadosNovaLigacao.listaPessoas"
+                                                    ng-click="selecionarPessoa(item)"
+                                                    ng-class="{'active': verificarPessoaSelecionada(item)}">
+                                                    <td>{{item.nome}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="cadastrarLigacao(dadosNovaLigacao)" ng-disabled="$parent.novaLigacaoForm.$invalid || (dadosNovaLigacao.pessoaFisJurId == null && dadosNovaLigacao.listaPessoas.length > 0)">
+                    Incluir Ligação
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

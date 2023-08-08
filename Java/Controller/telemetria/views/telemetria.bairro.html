@@ -1,0 +1,88 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Ocorrência Telemetria <small>Detalhes Ocorrência Telemetria</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="telemetria.ocorrencias({tipoRecursoId: 7})">Ocorrências Telemetria</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Detalhes Ocorrência Telemetria
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="telemetria.ocorrencias({tipoRecursoId: 7})">Ver Lista</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    Detalhes Bairro
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form name="detalhesForm" class="horizontal-form" role="form" novalidate>
+                    <div class="form-body">
+
+                        <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li ng-repeat="error in postErrors">{{ error }}</li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="dataRegistro" form-input="detalhesForm.reReg">
+                                    <label class="control-label labelInfo">
+                                        Descrição
+                                    </label>
+                                    <div class="textInfo">
+                                        <p>
+                                            {{item.descricao}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn default" ng-click="cancelar()">Cancelar</button>
+                                <a class="btn default" data-toggle="modal" data-target="#modalExcluir">Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluir()">
+    <p>Confirma a exclusão do registro atual ?</p>
+</cb-confirmation-modal>

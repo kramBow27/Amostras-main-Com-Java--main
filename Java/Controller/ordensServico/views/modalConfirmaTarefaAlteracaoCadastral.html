@@ -1,0 +1,620 @@
+﻿<!--MODAL CONFIRMACAO CRIAÇÃO NOVA LIGAÇÃO-->
+<div class="modal fade bs-modal-lg" id="modalConfirmaTarefaAlteracaoCadastral" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.alteracaoCadastralForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="note note-danger" ng-if="errosModalConfirmaTarefaAlteracao">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li>{{ errosModalConfirmaTarefaAlteracao }}</li>
+                            </ul>
+                        </div>
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{'active' : passoAtivoAbasAlteracaoCadastral == 1}"><a ng-click="passoAtivoAbasAlteracaoCadastral = 1"> Principal </a></li>
+                                <li ng-class="{'active' : passoAtivoAbasAlteracaoCadastral == 2}"><a ng-click="passoAtivoAbasAlteracaoCadastral = 2"> Endereço do imóvel </a></li>
+                                <li ng-class="{'active' : passoAtivoAbasAlteracaoCadastral == 3}"><a ng-click="passoAtivoAbasAlteracaoCadastral = 3"> Endereços </a></li>
+                                <li ng-class="{'active' : passoAtivoAbasAlteracaoCadastral == 4}"><a ng-click="passoAtivoAbasAlteracaoCadastral = 4"> Dados Complementares </a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <!--Aba Principal-->
+                                <div ng-show="passoAtivoAbasAlteracaoCadastral == 1">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Cdc:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.ligacaoId" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Identificação:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.identificacao" disabled/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Dia Especial de vencimento Conta:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.diaVencimentoEspecial" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" cb-form-validation field="Categoria" form-input="alteracaoCadastralForm.categoriaId" validators="{required: true}">
+                                                <label class="control-label labelInfo">
+                                                    Categoria <span class="required">*</span>
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="categoriaId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/categorias"
+                                                       placeholder="Categoria"
+                                                       class="form-control"
+                                                       name="categoriaId"
+                                                       ng-model="dadosAlteracaoCadastral.categoriaId"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">
+                                                Economias:
+                                                <span class="required">*</span>
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   ng-model="dadosAlteracaoCadastral.numeroEconomias"
+                                                   required />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" cb-form-validation field="Categoria Secundária" form-input="alteracaoCadastralForm.categoriaSecundariaId">
+                                                <label class="control-label labelInfo">
+                                                    Categoria Sec.:
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="categoriaId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/categorias"
+                                                       placeholder="Categoria Sec."
+                                                       class="form-control"
+                                                       name="categoriaSecundariaId"
+                                                       ng-model="dadosAlteracaoCadastral.categoriaSecundariaId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">
+                                                Economias:
+                                                <span class="required" ng-show="dadosAlteracaoCadastral.categoriaSecundariaId">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numeroEconomiasSecundaria" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Data Matric.:</label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="dataMatricula"
+                                                   cb-datetime-picker
+                                                   date-format="dd/mm/yyyy"
+                                                   ng-model="dadosAlteracaoCadastral.dataMatricula" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Matrícula:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numeroMatricula" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" cb-form-validation field="Atividade" form-input="alteracaoCadastralForm.atividadeId">
+                                                <label class="control-label labelInfo">
+                                                    Atividade
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="atividadeId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/atividades/combo"
+                                                       placeholder="Atividade"
+                                                       class="form-control"
+                                                       name="atividadeId"
+                                                       ng-model="dadosAlteracaoCadastral.atividadeId">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Aba Endereço do imóvel-->
+                                <div ng-show="passoAtivoAbasAlteracaoCadastral == 2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Endereço do Imóvel</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group" cb-form-validation field="Logradouro" form-input="alteracaoCadastralForm.logradouroId">
+                                                <label class="control-label labelInfo">
+                                                    Logradouro:
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="logradouroId"
+                                                       data-field-text="nome"
+                                                       data-api-url="Api/logradouros"
+                                                       placeholder="Logradouro"
+                                                       class="form-control"
+                                                       name="logradouroId"
+                                                       ng-model="dadosAlteracaoCadastral.logradouroId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label labelInfo">Número</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numero" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Compl.:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.complemento" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group" cb-form-validation field="Bairro" form-input="alteracaoCadastralForm.bairroId">
+                                                <label class="control-label labelInfo">
+                                                    Bairro:
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="bairroId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroId}}"
+                                                       placeholder="Bairro"
+                                                       class="form-control"
+                                                       name="bairroId"
+                                                       ng-model="dadosAlteracaoCadastral.bairroId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label labelInfo">C.E.P.:</label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="cepId"
+                                                   data-field-text="cep"
+                                                   data-api-url="Api/Ceps/PesquisaCepsCodigoLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroId}}"
+                                                   placeholder="CEP"
+                                                   class="form-control"
+                                                   name="cepId"
+                                                   ng-model="dadosAlteracaoCadastral.cepId">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Aba Endereços-->
+                                <div ng-show="passoAtivoAbasAlteracaoCadastral == 3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Endereço de entrega</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <div class="input-icon">
+                                                    <label class="control-label labelInfo">
+                                                        Cdc:
+                                                    </label>
+                                                    <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.cdcEntrega" />
+                                                </div>
+                                                <div>
+                                                    &nbsp;
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm blue" type="button" ng-click="buscarEnderecoEntrega(dadosAlteracaoCadastral.cdcEntrega)"><i class="fa fa-gears"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="control-label labelInfo">Inscrição de Entrega:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.inscricaoEntrega" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group"
+                                             cb-form-validation field="Logradouro" form-input="alteracaoCadastralForm.enderecoEntrega" validators="{maxlength: 50}">
+                                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enderecoEntrega" id="selecionarEnderecoEntrega" value="selecionarEnderecoEntrega" ng-model="logradouroEntrega" />Selecionar
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enderecoEntrega" id="digitarEnderecoEntrega" value="digitarEnderecoEntrega" ng-model="logradouroEntrega" />Digitar
+                                                    </label>
+                                                </div>
+                                                <label class="control-label labelInfo">
+                                                    Logradouro
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="logradouroId"
+                                                       data-field-text="nome"
+                                                       data-api-url="Api/logradouros"
+                                                       placeholder="Logradouro"
+                                                       class="form-control"
+                                                       name="logradouroEntregaId"
+                                                       ng-model="dadosAlteracaoCadastral.logradouroEntregaId"
+                                                       ng-hide="logradouroEntrega">
+                                                <div ng-switch="logradouroEntrega">
+                                                    <div ng-switch-when="digitarEnderecoEntrega">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               placeholder="Logradouro"
+                                                               name="descricaoLogradouroEntrega"
+                                                               ng-model="dadosAlteracaoCadastral.descricaoLogradouroEntrega"
+                                                               ng-maxlength="50">
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoEntrega">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="logradouroId"
+                                                               data-field-text="nome"
+                                                               data-api-url="Api/logradouros"
+                                                               placeholder="Logradouro"
+                                                               class="form-control"
+                                                               name="logradouroEntregaId"
+                                                               ng-model="dadosAlteracaoCadastral.logradouroEntregaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label labelInfo">Número:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numeroEntrega" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <label class="control-label labelInfo">Compl.:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.complementoEntrega" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group"
+                                                 cb-form-validation field="Bairro" form-input="alteracaoCadastralForm.descricaoBairroEntrega" validators="{maxlength: 50}">
+                                                <label class="control-label labelInfo">
+                                                    Bairro
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="bairroId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroEntregaId}}"
+                                                       placeholder="Bairro"
+                                                       class="form-control"
+                                                       name="bairroEntregaId"
+                                                       ng-model="dadosAlteracaoCadastral.bairroEntregaId"
+                                                       ng-hide="logradouroEntrega">
+                                                <div ng-switch="logradouroEntrega">
+                                                    <div ng-switch-when="digitarEnderecoEntrega">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               placeholder="Bairro"
+                                                               name="descricaoBairroEntrega"
+                                                               ng-model="dadosAlteracaoCadastral.descricaoBairroEntrega"
+                                                               ng-maxlength="50">
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoEntrega">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="bairroId"
+                                                               data-field-text="descricao"
+                                                               data-api-url="Api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroEntregaId}}"
+                                                               placeholder="Bairro"
+                                                               class="form-control"
+                                                               name="bairroId"
+                                                               ng-model="dadosAlteracaoCadastral.bairroEntregaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" cb-form-validation="alteracaoCadastralForm.cepEntregaId">
+                                                <label class="control-label labelInfo">C.E.P.:</label>
+                                                <input type="text" class="form-control" name="cepEntregaId" ng-model="dadosAlteracaoCadastral.cepEntregaId" ng-hide="logradouroEntrega" />
+                                                <div ng-switch="logradouroEntrega">
+                                                    <div ng-switch-when="digitarEnderecoEntrega">
+                                                        <input type="text" class="form-control" name="cepEntregaId" ng-model="dadosAlteracaoCadastral.cepEntregaId" />
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoEntrega">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="cepId"
+                                                               data-field-text="cep"
+                                                               data-api-url="Api/ordensServico/ObterCepXLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroEntregaId}}"
+                                                               placeholder="C.E.P."
+                                                               class="form-control"
+                                                               name="cepEntregaId"
+                                                               ng-model="dadosAlteracaoCadastral.cepEntregaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Município:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.municipioEntrega" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 cb-form-validation field="ufEntrega" form-input="alteracaoCadastralForm.ufEntrega" validators="{maxlength: 2}">
+                                                <label class="control-label labelInfo">U.F.:</label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="key"
+                                                       data-field-text="key"
+                                                       data-api-url="Api/Enums/Estados"
+                                                       placeholder="UF"
+                                                       class="form-control"
+                                                       name="ufEntrega"
+                                                       ng-model="dadosAlteracaoCadastral.ufEntrega">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Lote Entr.:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.loteEntrega" />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Endereço de correspondência</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-icon">
+                                                    <label class="control-label labelInfo">
+                                                        Cdc:
+                                                    </label>
+                                                    <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.cdcCorrespondencia" />
+                                                </div>
+                                                <div>
+                                                    &nbsp;
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm blue" type="button" ng-click="buscarEnderecoCorrespondencia(dadosAlteracaoCadastral.cdcCorrespondencia)"><i class="fa fa-gears"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group"
+                                             cb-form-validation field="Logradouro" form-input="alteracaoCadastralForm.enderecoCorrespondencia" validators="{maxlength: 50}">
+                                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enderecoCorrespondencia" id="selecionarEnderecoCorrespondencia" value="selecionarEnderecoCorrespondencia" ng-model="logradouroCorrespondencia" />Selecionar
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enderecoCorrespondencia" id="digitarEnderecoCorrespondencia" value="digitarEnderecoCorrespondencia" ng-model="logradouroCorrespondencia" />Digitar
+                                                    </label>
+                                                </div>
+                                                <label class="control-label labelInfo">
+                                                    Logradouro
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="logradouroId"
+                                                       data-field-text="nome"
+                                                       data-api-url="Api/logradouros"
+                                                       placeholder="Logradouro"
+                                                       class="form-control"
+                                                       name="logradouroCorrespId"
+                                                       ng-model="dadosAlteracaoCadastral.logradouroCorrespId"
+                                                       ng-hide="logradouroCorrespondencia">
+                                                <div ng-switch="logradouroCorrespondencia">
+                                                    <div ng-switch-when="digitarEnderecoCorrespondencia">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               placeholder="Logradouro"
+                                                               name="descricaoLogradouroCorrespondencia"
+                                                               ng-model="dadosAlteracaoCadastral.descricaoLogradouroCorrespondencia"
+                                                               ng-maxlength="50">
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoCorrespondencia">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="logradouroId"
+                                                               data-field-text="nome"
+                                                               data-api-url="Api/logradouros"
+                                                               placeholder="Logradouro"
+                                                               class="form-control"
+                                                               name="logradouroCorrespondenciaId"
+                                                               ng-model="dadosAlteracaoCadastral.logradouroCorrespondenciaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label labelInfo">Número:</label>
+                                                <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numeroCorrespondencia" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <label class="control-label labelInfo">Compl.:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.complementoCorrespondencia" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group"
+                                                 cb-form-validation field="Bairro" form-input="alteracaoCadastralForm.nomeBairroEntrega" validators="{maxlength: 50}">
+                                                <label class="control-label labelInfo">
+                                                    Bairro
+                                                </label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="bairroId"
+                                                       data-field-text="descricao"
+                                                       data-api-url="Api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroCorrespondenciaId}}"
+                                                       placeholder="Bairro"
+                                                       class="form-control"
+                                                       name="bairroCorrespondenciaId"
+                                                       ng-model="dadosAlteracaoCadastral.bairroCorrespondenciaId"
+                                                       ng-hide="logradouroCorrespondencia">
+                                                <div ng-switch="logradouroCorrespondencia">
+                                                    <div ng-switch-when="digitarEnderecoCorrespondencia">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               placeholder="Bairro"
+                                                               name="descricaoBairroCorrespondencia"
+                                                               ng-model="dadosAlteracaoCadastral.descricaoBairroCorrespondencia"
+                                                               ng-maxlength="50">
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoCorrespondencia">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="bairroId"
+                                                               data-field-text="descricao"
+                                                               data-api-url="Api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroCorrespondenciaId}}"
+                                                               placeholder="Bairro"
+                                                               class="form-control"
+                                                               name="bairroCorrespondenciaId"
+                                                               ng-model="dadosAlteracaoCadastral.bairroCorrespondenciaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" cb-form-validation="alteracaoCadastralForm.cepCorrespondenciaId">
+                                                <label class="control-label labelInfo">C.E.P.:</label>
+                                                <input type="text" class="form-control" name="cepCorrespondenciaId" ng-model="dadosAlteracaoCadastral.cepCorrespondenciaId" ng-hide="logradouroCorrespondencia" />
+                                                <div ng-switch="logradouroCorrespondencia">
+                                                    <div ng-switch-when="digitarEnderecoCorrespondencia">
+                                                        <input type="text" class="form-control" name="cepCorrespondenciaId" ng-model="dadosAlteracaoCadastral.cepCorrespondenciaId" />
+                                                    </div>
+                                                    <div ng-switch-when="selecionarEnderecoCorrespondencia">
+                                                        <input type="hidden"
+                                                               cb-select2=""
+                                                               data-field-id="cepId"
+                                                               data-field-text="cep"
+                                                               data-api-url="Api/ordensServico/ObterCepXLogradouro?logradouroId=0{{dadosAlteracaoCadastral.logradouroCorrespondenciaId}}"
+                                                               placeholder="C.E.P."
+                                                               class="form-control"
+                                                               name="cepCorrespondenciaId"
+                                                               ng-model="dadosAlteracaoCadastral.cepCorrespondenciaId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label labelInfo">Município:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.municipioCorrespondencia" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 cb-form-validation field="ufCorrespondencia" form-input="alteracaoCadastralForm.ufCorrespondencia" validators="{maxlength: 2}">
+                                                <label class="control-label labelInfo">U.F.:</label>
+                                                <input type="hidden"
+                                                       cb-select2=""
+                                                       data-field-id="key"
+                                                       data-field-text="key"
+                                                       data-api-url="Api/Enums/Estados"
+                                                       placeholder="UF"
+                                                       class="form-control"
+                                                       name="ufCorrespondencia"
+                                                       ng-model="dadosAlteracaoCadastral.ufCorrespondencia">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="passoAtivoAbasAlteracaoCadastral == 4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Quantidade Moradores:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.numeroMoradores" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Localização Cavalete:</label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="localizacaoCavaleteId"
+                                                   data-field-text="descricao"
+                                                   data-api-url="api/LocalizacoesCavalete"
+                                                   class="form-control"
+                                                   name="localizacaoCavaleteId"
+                                                   ng-model="dadosAlteracaoCadastral.localizacaoCavaleteId">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Caixa de Inspeção de Esgoto:</label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="caixaInspecaoEsgotoId"
+                                                   data-field-text="descricao"
+                                                   data-api-url="Api/CaixasInspecaoEsgoto"
+                                                   placeholder="Caixa Inspeção Esgoto"
+                                                   class="form-control"
+                                                   name="caixaInspecaoEsgotoId"
+                                                   ng-model="dadosAlteracaoCadastral.caixaInspecaoEsgotoId">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">Caixa D'Água:</label>
+                                            <input type="hidden"
+                                                   cb-select2=""
+                                                   data-field-id="key"
+                                                   data-field-text="value"
+                                                   data-api-url="Api/enums/ExisteNaoExiste"
+                                                   placeholder="Caixa Inspeção Esgoto"
+                                                   class="form-control"
+                                                   name="flagCaixaAgua"
+                                                   ng-model="dadosAlteracaoCadastral.flagCaixaAgua">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label labelInfo">M³ Caixa D'Água:</label>
+                                            <input type="text" class="form-control" ng-model="dadosAlteracaoCadastral.capacidadeCaixaAgua" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-disabled="alteracaoCadastralForm.$invalid"
+                        ng-click="alterarCadastro(dadosAlteracaoCadastral)">
+                    Alterar Cadastro
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

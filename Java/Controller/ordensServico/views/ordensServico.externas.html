@@ -1,0 +1,262 @@
+﻿<h3 class="page-title">
+    Chamados <small>Pesquisar Ordens de Servico Externas</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Ordens de Serviço
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Externas
+        </li>
+    </ul>
+</div>
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject">Consulta de Ordens de Serviço Externas</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form class="horizontal-form form-condensed" id="edicaoDocumentoForm" name="edicaoDocumentoForm" novalidate>
+            <div class="form-body">
+                <div class="note note-danger" ng-if="errosFormularioEdicaoDocumento && errosFormularioEdicaoDocumento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioEdicaoDocumento">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="edicaoDocumentoForm"></cb-geracao-campos-directive>
+                        <div ng-show="modelPassosCamposGeracao">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button class="btn blue"
+                        ng-disabled="edicaoDocumentoForm.$invalid || !modelPassosCamposGeracao.length"
+                        ng-click="pesquisarOrdemServico()">
+                    Pesquisar
+                </button>
+            </div>
+        </ng-form>
+    </div>
+</div>
+
+<div class="portlet box grey-cascade" ng-show="ordensServico.length > '0'">
+    <div class="portlet-title">
+        <div class="caption">Resultado da Busca</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <h4 class="caption">Legenda: </h4>
+            <table border="0" class="table table-striped table-bordered table-hover table-condensed">
+                <tr>
+                    <td bgcolor="#FFFFFF">GP</td>
+                    <td>Guia Paga</td>
+                    <td bgcolor="#FFFFFF">GC</td>
+                    <td>Guia Cancelada</td>
+                    <td bgcolor="#FFFFFF">GA</td>
+                    <td>Guia Aberta</td>
+                    <td bgcolor="#FFFFFF">QC</td>
+                    <td>Quantidade de Chamados</td>
+                </tr>
+            </table>
+
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>O.S.</th>
+                        <th>Status</th>
+                        <th>Chamado</th>
+                        <th>Data Abertura</th>
+                        <th>Tipo Chamado</th>
+                        <th>Departamento Atual</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">CDC</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">Setor</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">Quadra</th>
+                        <th>Solicitante</th>
+                        <th>Endereço</th>
+                        <th>Bairro</th>
+                        <th ng-show="tipoIntegracaoSistema == 2">Loteamento (Vila)</th>
+                        <th>Cep</th>
+                        <th>Telefone</th>
+                        <th>Evento</th>
+                        <th>Serviço</th>
+                        <th>Data Execução</th>
+                        <th>Data Cancelamento</th>
+                        <th ng-hide="true">Status Pagamento</th>
+                        <th ng-hide="true">O.S. Impressa</th>
+                        <th ng-hide="true">Hidrômetro</th>
+                        <th ng-hide="true">Hidrômetro Colocado</th>
+                        <th ng-hide="true">Abreviação</th>
+                        <th ng-hide="true">Título</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="selecionarOrdemServico(item)" ng-repeat="item in ordensServico" ng-class="{'active': verificarOrdemServicoSelecionada(item),
+                        'success ': item.qtdChamados == 2 && !verificarOrdemServicoSelecionada(item),
+                        'warning': item.qtdChamados == 3 && !verificarOrdemServicoSelecionada(item),
+                        'danger': item.maiorChamado && !verificarOrdemServicoSelecionada(item)}"> 
+                        <td class="text-center">
+                            <a class="textDecorN" data-toggle="modal" ui-sref="ordensServico.editar.geral.chamados({ordemServicoId: item.ordemServicoId})">{{item.ordemServicoId}}</a>
+                            <span ng-show="item.statusPagamentoOs != null" ng-class="{'manutencaoOsDestaque': verificaStatusPagamentoOs(item.statusPagamentoOs) != ''}">{{verificaStatusPagamentoOs(item.statusPagamentoOs)}}</span><br />
+                            <a  ng-show="item.qtdChamados > 1" ng-click="modalChamados(item)">QC: {{item.qtdChamados}}</a>
+                        </td>
+                        <td>{{item.statusOs}}</td>
+                        <td>{{item.chamadoId}}</td>
+                        <td>{{item.dataAberturaOrdemServico | date:'shortDate'}}</td>
+                        <td>{{item.descricaoTipoChamado}}</td>
+                        <td>{{item.descricaoDepartamentoAtualOs}}</td>
+                        <td ng-show="tipoIntegracaoSistema == 1">{{item.cdc}}</td>
+                        <td ng-show="tipoIntegracaoSistema == 1">{{item.setor}}</td>
+                        <td ng-show="tipoIntegracaoSistema == 1">{{item.quadra}}</td>
+                        <td>{{item.nomeSolicitante}}</td>
+                        <td>{{item.endereco}}</td>
+                        <td>{{item.bairro}}</td>
+                        <td ng-show="tipoIntegracaoSistema == 2">{{item.loteamento}}</td>
+                        <td>{{item.cep}}</td>
+                        <td>{{item.telefone}}</td>
+
+                        <td class="text-center">
+                            {{item.eventoid}}
+                            <span ng-class="{'bold': item.eventoOcorrenciaId != null}" ng-show="item.eventoOcorrenciaId != null" class="programacaoOsDestaque">Ocorrência</span>
+                            <span ng-class="{'bold': item.tipoEnvioColetor != null}" ng-show="item.tipoEnvioColetor != null" class="programacaoOsDestaque">Coletor</span>
+                        </td>
+
+                        <td>{{item.descricaoServico}}</td>
+                        <td>{{item.dataExecucaoEvento | date:'short'}}</td>
+                        <td>{{item.dataCancelamentoEvento | date:'short'}}</td>
+                        <td ng-hide="true">{{item.osImpressa}}</td>
+                        <td ng-hide="true">{{item.statusPagamentoOs}}</td>
+                        <td ng-hide="true">{{item.hidrometro}}</td>
+                        <td ng-hide="true">{{item.hidrometroColocado}}</td>
+                        <td ng-hide="true">{{item.abreviacao}}</td>
+                        <td ng-hide="true">{{item.titulo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-actions right" ng-show="ordensServico.length > '0'">
+                <button class="button btn blue-dark left"
+                        ng-click="imprimirGrid()">
+                    Imprimir Pesquisa
+                </button>
+                <button class="button btn blue"
+                        ng-click="imprimirDocumentos(ordensServicoSelecionadas)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0'">
+                    Imprimir Fotos
+                </button>
+                <button class="button btn red"
+                        ng-click="confirmarCancelamentoModal(ordensServicoSelecionadas)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0' || ordensServicoCanceladasOuExecutadas.length > '0' || eventosEmExecucao.length > '0'">
+                    Cancelar Selecionadas
+                </button>
+                <button class="button btn green"
+                        ng-click="confirmarExecucaoModal(ordensServicoSelecionadas)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0' || ordensServicoCanceladasOuExecutadas.length > '0' || eventosEmExecucao.length > '0'">
+                    Executar Selecionadas
+                </button>
+                <button class="button btn blue"
+                        ng-click="selecionarTodasOrdensServico(ordensServico)"
+                        ng-disabled="ordensServicoSelecionadas.length == ordensServico.length">
+                    Selecionar Todas
+                </button>
+                <button class="button btn yellow"
+                        ng-click="limparTodasOrdensServico(ordensServico)"
+                        ng-disabled="ordensServicoSelecionadas.length == '0'">
+                    Limpar Seleção
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'app/modules/ordensServico/views/modalCancelamentoOrdemServico.html'"></div>
+<div ng-include="'app/modules/ordensServico/views/modalExecucaoOrdensServico.html'"></div>
+
+<div class="modal fade bs-modal-lg" id="modalConsultaChamados" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Consulta chamados</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Chamados</h3>
+                            </div>
+                            <div class="panel-body form">
+                                <div class="form-body">
+                                    <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover table-condensed table-clickable">
+                                        <thead>
+                                            <tr>
+                                                <th>Chamado</th>
+                                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId && tipoIntegracaoSistema == 1">Cdc</th>
+                                                <th>Data de Abertura</th>
+                                                <th>Atendimento</th>
+                                                <th>Solicitante</th>
+                                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId">Endereço</th>
+                                                <th ng-show="!ordemServicoDetalhes.chamados[0].centroCustoId">Bairro</th>
+                                                <th>Loteamento(Vila)</th>
+                                                <th ng-show="ordemServicoDetalhes.chamados[0].centroCustoId">Área Manutenção</th>
+                                                <th ng-show="ordemServicoDetalhes.chamados[0].centroCustoId">Equipamento</th>
+                                                <th>Observação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in ordemServicoDetalhes.chamados">
+                                                <td>{{item.chamadoId}}</td>
+                                                <td ng-show="!item.centroCustoId && tipoIntegracaoSistema == 1">{{item.cdc}}</td>
+                                                <td>{{item.dataAbertura | date:'short'}}</td>
+                                                <td>{{item.descricaoAtendimento}}</td>
+                                                <td>{{item.nomeSolicitante}}</td>
+                                                <td ng-show="!item.centroCustoId">{{item.titulo}}{{item.endereco}}<span ng-show="item.numeroEndereco">, {{item.numeroEndereco}}</span></td>
+                                                <td ng-show="!item.centroCustoId">{{item.bairro}}</td>
+                                                <td>{{item.loteamento}}</td>
+                                                <td ng-show="item.centroCustoId">{{item.descricaoAreaManutencao}}</td>
+                                                <td ng-show="item.centroCustoId">{{item.descricaoEquipamento}}</td>
+                                                <td>{{item.observacao}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" data-dismiss="modal">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

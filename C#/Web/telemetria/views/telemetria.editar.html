@@ -1,0 +1,226 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Ocorrência Telemetria <small>Editar Ocorrência Telemetria</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="telemetria.detalhes({ocorrenciaTelemetriaId: item.tipoErroId})">Tipo Ocorrência Telemetria</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Editar Ocorrência Telemetria
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="telemetria.ocorrencias({tipoRecursoId: 7})">Ver Lista</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="portlet box yellow">
+            <div class="portlet-title">
+                <div class="caption">
+                    Editar Ocorrência Telemetria
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form name="editarForm" class="horizontal-form" role="form" ng-submit="gravar(editarForm)" novalidate>
+                    <div class="form-body">
+
+                        <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li ng-repeat="error in postErrors">{{ error }}</li>
+                            </ul>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Ocorrência <span class="required">*</span>
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="tipoOcorrenciaTelemetriaId"
+                                           data-field-text="descricao"
+                                           data-api-url="api/tiposOcorrenciasTelemetrias"
+                                           class="form-control"
+                                           name="tipoOcorrenciaTelemetriaId"
+                                           ng-model="item.tipoErroId"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Data Inicio Ocorrência
+                                    </label>
+                                    <input type="datetime"
+                                           cb-datetime-picker 
+                                           date-format ="dd/MM/yyyy HH:ii"
+                                           class="form-control"
+                                           name="dataHoraIncioOco"
+                                           ng-model="item.dataHoraIncioOco">
+                                </div>
+                            </div> 
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.ocorrenciaId">
+                                    <label class="control-label labelInfo">
+                                        Data Termino Ocorrência
+                                    </label>
+                                    <input type="datetime"
+                                           cb-datetime-picker 
+                                           date-format ="dd/MM/yyyy HH:ii"
+                                           class="form-control"
+                                           name="dataHoraTerminoOco"
+                                           ng-model="item.dataHoraTerminoOco">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation="editarForm.observacao">
+                                    <label class="control-label labelInfo">
+                                        Observação
+                                    </label>
+                                    <textarea type="text" class="form-control" placeholder="Observação" name="observacao" ng-model="item.observacao"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.logradouroId">
+                                    <label class="control-label labelInfo">
+                                        Logradouro
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="logradouroId"
+                                           data-field-text="nome"
+                                           data-api-url="api/logradouros/listaLogradourosComCodigo"
+                                           class="form-control"
+                                           name="logradouroId"
+                                           ng-model="item.logradouroId">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.bairroId">
+                                    <label class="control-label labelInfo">
+                                        Bairro
+                                    </label>
+                                    <div ng-if="!item.logradouroId">
+                                        <input type="hidden"
+                                               cb-select2=""
+                                               data-field-id="bairroId"
+                                               data-field-text="descricao"
+                                               data-api-url="api/Bairros/ListaBairrosComCodigo"
+                                               class="form-control"
+                                               name="bairroId"
+                                               ng-model="item.bairroId">
+                                    </div>
+                                    <div ng-if="item.logradouroId">
+                                        <input type="hidden"
+                                               cb-select2=""
+                                               data-field-id="bairroId"
+                                               data-field-text="descricao"
+                                               data-api-url="api/bairros/PesquisaBairrosLogradouro?logradouroId=0{{item.logradouroId}}"
+                                               class="form-control"
+                                               name="bairroId"
+                                               ng-model="item.bairroId">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.centroReservacaoId">
+                                    <label class="control-label labelInfo">
+                                        Centro Reservação
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="centroReservacaoId"
+                                           data-field-text="descricao"
+                                           data-api-url="api/centrosReservacao"
+                                           class="form-control"
+                                           name="centroReservacaoId"
+                                           ng-model="item.centroReservacaoId"
+                                           ng-change="verificaInputZona(item.centroReservacaoId)">
+                                           
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group" cb-form-validation="editarForm.zonaAbastecimentoId">
+                                    <label class="control-label labelInfo">
+                                        Zona Abastecimento
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="zonaAbastecimentoId"
+                                           data-field-text="descricao"
+                                           data-api-url="api/ZonasAbastecimento"
+                                           class="form-control"
+                                           name="zonaAbastecimentoId"
+                                           ng-model="item.zonaAbastecimentoId">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Inutilizado <input value="false" name="inutilizado" type="checkbox" ng-model="item.inutilizado">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Maior 6 Horas <input name="maior6Horas" type="checkbox" ng-model="item.maior6Horas">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn default" ng-click="cancelar()">Cancelar</button>
+                                <button type="submit" class="btn yellow" ng-disabled="editarForm.$invalid || validar(item)">Gravar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>

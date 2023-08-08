@@ -1,0 +1,49 @@
+﻿<form class="form-horizontal form-condensed">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="panel-title">Dados do Histórico</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body form">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-6 col-sm-4 col-xs-12">Data: </label>
+                                        <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                            {{dados.data}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-6 col-sm-4 col-xs-12">Funcionário: </label>
+                                        <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                            {{dados.nomeFuncionario}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-4 col-xs-12">Descrição: </label>
+                                <p class="col-md-9 col-sm-8 col-xs-12 form-control-static">
+                                    {{dados.descricao}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-actions right">
+                            <a href="#/ordensServico/detalhes/{{situacaoChamado.ordemServicoId}}/geral/historico" class="btn btn-warning">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>

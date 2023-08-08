@@ -1,0 +1,83 @@
+﻿<div class="modal fade" id="modalIncluiObservacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Nova Observação
+                </h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.novaObservacaoForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" cb-form-validation="$parent.novaObservacaoForm.observacao">
+                                    <label class="control-label labelInfo">Observação <span class="required">*</span></label>
+                                    <textarea rows="5" class="form-control" ng-maxlength="1400" ng-model="dadosObservacao.descricao" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="incluirObservacao(dadosObservacao)"
+                        ng-disabled="novaObservacaoForm.$invalid">
+                    Incluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEdicaoObservacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Editar Observação
+                </h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.editaObservacaoForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" cb-form-validation="$parent.editaObservacaoForm.observacao">
+                                    <label class="control-label labelInfo">Observação <span class="required">*</span></label>
+                                    <textarea class="form-control" ng-maxlength="1400" ng-model="dadosObservacao.descricao" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="editarObservacao(dadosObservacao)"
+                        ng-disabled="editaObservacaoForm.$invalid">
+                    Editar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcluiObservacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Tem certeza que deseja excluir esta observação?
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Não</button>
+                <button type="button" class="btn blue" ng-click="excluirObservacao(dadosObservacao)">
+                    Sim
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

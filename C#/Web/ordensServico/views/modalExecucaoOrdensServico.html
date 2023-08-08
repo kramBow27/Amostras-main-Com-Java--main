@@ -1,0 +1,77 @@
+﻿<div class="modal fade bs-modal-lg" id="modalExecucaoOrdemServico" tabindex="-1" role="modalExecucaoOrdemServico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Execução de Ordens de Serviço</h4>
+            </div>
+            <form name="execucaoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Data Início Execução <span class="required">*</span>
+                                    </label>
+                                    <input type="text"
+                                           cb-datetime-picker
+                                           date-format="dd/mm/yyyy hh:ii"
+                                           class="form-control"
+                                           name="dataInicioExecucao"
+                                           required
+                                           ng-model="ordemServicoExecucao.dataInicioExecucao">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Data Término Execução <span class="required">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           cb-datetime-picker
+                                           date-format="dd/mm/yyyy hh:ii" 
+                                           class="form-control"
+                                           name="dataTerminoExecucao"
+                                           required
+                                           ng-model="ordemServicoExecucao.dataTerminoExecucao">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Observação
+                                </label>
+                                <textarea name="observacao" ng-model="ordemServicoExecucao.observacao" class="form-control input-sm" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button ng-disabled="!ordemServicoExecucao.dataInicioExecucao  
+                            || !ordemServicoExecucao.dataTerminoExecucao"
+                            class="btn blue"
+                            data-dismiss="modal"
+                            ng-click="executarOS()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

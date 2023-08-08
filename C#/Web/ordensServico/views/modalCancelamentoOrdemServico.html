@@ -1,0 +1,64 @@
+﻿<div class="modal fade bs-modal-lg" id="modalCancelamentoOrdemServico" tabindex="-1" role="modalCancelamentoOrdemServico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Cancelamento de Ordem de Serviço</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="form-group"
+                                     ng-class="{'has-error' : campoValido(cancelamentoOrdemServicoForm.ocorrenciaId)}">
+                                    <label class="control-label">
+                                        Ocorrência <span class="required">*</span>
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="ocorrenciaId"
+                                           data-field-text="descricao"
+                                           data-api-url="Api/ocorrencias"
+                                           class="form-control"
+                                           name="ocorrenciaId"
+                                           ng-model="ordemServicoCancelamento.ocorrenciaId">
+                                    <p ng-show="cancelamentoOrdemServicoForm.ocorrenciaId.$error.required && !cancelamentoOrdemServicoForm.ocorrenciaId.$pristine"
+                                       class="help-block">
+                                        O campo "Ocorrência" é obrigatório
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Observação
+                                </label>
+                                <textarea name="observacao" ng-model="ordemServicoCancelamento.observacao" class="form-control input-sm" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" ng-click="limparDadosCancelamentoOS()" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button ng-disabled="!ordemServicoCancelamento.ocorrenciaId" class="btn blue" data-dismiss="modal" ng-click="executarCancelamentoOS()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

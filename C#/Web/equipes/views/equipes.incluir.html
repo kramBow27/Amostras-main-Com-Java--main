@@ -1,0 +1,250 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Equipes <small>Incluir Equipe</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="equipes.lista">Equipes</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Incluir Equipe
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="equipes.lista">Ver Lista</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i> Incluir Equipe
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form name="incluirForm" class="horizontal-form" role="form" ng-submit="gravar(incluirForm)" novalidate>
+                    <div class="form-body">
+
+                        <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li ng-repeat="error in postErrors">{{ error }}</li>
+                            </ul>
+                        </div>
+
+                        <!-- INICIO CAMPOS GERADOS -->
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Código da Equipe" form-input="incluirForm.equipeId" validators="{required: true, maxlength: 8}">
+                                    <label class="control-label labelInfo">
+                                        Código
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Código da Equipe" name="equipeId" ng-model="item.equipeId" required ng-maxlength="8">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Descrição" form-input="incluirForm.descricao" validators="{maxlength: 50}">
+                                    <label class="control-label labelInfo">
+                                        Descrição
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Descrição" name="descricao" ng-model="item.descricao" required ng-maxlength="50">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Carga Horária por Mês" form-input="incluirForm.cargaHoraria" validators="{maxlength: 4}">
+                                    <label class="control-label labelInfo">
+                                        Carga Horária por Mês
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Carga Horária por Mês" name="cargaHoraria" ng-model="item.cargaHoraria" required ng-maxlength="4">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Preço hora/homem" form-input="incluirForm.preco" validators="{maxlength: 14}">
+                                    <label class="control-label labelInfo">
+                                        Preço hora/homem
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Preço hora/homem" name="preco" ng-model="item.preco" required ng-maxlength="14" ui-money-mask>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Centro De Custo" form-input="incluirForm.centrosCusto" validators="{maxlength: 2}">
+                                    <label class="control-label labelInfo">Centro de Custo: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="centroCustoId"
+                                           data-field-text="descricao"
+                                           data-api-url="Api/CentrosCusto/Combo"
+                                           class="form-control"
+                                           name="centrosCusto"
+                                           ng-model="item.CentroCustoId">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Grupo" form-input="incluirForm.grupos" validators="{maxlength: 2}">
+                                    <label class="control-label labelInfo">Grupo: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="grupoId"
+                                           data-field-text="descricao"
+                                           data-api-url="Api/Grupos/Combo"
+                                           class="form-control"
+                                           name="grupos"
+                                           ng-model="item.grupoId">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="areasManutencao" form-input="incluirForm.areasManutencao" validators="{maxlength: 2}">
+                                    <label class="control-label labelInfo">Área Manutenção: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="areaManutencaoId"
+                                           data-field-text="descricao"
+                                           data-api-url="Api/AreasManutencao/Combo"
+                                           class="form-control"
+                                           name="areasManutencao"
+                                           ng-model="item.areaManutencaoId">
+                                </div>
+                            </div>
+
+                            <div>
+                                &nbsp;
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        <input value="false" ng-init="item.inutilizada=false" name="inutilizada" type="checkbox" ng-model="item.inutilizada"> Inutilizada
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        <input value="false" ng-init="item.usaColetor=false" name="usaColetor" type="checkbox" ng-model="item.usaColetor"> Coletor de utilização
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="TipoMaoDeObra" form-input="incluirForm.tipoMaoDeObra" validators="{maxlength: 2}" ng-show="item.usaColetor">
+                                    <label class="control-label labelInfo">Tipo de Mão de Obra: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="key"
+                                           data-field-text="value"
+                                           data-api-url="Api/Enums/ColetorMaoDeObra"
+                                           class="form-control"
+                                           name="tipoMaoDeObra"
+                                           ng-model="item.tipoMaoDeObraColetor">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="TipoMateriais" form-input="incluirForm.tipoMateriais" validators="{maxlength: 2}" ng-show="item.usaColetor">
+                                    <label class="control-label labelInfo">Tipo de Materiais: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="key"
+                                           data-field-text="value"
+                                           data-api-url="Api/Enums/ColetorTipoMaterial"
+                                           class="form-control"
+                                           name="tipoMateriais"
+                                           ng-model="item.tipoMateriaisColetor">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="TipoOcorrencias" form-input="incluirForm.tipoOcorrencias" validators="{maxlength: 2}" ng-show="item.usaColetor">
+                                    <label class="control-label labelInfo">Tipo de Ocorrência: <span class="required">*</span></label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="key"
+                                           data-field-text="value"
+                                           data-api-url="Api/Enums/ColetorTipoOcorrencia"
+                                           class="form-control"
+                                           name="tipoOcorrencias"
+                                           ng-model="item.tipoOcorrenciasColetor">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TERMINO CAMPOS GERADOS -->
+                    </div>
+
+                    <div class="form-actions right">
+                        <button type="button" class="btn default" ng-click="cancelar()">Cancelar</button>
+                        <button type="submit" class="btn green" ng-disabled="incluirForm.$invalid">Gravar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>

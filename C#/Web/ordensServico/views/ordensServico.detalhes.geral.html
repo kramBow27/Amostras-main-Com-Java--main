@@ -1,0 +1,35 @@
+﻿<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <li ng-class="{'active': tabActive == 1}" ui-sref="ordensServico.detalhes.geral.dados">
+            <a data-toggle="tab">
+                Dados O.S.
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 2}" ui-sref="ordensServico.detalhes.geral.chamados">
+            <a data-toggle="tab">
+                Chamados
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 3}" ui-sref="ordensServico.detalhes.geral.eventos">
+            <a data-toggle="tab">
+                Eventos
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 4}" ui-sref="ordensServico.detalhes.geral.historico">
+            <a data-toggle="tab">
+                Históricos
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 5}" ui-sref="ordensServico.detalhes.geral.documentos">
+            <a data-toggle="tab">
+                Documentos
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content form">
+        <form class="form-horizontal form-condensed">
+            <ui-view></ui-view>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿<!--MODAL CONFIRMACAO TAREFA RETIRAR RETENCAO CONTAS-->
+<div class="modal fade" id="modalConfirmaTarefaRetirarRetencaoContas" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.numero" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosRetirarRetencao.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Contas Retidas</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Ano</th>
+                                    <th>Mês</th>
+                                    <th>Vencimento</th>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="contaRetida in dadosRetirarRetencao.contasRetidas">
+                                    <td>{{contaRetida.ano}}</td>
+                                    <td>{{contaRetida.mes}}</td>
+                                    <td>{{contaRetida.vencimento | date: 'short'}}</td>
+                                    <td>{{contaRetida.codigoRetencao}}</td>
+                                    <td>{{contaRetida.descricaoRetencao}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="retirarRetencao(dadosRetirarRetencao)"
+                        ng-disabled="dadosRetirarRetencao.contasRetidas == null || dadosRetirarRetencao.contasRetidas.length == 0">
+                    Retirar Retenção Contas
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

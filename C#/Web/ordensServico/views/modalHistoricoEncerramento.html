@@ -1,0 +1,72 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade" id="modalHistoricoEncerramento" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.numero" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosHistoricoEncerramento.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Histórico: <span class="required">*</span></label>
+                        <textarea type="text" class="form-control" ng-model="dadosHistoricoEncerramento.historico"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="gerarHistoricoEncerramento(dadosHistoricoEncerramento)"
+                        ng-disabled="!dadosHistoricoEncerramento.historico">     
+                    Gerar Histórico            
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

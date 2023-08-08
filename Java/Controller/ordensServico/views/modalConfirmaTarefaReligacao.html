@@ -1,0 +1,155 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade" id="modalConfirmaTarefaReligacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="row" ng-show="dadosReligacao.avisoCorte">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <span>{{dadosReligacao.avisoCorte}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.numeroEndereco" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Religação: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dataReligacao"  cb-datetime-picker date-format="dd/mm/yyyy"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Leitura: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.leituraReligacao" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Situação Água: <span class="required">*</span></label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="situacaoAguaId"
+                               data-field-text="descricao"
+                               data-api-url="Api/SituacaoAguas/ComboReligaLigacao"
+                               placeholder="Situação Água"
+                               class="form-control"
+                               name="situacaoAguaId"
+                               ng-model="dadosReligacao.situacaoAguaId"
+                               required>
+                        <p ng-show="editarForm.situacaoAguaId.$error.required && !editarForm.situacaoAguaId.$pristine"
+                           class="help-block">
+                            O campo "Situação Água" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Responsável Religação: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.responsavelReligacao" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.dataLacre1"   cb-datetime-picker date-format="dd/mm/yyyy"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Número Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.numeroLacre1" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.dataLacre2"   cb-datetime-picker date-format="dd/mm/yyyy"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Número Lacre: </label>
+                        <input type="text" class="form-control" ng-model="dadosReligacao.numeroLacre2" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Tipo Lacre: </label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="tipoLacreId"
+                               data-field-text="descricao"
+                               data-api-url="Api/tiposlacres"
+                               placeholder="Tipo Lacre"
+                               class="form-control"
+                               name="tipoLacreId"
+                               ng-model="dadosReligacao.tipoLacreId"
+                               required>
+                        <p ng-show="editarForm.tipoLacreId.$error.required && !editarForm.tipoLacreId.$pristine"
+                           class="help-block">
+                            O campo "Tipo Lacre" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Observações: </label>
+                        <textarea type="text" class="form-control" ng-model="dadosReligacao.observacao"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="religarLigacao(dadosReligacao)"
+                        ng-disabled="!dadosReligacao.dataReligacao 
+                        || (!dadosReligacao.leituraReligacao && dadosReligacao.leituraReligacao.length == 0)
+                        || !dadosReligacao.situacaoAguaId">
+                    Religar
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

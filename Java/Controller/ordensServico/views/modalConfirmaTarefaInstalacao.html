@@ -1,0 +1,167 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade" id="modalConfirmaTarefaInstalacao" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{dados.descricaoTarefa}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">CDC:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.cdc" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Identificação:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.identificacao" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label labelInfo">Hidrômetro:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.hidrometro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Nome Solicitante: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.nomeSolicitante" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label class="control-label labelInfo">Endereço:</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.endereco" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label labelInfo">&nbsp;</label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.numeroEndereco" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Bairro: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.bairro" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">CEP: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.cep" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Complemento: </label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.complemento" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Data Instalação: <span class="required">*</span></label>
+                        <input type="text"
+                               cb-datetime-picker
+                               date-format="dd/mm/yyyy"
+                               class="form-control"
+                               name="dataInstalacao"
+                               required
+                               ng-model="dadosInstalacao.dataInstalacao">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label labelInfo">Hidrômetro Instalado: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.hidrometroInstalado"  maxlength="{{campos.tamanhoConteudo}}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Situação Hidrômetro:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="situacaoHidrometroId"
+                               data-field-text="descricao"
+                               data-api-url="Api/situacoeshidrometros"
+                               placeholder="Situação Hidrômetro"
+                               class="form-control"
+                               name="categoriaId"
+                               ng-model="dadosInstalacao.situacaoHidrometroId"
+                               required>
+                        <p ng-show="editarForm.situacaoHidrometroId.$error.required && !editarForm.situacaoHidrometroId.$pristine"
+                           class="help-block">
+                            O campo "Situação Hidrômetro" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Categoria:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="categoriaId"
+                               data-field-text="descricao"
+                               data-api-url="Api/categorias"
+                               placeholder="Categoria"
+                               class="form-control"
+                               name="categoriaId"
+                               ng-model="dadosInstalacao.categoriaId"
+                               required>
+                        <p ng-show="editarForm.categoriaId.$error.required && !editarForm.categoriaId.$pristine"
+                           class="help-block">
+                            O campo "Categoria" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Atividade:</label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="atividadeId"
+                               data-field-text="descricao"
+                               data-api-url="Api/atividades"
+                               placeholder="Atividade"
+                               class="form-control"
+                               name="atividadeId"
+                               ng-model="dadosInstalacao.atividadeId"
+                               required>
+                        <p ng-show="editarForm.atividadeId.$error.required && !editarForm.atividadeId.$pristine"
+                           class="help-block">
+                            O campo "Atividade" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Tipo da Ligação: <span class="required">*</span></label>
+                        <input type="hidden"
+                               cb-select2=""
+                               data-field-id="tipoLigacaoId"
+                               data-field-text="descricao"
+                               data-api-url="Api/TiposLigacao/ComboObrigaLigacao"
+                               placeholder="Tipo da Ligação"
+                               class="form-control"
+                               name="tipoLigacaoId"
+                               ng-model="dadosInstalacao.tipoLigacaoId"
+                               required>
+                        <p ng-show="editarForm.tipoLigacaoId.$error.required && !editarForm.tipoLigacaoId.$pristine"
+                           class="help-block">
+                            O campo "Tipo da Ligação" é obrigatório
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label labelInfo">Leitura Inicial: <span class="required">*</span></label>
+                        <input type="text" class="form-control" ng-model="dadosInstalacao.leituraInicial" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="instalarHidrometro(dadosInstalacao)"
+                        ng-disabled="!dadosInstalacao.leituraInicial 
+                        || !dadosInstalacao.tipoLigacaoId
+                        || !dadosInstalacao.dataInstalacao
+                        || !dadosInstalacao.hidrometroInstalado">
+                    Instalar Hidrômetro
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿<div class="modal fade bs-modal-lg" id="modalConfirmaTarefaExcluirLigacaoImobiliaria" tabindex="-1" role="modalConfirmaTarefaExcluirLigacaoImobiliaria" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Retira Administração da Ligação pela Imobiliária</h4>
+            </div>
+            <form name="confirmaTarefaExcluirLigacaoImobiliariaForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">Código: </label>
+                            <input class="form-control" ng-model="dadosExcluirLigacaoImobiliaria.imobiliariaId" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Descrição: </label>
+                            <input class="form-control" ng-model="dadosExcluirLigacaoImobiliaria.descricao" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">CDC: </label>
+                            <input class="form-control" ng-model="dadosExcluirLigacaoImobiliaria.ligacaoId" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button ng-disabled="confirmaTarefaExcluirLigacaoImobiliariaForm.$invalid" class="btn blue" data-dismiss="modal" ng-click="excluirLigacaoImobiliaria(dadosExcluirLigacaoImobiliaria)">
+                        OK
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,206 @@
+﻿<form class="form-horizontal form-condensed">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel" ng-class="tipoChamadoClasse(dados.status)">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="panel-title">Dados do Evento</h3>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="panel-title">Status: {{dados.status}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body form">
+                        <div class="form-body">
+
+                            <div class="tabbable tabs-left">
+                                <ul class="nav nav-tabs">
+                                    <li ng-class="{'active': tabActive == 1}" ng-click="tabActive = 1">
+                                        <a data-toggle="tab">
+                                            Detalhes
+                                        </a>
+                                    </li>
+                                    <li ng-class="{'active': tabActive == 2}" ng-click="tabActive = 2">
+                                        <a data-toggle="tab">
+                                            Imagens
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content form">
+
+                                    <div ng-show="tabActive == 1">
+
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Evento: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.eventoId}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Data Abertura: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.dataAbertura | date:'shortDate'}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Serviço: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoTipoServico}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Departamento: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoDepartamento}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Data Início: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.dataInicioExecucao | date:'shortDate'}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Data Término: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.dataTerminoExecucao | date:'shortDate'}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Data Ocorrência: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.dataOcorrencia | date:'shortDate'}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Ocorrência: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoOcorrencia}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Situação: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoSituacao}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Execução: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoExecucao}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Líder: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.nomeLider}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Encarregado: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.nomeEncarregado}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Equipe: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.descricaoEquipe}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Observações Execução: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.observacaoExecucao}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-6 col-sm-4 col-xs-12">Observações Evento: </label>
+                                                    <p class="col-md-6 col-sm-8 col-xs-12 form-control-static">
+                                                        {{dados.observacaoEvento}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div ng-show="tabActive == 2">
+
+                                        <div class="alert alert-warning">
+                                            <p>Para mais detalhes, clique na imagem</p>
+                                        </div>
+
+                                        <div class="row imgEqual" ng-repeat="conjunto in fotos">
+                                            <div class="col-md-6" ng-repeat="dadosImagem in conjunto" >
+                                                <img ng-src="data:image/png;base64,{{dadosImagem.imagem}}" class="imgEqualHeight" style="margin-bottom:30px; cursor: pointer;" ng-click="imgMaisDetalhes(dadosImagem.imagemId)">
+                                                <!--<img ng-src="{{imagem}}" style="width: 100%; margin-bottom:30px; cursor: pointer;" ng-click="imgMaisDetalhes(imagem)" />-->
+                                            </div>
+                                        </div>
+                                        
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="form-actions right">
+                            <a href="#/ordensServico/detalhes/{{situacaoChamado.ordemServicoId}}/geral/eventos" class="btn btn-warning">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

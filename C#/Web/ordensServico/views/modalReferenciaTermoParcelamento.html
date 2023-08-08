@@ -1,0 +1,40 @@
+﻿<div class="modal fade" id="modalReferenciaTermoParcelamento" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Referência Inicial Para Cobrança
+                </h4>
+            </div>
+            <div class="modal-body form">
+                <form name="$parent.referenciaTermoParcelamentoForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" cb-form-validation="$parent.referenciaTermoParcelamentoForm.mesReferencia">
+                                    <div class="col-md-2">
+                                        <label>Referência:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control"
+                                               type="text"
+                                               cb-datetime-picker="MM/yyyy"
+                                               date-format="MM/YYYY"
+                                               ng-model="dadosTermo.mesReferencia" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn blue" ng-click="imprimirTermoParcelamento()" ng-disabled="!dadosTermo.mesReferencia">
+                    Imprimir Termo de Parcelamento
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

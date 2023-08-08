@@ -1,0 +1,281 @@
+﻿<!--Aba Materias-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 1}" ng-show="passoAtivoAbasFixas == 1">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Total</th>
+                <th>Debitar</th>
+                <th>Cobrado</th>
+                <th>Baixado</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="material in $parent.listaMateriaisEvento">
+                <td>{{material.materialId}}</td>
+                <td>{{material.descricaoMaterial }}</td>
+                <td>{{material.quantidade}}</td>
+                <td>{{material.precoUnitario | currency}}</td>
+                <td>{{calcularValorTotalMaterial(material.quantidade, material.precoUnitario) | currency}}</td>
+                <td>{{material.debitar == true ? "Sim" : "Não"}}</td>
+                <td>{{material.cobrado == true ? "Sim" : "Não"}}</td>
+                <td>{{material.baixado == true ? "Sim" : "Não"}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || material.cobrado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoMaterial(material)" data-toggle="modal"
+                       data-container="body" data-placement="top" data-original-title="Editar material" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || material.cobrado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaMaterial(material)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir material" tooltip data-toggle="modal"></button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirMaterial" ng-click="modalInclusaoMaterial()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Novo Material</button>
+    </div>
+</div>
+
+<!--Modal de Inclusão de materiais-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoMaterial" tabindex="-1" role="modalInclusaoMaterial" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Material</h4>
+            </div>
+            <form name="incluirForm"
+                  role="form"
+                  novalidate>
+                <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in postErrors">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Material
+                                </label>
+                                <input type="hidden"
+                                       cb-select-ajax=""
+                                       data-field-id="materialId"
+                                       data-field-text="descricao"
+                                       data-api-url="api/materiais/pesquisar"
+                                       placeholder="Material"
+                                       class="form-control"
+                                       name="materialId"
+                                       ng-change="inclusaoMaterialSelecionado(inclusaoMaterial.materialId)"
+                                       ng-model="inclusaoMaterial.materialId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço Unitário
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-change="calcularValorTotalInclusao(inclusaoMaterial)"
+                                       ng-model="inclusaoMaterial.precoUnitario"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"
+                         cb-form-validation field="Quantidade" form-input="incluirForm.quantidade" validators="{maxlength: 4}">
+
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Quantidade
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="quantidade"
+                                       ng-model="inclusaoMaterial.quantidade"
+                                       ng-change="calcularValorTotalInclusao(inclusaoMaterial)"
+                                       ng-maxlength="4">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Unidade
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="unidade"
+                                       ng-model="inclusaoMaterial.unidade"
+                                       ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="inclusaoMaterial.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="inclusaoMaterial.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-disabled="incluirForm.$invalid" ng-click="salvarMaterial()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Edição de materiais-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoMaterial" tabindex="-1" role="modalEdicaoMaterial" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Material</h4>
+            </div>
+            <form name="editarForm"
+                  role="form"
+                  novalidate>
+                <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in postErrors">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Material
+                                </label>
+                                <input type="hidden"
+                                       cb-select-ajax=""
+                                       data-field-id="materialId"
+                                       data-field-text="descricao"
+                                       data-api-url="api/materiais/pesquisar"
+                                       placeholder="Material"
+                                       class="form-control"
+                                       name="materialId"
+                                       init-value="material"
+                                       ng-model="edicaoMaterial.materialId"
+                                       ng-change="alteracaoMaterialSelecionado(edicaoMaterial.materialId)"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço Unitário
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="edicaoMaterial.precoUnitario"
+                                       ng-change="calcularValorTotal(edicaoMaterial)"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group"
+                              cb-form-validation field="Quantidade" form-input="editarForm.quantidade" validators="{maxlength: 4}">
+                                <label class="control-label labelInfo">
+                                    Quantidade
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="quantidade"
+                                       ng-model="edicaoMaterial.quantidade"
+                                       ng-change="calcularValorTotal(edicaoMaterial)"
+                                       ng-maxlength="4">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Unidade
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="unidade"
+                                       ng-model="edicaoMaterial.unidade"
+                                       ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="edicaoMaterial.totalPreco"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="debitar" type="checkbox" ng-model="edicaoMaterial.debitar">
+                            <span class="box"></span> Debitar
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-click="salvarEdicaoMaterial()">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA MATERIAL-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirMaterial()">
+    <p>Deseja realmente excluir o Material Evento?</p>
+</cb-confirmation-modal>

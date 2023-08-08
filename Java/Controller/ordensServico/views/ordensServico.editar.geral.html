@@ -1,0 +1,43 @@
+﻿<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <li ng-class="{'active': tabActive == 1}" ui-sref="ordensServico.editar.geral.chamados">
+            <a data-toggle="tab">
+                Chamados
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 2}" ui-sref="ordensServico.editar.geral.eventos">
+            <a data-toggle="tab">
+                Eventos
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 3}" ui-sref="ordensServico.editar.geral.historico">
+            <a data-toggle="tab">
+                Históricos
+            </a>
+        </li>
+        <li ng-class="{'active': tabActive == 4}" ui-sref="ordensServico.editar.geral.documentos">
+            <a data-toggle="tab">
+                Documentos
+            </a>
+        </li>
+        <li ng-show="flagMostraMapa" ng-class="{'active': tabActive == 5}" ui-sref="ordensServico.editar.geral.mapa">
+            <a data-toggle="tab">
+                Mapa
+            </a>
+        </li>
+        <li ng-show="flagMostraGuiaRecolhimento" ng-class="{'active': tabActive == 6}" ui-sref="ordensServico.editar.geral.guiaRecolhimento">
+            <a data-toggle="tab">
+                Guia Recolhimento
+            </a>
+        </li>
+        <li ng-show="flagMostraMapaGeo" ng-class="{'active': tabActive == 7}" ui-sref="ordensServico.editar.geral.mapaGeo">
+            <a data-toggle="tab">
+                Mapa GEO
+            </a>
+        </li>
+    </ul>
+
+<div class="tab-content form">
+    <ui-view></ui-view>
+</div>
+</div>

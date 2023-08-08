@@ -1,0 +1,56 @@
+﻿<!--MODAL CONFIRMACAO TAREFA CORTE-->
+<div class="modal fade bs-modal-lg in" id="modalLancarServico" data-backdrop="static" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Deseja Lançar os Serviços?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Qtd. Parcelas</th>
+                                <th>Valor</th>
+                                <th>Valor Parcela</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="servico in servicos.servicos" ng-class="{'warning ' : servico.valor <= 0}">
+                                <td>{{servico.servicoId}} - {{servico.descricaoServico}}</td>
+                                <td>
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.quantidadeTotalParcelas"
+                                           disabled />
+                                </td>
+                                <td>
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.valorTotalServico"
+                                           ui-money-mask
+                                           disabled/>
+                                </td>
+                                <td>
+                                    <input class="form-control"
+                                           type="text"
+                                           ng-model="servico.valorParcelas"
+                                           ui-money-mask
+                                           disabled/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal" ng-click="NaoCobrar()">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-click="CobrarServico()">
+                    Lançar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

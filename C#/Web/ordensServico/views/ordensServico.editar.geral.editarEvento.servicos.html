@@ -1,0 +1,256 @@
+﻿ <!--Aba Serviços-->
+<div class="tab-pane" ng-class="{'active': passoAtivoAbasFixas == 4}" ng-show="passoAtivoAbasFixas == 4">
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Quantidade de Horas</th>
+                <th>Quantidade de Parcelas</th>
+                <th>Total</th>
+                <!--<th>Total</th>-->
+                <th>Cobrado</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="servico in $parent.dadosAbasComplementaresEvento.servicos">
+                <td>{{servico.servicoId}}</td>
+                <td>{{servico.descricaoServico}}</td>
+                <td>{{servico.qtdhoras}}</td>
+                <td>{{servico.qtdParcelas}}</td>
+                <td>{{servico.valorServico | currency}}</td>
+                <!--<td>{{calcularTotalValorHorasServico(servico.valorServico, servico.qtdhoras) > 0 ? (calcularTotalValorHorasServico(servico.valorServico, servico.qtdhoras) | currency) : (servico.valorServico | currency)}}</td>-->
+                <td>{{servico.cobrado == true ? "Sim" : "Não"}}</td>
+                <td>
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || servico.cobrado" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="modalEdicaoServico(servico, $index)" data-toggle="modal"
+                       data-container="body" data-placement="top" data-original-title="Editar servico" tooltip></button>&nbsp;&nbsp;&nbsp;
+                    <button ng-disabled="!$parent.permissaoEvento.abasHabilitadas || servico.cobrado" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="modalPerguntaServico(servico)" href="#modalPergunta"
+                            data-container="body" data-placement="top" data-original-title="Excluir servico" tooltip data-toggle="modal"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button class="btn green default" id="inserirServico" ng-click="modalInclusaoServico()" ng-disabled="!$parent.permissaoEvento.abasHabilitadas">Novo Serviço</button>
+    </div>
+</div>
+
+<!--Modal de Inclusão de servico-->
+<div class="modal fade bs-modal-lg" id="modalInclusaoServico" tabindex="-1" role="modalInclusaoServico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Inserir Serviço</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Serviço
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="tipoServicoId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaTipoServicosCombo"
+                                       placeholder="Serviço"
+                                       class="form-control"
+                                       name="tipoServicoId"
+                                       ng-model="inclusaoServico.tipoServicoId"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço Unitário <span class="required">*</span>
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       ng-model="inclusaoServico.precoUnitarioFixo"
+                                       ui-money-mask
+                                       ng-maxlength="22"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       ng-model="inclusaoServico.qtdhoras" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Parcelas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="inclusaoServico.qtdParcelas" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="inclusaoServico.valorServico"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal"ng-click="salvarServico()"
+                             ng-disabled="!inclusaoServico.valorServico
+                                          ||!inclusaoServico.qtdParcelas
+                                          ||!inclusaoServico.precoUnitarioFixo
+                                          ||!inclusaoServico.tipoServicoId
+                                          ||inclusaoServico.qtdParcelas == 0" >
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Edição de servico-->
+<div class="modal fade bs-modal-lg" id="modalEdicaoServico" tabindex="-1" role="modalEdicaoServico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Serviço</h4>
+            </div>
+            <form name="cancelamentoOrdemServicoForm"
+                  role="form"
+                  novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Serviço
+                                </label>
+                                <input type="hidden"
+                                       cb-select2=""
+                                       data-field-id="tipoServicoId"
+                                       data-field-text="descricao"
+                                       lista-pre-definida="listaTipoServicosCombo"
+                                       placeholder="Serviço"
+                                       class="form-control"
+                                       name="tipoServicoId"
+                                       ng-model="edicaoServico.servicoId"
+                                       ng-change="alteracaoServicoSelecionado(edicaoServico.servicoId)"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Preço Unitário <span class="required">*</span>
+                                </label>
+                                <input class="form-control"
+                                       cb-validation-data
+                                       ui-money-mask
+                                       ng-change="calcularValorTotal(edicaoServico)"
+                                       ng-model="edicaoServico.precoUnitarioFixo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Horas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       ng-change="calcularValorTotal(edicaoServico)"
+                                       ng-model="edicaoServico.qtdhoras" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Parcelas:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="total"
+                                       ng-model="edicaoServico.qtdParcelas" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label labelInfo">
+                                    Total:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="horas"
+                                       cb-validation-data
+                                       tipo="currencyFormat"
+                                       ng-model="edicaoServico.valorServico"
+                                       disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button class="btn blue" data-dismiss="modal" ng-click="salvarEdicaoServico()"
+                            ng-disabled="!edicaoServico.valorServico
+                                          ||!edicaoServico.qtdParcelas
+                                          ||!edicaoServico.precoUnitarioFixo
+                                          ||!edicaoServico.servicoId
+                                          ||edicaoServico.qtdParcelas == 0">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL PERGUNTA SERVIÇO-->
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluirServico()">
+    <p>Deseja realmente excluir o Serviço Evento?</p>
+</cb-confirmation-modal>

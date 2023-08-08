@@ -1,0 +1,76 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Equipes <small>Lista das Equipes</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Equipes
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Lista
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="equipes.incluir">Nova Equipe</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-comments"></i>Equipes
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <table datatable="ng"
+              dt-options="dtOptions"
+              class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Carga Horária por Mês</th>
+                    <th>Preço hora/homem</th>
+                    <th>Centro de Custo</th>
+                    <th>Grupo</th>
+                    <th>Área de Manutenção</th>
+                    <th>Inutilizada</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in itens">
+                    <td><a ui-sref="equipes.detalhes({ id: item.equipeId})">{{ item.equipeId }}</a></td>
+                    <td>{{ item.descricao }}</td>
+                    <td>{{ item.cargaHoraria }}</td>
+                    <td>{{ item.preco | currency }}</td>
+                    <td>{{ item.descricaoCentroCusto }}</td>
+                    <td>{{ item.descricaoGrupo }}</td>
+                    <td>{{ item.descricaoAreaManutencao }}</td>
+                    <td>{{ item.inutilizada == true ? 'Sim' : 'Não'}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+﻿<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Históricos</h3>
+            </div>
+            <div class="panel-body form">
+                <div class="form-body">
+                    <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Funcionário</th>
+                                <th>Descrição</th>
+                                <th>Automático</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ordemServicoDetalhes.historico">
+                                <td>{{item.data | date:'short'}}</td>
+                                <td>{{item.nomeFuncionario}}</td>
+                                <td ng-bind-html="item.descricao"></td>
+                                <td>{{item.automatico == true ? 'Sim' : 'Não'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-default fa fa-edit font-yellow espacamentoBotoesTabela" ng-click="abrirModalEditarHistorico(item)" 
+                                            data-container="body" data-placement="top" data-original-title="Editar Histórico" tooltip data-toggle="modal"
+                                            ng-disabled="item.automatico || !item.usuarioResponsavel"></button>
+                                    <button type="button" class="btn btn-default fa fa-times font-red espacamentoBotoesTabela" ng-click="excluirHistorico(item.historicoOsId)"
+                                            data-container="body" data-placement="top" data-original-title="Excluir Histórico" tooltip data-toggle="modal"
+                                            ng-disabled="item.automatico || !item.usuarioResponsavel"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions right">
+                    <button class="btn blue" ng-click="imprimirHistoricos()">Imprimir Históricos</button>
+                    <button class="btn green" ng-click="abrirModalNovoHistorico()">Novo Histórico</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="modalNovoHistorico" tabindex="-1" role="modalNovoHistorico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Incluir Novo Histórico</h4>
+            </div>
+            <form name="novoHistoricoForm" class="horizontal-form form-condensed" role="form" ng-submit="cadastrarNovoHistorico()" novalidate>
+                <div class="modal-body form-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group"
+                                 cb-form-validation field="Descrição" form-input="novoHistoricoForm.descricao" validators="{required: true}">
+                                <label class="control-label labelInfo">
+                                    Descrição <span class="required">*</span>
+                                </label>
+                                <input type="text" name="descricao" ng-model="novoHistorico.descricao" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button ng-disabled="novoHistoricoForm.$invalid" class="btn blue">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="modalEditarHistorico" tabindex="-1" role="modalEditarHistorico" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Histórico</h4>
+            </div>
+            <form name="editarHistoricoForm" class="horizontal-form form-condensed" role="form" ng-submit="alterarHistorico(historicoEditado)" novalidate>
+                <div class="modal-body form-body">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group"
+                                 ng-class="{'has-error' : campoValido(editarHistoricoForm.data)}">
+                                <label class="control-label">
+                                    Data <span class="required">*</span>
+                                </label>
+                                <input type="text"
+                                       cb-parse-date
+                                       data-provide="datepicker"
+                                       data-date-format="dd/mm/yyyy"
+                                       class="form-control"
+                                       name="data"
+                                       ng-model="historicoEditado.data"
+                                       disabled>
+                                <p ng-show="editarHistoricoForm.data.$error.required && !editarHistoricoForm.data.$pristine"
+                                   class="help-block">
+                                    O campo "Data" é obrigatório
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group"
+                                 ng-class="{'has-error' : campoValido(editarHistoricoForm.nomeFuncionario)}">
+                                <label class="control-label">
+                                    Funcionário <span class="required">*</span>
+                                </label>
+                                <input type="text"
+                                       name="nomeFuncionario"
+                                       ng-model="historicoEditado.nomeFuncionario"
+                                       class="form-control input-sm"
+                                       disabled>
+                                <p ng-show="editarHistoricoForm.nomeFuncionario.$error.required && !editarHistoricoForm.nomeFuncionario.$pristine"
+                                   class="help-block">
+                                    O campo "Funcionário" é obrigatório
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="form-group" cb-form-validation field="Descrição" form-input="editarHistoricoForm.descricao" validators="{required: true}">
+                                    <label class="control-label labelInfo">
+                                        Descrição <span class="required">*</span>
+                                    </label>
+                                    <textarea rows="5" class="form-control" ng-disabled="historicoEditado.automatico" ng-model="historicoEditado.descricao" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" ng-click="limparDadosServico()" data-dismiss="modal">
+                        Fechar
+                    </button>
+                    <button ng-disabled="editarHistoricoForm.$invalid || historicoEditado.automatico" class="btn blue">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<cb-confirmation-modal data-handler="modalExclusaoHistorico" data-title="Excluir Registro" data-confirm-click="excluirHistorico()">
+    <p>Confirma a exclusão do histórico?</p>
+</cb-confirmation-modal>
