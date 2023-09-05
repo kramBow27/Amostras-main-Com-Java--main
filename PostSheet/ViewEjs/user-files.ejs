@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>My Files – PostSheet</title>
+  <%- include('./_shared/head') %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <%- include('./_shared/header') %>
+
+    <section class="panel">
+      <h2 class="h2">My Uploaded Files</h2>
+      <br /><br />
+
+      <% if (locals.uploaded_files.length !==0) { %>
+        <table class="nice w-full">
+          <thead>
+            <tr>
+              <td>Check</td>
+              <td>File Name</td>
+              <td>File Type</td>
+              <td>Upload Date</td>
+              <td>Start Job</td>
+              <td>Details</td>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <% for (const file of locals.uploaded_files) { %>
+              <tr>
+                <td><input type="checkbox" class="file-checkbox" value="<%= file.id %>"></td>
+                <td>
+                  <a href="/app/files/<%= file.id %>" class="link-simple">
+                    <%= file.name.slice(0, -4) %>
+                  </a>
+                </td>
+                <td>
+                  /<%= file.name.substring(file.name.lastIndexOf('.')) %>
+                </td>
+
+                <td>
+
+                  <%= helper.formatDateUploadedFile(file.created_at) %>
+
+                </td>
+                <td>
+                  <form action="/app/jobs/user-files/start" method="post">
+                    <input type="hidden" name="s3Key" value="<%= file.s3_key %>">
+                    <input type="hidden" name="step" value="data-source-config">
+                    <button type="submit" class="button-secondary ml-2 start-job">Start</button>
+                  </form>
+                </td>
+
+
+                <td>
+                  <a href="/app/user-files" class="button-secondary ml-2 details-button"
+                    data-file-id="<%= file.id %>">Details</a>
+                </td>
+
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+        <% } else { %>
+          <p class="flex items-center">
+            <%- svg('icons/system/error-warning-line.svg', 'w-5 h-5 mr-2' ) %>
+              <span>You do not have any uploaded files.</span>
+          </p>
+          <% } %>
+    </section>
+    <!-- Botão de deleção, inicialmente desabilitado -->
+    <button id="delete-button" class="button-primary" disabled>Delete Selected Files</button>
+    <button id="upload-button" class="button-primary">Upload Files</button>
+    <!-- Input escondido para selecionar arquivos -->
+    <input type="file" name="File" id="file-input" accept=".csv, .xls, .xlsx" style="display: none;" />
+    <br /> <br />
+    <section id="details-section" class="panel" style="display: none;">
+      <h2 class="h2">File Details</h2>
+      <div id="details-content"></div>
+    </section>
+
+
+    <%- include('./_shared/footer') %>
+
+      <!-- JavaScript para habilitar/desabilitar o botão -->
+      <script>
+
+        $('.file-checkbox').change(function () {
+          const anyChecked = $('.file-checkbox').is(':checked');
+
+          $('#delete-button').prop('disabled', !anyChecked);
+        });
+
+
+        $('#delete-button').click(function () {
+          if (!confirm('Are you sure you want to delete these files?')) {
+            return; // Se o usuário clicar em "Cancelar", a função retorna e nada mais acontece
+          }
+          const fileIds = $('.file-checkbox:checked').map(function () {
+            return $(this).val();
+          }).get();
+
+
+          // Enviar uma requisição DELETE para a rota correta
+          $.ajax({
+            url: '/app/jobs/delete/files', // Caminho correto da rota
+            type: 'DELETE',
+            data: JSON.stringify({ fileIds: fileIds }), // Enviar os IDs como objeto no corpo
+            contentType: 'application/json', // Definir o tipo de conteúdo como JSON
+            success: function (response) {
+              // Remover as linhas da tabela correspondentes aos arquivos excluídos
+              fileIds.forEach(fileId => {
+                $('input[value="' + fileId + '"]').closest('tr').remove();
+              });
+              alert('The selected files were successfully deleted.');
+            },
+            error: function (response) {
+              // Você pode adicionar alguma lógica para lidar com erros aqui, como uma mensagem de erro.
+              alert('There was an error deleting these files. Try reloading the page.');
+            }
+          });
+        });
+
+
+        $('#upload-button').click(function () {
+          $('#file-input').click();
+        });
+
+
+
+        $('body').on('click', '.details-button', function (event) {
+          event.preventDefault();
+
+          const button = $(this);
+          const fileId = button.data('file-id');
+          const detailsContent = $('#details-content');
+          const ITEMS_PER_PAGE = 10; // Quantidade de itens por página
+
+          // Fazer uma chamada AJAX para obter as informações
+          $.get('/app/jobs/user-files/details/' + fileId, function (data) {
+            let currentPage = 1; // Iniciar na primeira página
+            const totalPages = Math.ceil(data.rows.length / ITEMS_PER_PAGE); // Calcular o número total de páginas
+
+            // Função para renderizar uma página específica
+            function renderPage(pageNumber) {
+              let html = '<table class="nice w-full"><thead><tr>';
+              data.columns.forEach(column => {
+                html += `<th style="text-align: left;">${column.name}</th>`;
+              });
+              html += '</tr></thead><tbody>';
+
+              const start = (pageNumber - 1) * ITEMS_PER_PAGE;
+              const end = start + ITEMS_PER_PAGE;
+              const pageRows = data.rows.slice(start, end);
+
+              pageRows.forEach(row => {
+                html += '<tr>';
+                row.values.forEach(value => {
+                  html += `<td>${value}</td>`;
+                });
+                html += '</tr>';
+              });
+              html += '</tbody></table>';
+
+              // Adicionar controles de paginação
+              html += '<br/> <br/> <div class="pagination">';
+              for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-button mr-2" data-page="${i}" style="color: rgb(252 87 47);font-weight: 700; text-decoration: underline; ">${i}</button>`;
+              }
+
+              html += '</div>';
+
+              detailsContent.html(html);
+
+              // Exibir a seção de detalhes
+              $('#details-section').show();
+            }
+
+            // Renderizar a primeira página
+            renderPage(currentPage);
+
+            // Adicionar listener para os botões de página
+            detailsContent.on('click', '.page-button', function () {
+              const pageNumber = $(this).data('page');
+              renderPage(pageNumber);
+            });
+          });
+        });
+
+
+
+
+        // Evento para lidar com a seleção de arquivo
+        $('#file-input').change(function () {
+          const file = this.files[0]; // Pegar o primeiro arquivo selecionado
+
+          if (!file) {
+            alert("You didn't choose a file.");
+            return;
+          }
+          const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+
+          if (fileExtension !== '.csv' && fileExtension !== '.xls' && fileExtension !== '.xlsx') {
+            alert("Invalid file extension. Please choose a .csv, .xls, or .xlsx file.");
+            return;
+          }
+
+          // Criar um FormData para enviar o arquivo
+          const formData = new FormData();
+          formData.append('File', file);
+
+          // Enviar uma requisição POST para a rota de upload
+          $.ajax({
+            url: '/app/jobs/upload/files', // Caminho da rota
+            type: 'POST',
+            data: formData,
+            processData: false, // Não processar os dados
+            contentType: false, // Não definir o tipo de conteúdo
+            success: function (response) {
+              // Exibir alerta de sucesso e recarregar a página ou atualizar a lista de arquivos
+              alert('Your file was succesfully uploaded.');
+              location.reload(); // Você pode substituir esta linha para atualizar a lista de arquivos sem recarregar a página
+            },
+            error: function (response) {
+              // Exibir alerta de erro
+              alert('There was an error. Verify the extension and content of your file.');
+            }
+          });
+        });
+      </script>
+
+
+</body>
+
+</html>

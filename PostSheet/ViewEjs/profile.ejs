@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Profile – PostSheet</title>
+  <%- include('./_shared/head') %>
+</head>
+
+<body>
+  <%- include('./_shared/header') %>
+
+    <section class="panel">
+      <h2 class="h2">Profile</h2>
+      <br /><br />
+
+      <p>You are signed in as <a href="mailto:<%= session.user.email %>" class="link">
+          <%= session.user.email %>
+        </a>.</p>
+    </section>
+
+    <section class="panel">
+      <h2 class="h2">Plan</h2>
+      <br /><br />
+
+      <% if (plan && new Date() < session.user.plan_end_date_time) { %>
+        <p>You are currently on the <b class="text-primary">
+            <%= plan.product.name %>
+          </b> plan until <b>
+            <%= dateFns.format(session.user.plan_end_date_time, 'MMM dd, yyyy' ) %>
+          </b>.</p>
+        <% } else { %>
+          <p>You are currently on the <b class="text-primary">Free</b> plan.</p>
+          <% } %>
+            <p>You have used <b>
+                <%= total_job_item_count.toLocaleString() %>
+              </b> / <b>
+                <%= product.quota.toLocaleString() %>
+              </b> sends of your monthly quota.</p>
+            <br />
+            <% if (!plan || plan.product.id !=="pro" ) { %>
+              <p><b>Need more sends?</b> <a href="/pricing"><b id="billing-button" class="text-primary">Upgrade
+                    now</b></a>.</p>
+              <% } else { %>
+                <% } %>
+    </section>
+
+    <% if (session.user?.plan_id) { %>
+      <section class="panel">
+        <h2 class="h2">Subscription</h2>
+        <br /><br />
+
+        <p>To view your invoices, manage your cards, or cancel your subscription, please use the Billing Portal.</p>
+        <br />
+
+        <form action="/app/profile/billing" method="POST" target="_blank">
+          <button class="link flex items-center">
+            <span>Billing Portal</span>
+            <%- svg('icons/system/external-link-line.svg', 'icon-right w-4 h-4 fill-current' ) %>
+          </button>
+        </form>
+      </section>
+      <% } %>
+
+        <%- include('./_shared/footer') %>
+</body>
+<script>
+  document.getElementById('billing-button').addEventListener('mouseover', function () {
+    const event = new Event('highlightUpgrade');
+    window.dispatchEvent(event);
+  });
+  document.getElementById('billing-button').addEventListener('mouseout', function () {
+    const event = new Event('unhighlightUpgrade');
+    window.dispatchEvent(event);
+  });
+
+</script>
+
+</html>

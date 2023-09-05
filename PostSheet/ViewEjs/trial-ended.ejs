@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Subscription Ended – PostSheet</title>
+    <%- include('./_shared/head') %>
+  </head>
+  <body>
+    <%- include('./_shared/header') %>
+    <% if (isNewUser) { %>
+    <section class="panel">
+      <h2 class="h2">Oops! </h2>
+      <h3 class="font-bold text-lg mt-1">Your 14 days trial has ended</h3>
+      <br /><br />
+
+      <p class="error">We're sorry, but your free-trial has ended. In order to continue using PostSheet, you need to upgrade your plan.</p>
+      <br /><br /><br />
+
+      <a href="/pricings" class="button button-secondary">Upgrade</a>
+      <br /><br /><br />
+    </section>
+    <%  } else { %> 
+    <section class="panel">
+      <h2 class="h2">Oops! </h2>
+      <h3 class="font-bold text-lg mt-1">Your Growth Plan access has ended</h3>
+      <br /><br />
+
+      <p class="error">We're sorry, your trial access to the Growth Plan has ended. Please upgrade your account for more sends</p>
+      <br /><br /><br />
+
+      <a href="/pricings" class="button button-secondary">Upgrade</a>
+      <br /><br /><br />
+    </section>
+    <% } %>
+    <%- include('./_shared/footer') %>
+  </body>
+</html>
