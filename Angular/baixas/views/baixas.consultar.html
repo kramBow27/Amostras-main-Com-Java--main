@@ -1,0 +1,152 @@
+<h3 class="page-title">
+    Coletor <small>Pesquisar Baixas</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Coletor
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Baixas
+        </li>
+    </ul>
+</div>
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject">Consulta de Baixas</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form class="horizontal-form form-condensed" id="edicaoDocumentoForm" name="edicaoDocumentoForm" novalidate>
+            <div class="form-body">
+                <div class="note note-danger" ng-if="errosFormularioEdicaoDocumento && errosFormularioEdicaoDocumento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioEdicaoDocumento">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="edicaoDocumentoForm"></cb-geracao-campos-directive>
+                        <div ng-show="modelPassosCamposGeracao">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button class="btn blue"
+                        ng-disabled="edicaoDocumentoForm.$invalid || !modelPassosCamposGeracao.length"
+                        ng-click="obterBaixas()">
+                    Pesquisar
+                </button>
+            </div>
+        </ng-form>
+    </div>
+</div>
+<div class="portlet box grey-cascade" ng-show="baixas.length > 0">
+    <div class="portlet-title">
+        <div class="caption">Resultado da Busca</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                   id="tabela">
+                <thead>
+                    <tr>
+                        <th>Baixa Id</th>
+                        <th>Data Registro</th>
+                        <th>Evento</th>
+                        <th>Ordem de Serviço</th>
+                        <th>Equipe</th>
+                        <th>Equipamento</th>
+                        <th>Erro</th>
+                        <th>Selecionar</th>
+                        <th>Conteúdo XML</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="clickBaixa(baixa)" ng-repeat="baixa in baixas">
+                        <td>{{baixa.eventoBaixaColetorId}}</td>
+                        <td>{{baixa.dataRegistro | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{baixa.eventoId}}</td>
+                        <td>{{baixa.ordemServicoId}}</td>
+                        <td>{{baixa.equipeId}} - {{baixa.equipe.descricao}}</td>
+                        <td>{{baixa.equipamentoId}}</td>
+
+                        <td ng-if="baixa.mensagemErro">Sim</td>
+                        <td ng-if="!baixa.mensagemErro">Não</td>
+                        <td class="text-center">
+                            <input value="false"
+                                   name="selecionada"
+                                   type="checkbox"
+                                   ng-disabled="!baixa.mensagemErro"
+                                   ng-checked="verificarBaixaSelecionada(baixa)">
+                        <td>
+                            <button type="button"
+                                    ng-if="baixa.mensagemErro"
+                                    class="btn btn-default fa fa-edit optionsIcon font-blue"
+                                    ng-click="modalEditar(baixa.eventoBaixaColetorId)"
+                                    data-container="body" data-placement="top" data-original-title="Editar" cb-tooltip></button>
+                            <button type="button"
+                                    ng-if="!baixa.mensagemErro"
+                                    class="btn btn-default fa fa-eye optionsIcon font-blue"
+                                    ng-click="modalEditar(baixa.eventoBaixaColetorId)"
+                                    data-container="body" data-placement="top" data-original-title="Visualizar" cb-tooltip></button>
+                            <button type="button"
+                                    ng-if="baixa.mensagemErro"
+                                    class="btn btn-default fa fa-save optionsIcon font-blue"
+                                    ng-click="executarProcedure(baixa.eventoBaixaColetorId)"
+                                    data-container="body" data-placement="top" data-original-title="Executar" cb-tooltip></button>
+                        </td>
+
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+            <div class="form-actions right" ng-show="baixas.length > '0'">
+                <div class="form-actions right" ng-show="baixas.length > '0'">
+
+                    <button class="button btn blue"
+                            ng-click="selecionarTodasBaixas(baixas)"
+                            ng-disabled="baixasSelecionadas.length == baixas.length">
+                        Selecionar Todas
+                    </button>
+                    <button class="button btn yellow"
+                            ng-click="limparTodasBaixas(baixas)"
+                            ng-disabled="baixasSelecionadas.length == '0'">
+                        Limpar Seleção
+                    </button>
+                    <button class="button btn green"
+                            ng-click="executarTodasBaixas(baixas)"
+                            ng-disabled="baixasSelecionadas.length =='0'">
+                        Executar Selecionadas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'app/modules/baixas/views/modalEditarConteudoXml.html'"></div>

@@ -1,0 +1,220 @@
+<h3 class="page-title">
+    Equipes <small>Pesquisar Equipes Mapa</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Equipes
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Monitoramento
+        </li>
+    </ul>
+</div>
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject">Consulta de Equipes Mapa</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <ng-form class="horizontal-form form-condensed" id="edicaoDocumentoForm" name="edicaoDocumentoForm" novalidate>
+            <div class="form-body">
+                <div class="note note-danger" ng-if="errosFormularioEdicaoDocumento && errosFormularioEdicaoDocumento.length > 0">
+                    <p>Os seguintes erros foram encontrados:</p>
+                    <ul>
+                        <li ng-repeat="error in errosFormularioEdicaoDocumento">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="passo in modelPassosCamposGeracao" ng-class="{'active' : passoAtivo == passo.passoId}">
+                            <a ng-click="ativarAba(passo)"> {{passo.descricao}} </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <cb-geracao-campos-directive model-passos-campos-geracao="modelPassosCamposGeracao"
+                                                     controle-aba-ativa="passoAtivo"
+                                                     name-form="edicaoDocumentoForm"></cb-geracao-campos-directive>
+                        <div ng-show="modelPassosCamposGeracao">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions right">
+                <button class="btn blue"
+                        ng-disabled="edicaoDocumentoForm.$invalid || !modelPassosCamposGeracao.length"
+                        ng-click="pesquisarEquipes()">
+                    Pesquisar
+                </button>
+            </div>
+        </ng-form>
+    </div>
+</div>
+<div class="portlet box grey-cascade" ng-show="equipes.length > 0">
+    <div class="portlet-title">
+        <div class="caption">Resultado da Busca</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                   id="tabela"
+                   >
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>Departamento</th>
+                        <th>Última Coleta</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Selecionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="clickEquipe(equipe)" ng-repeat="equipe in equipes" >
+                        <td>
+                            <div ng-if="equipe.ultimaLatitude" ng-style="{'background-color': statusColor(equipe), 'width':'1.5rem', 'height': '1.5rem', 'text-align': 'center'  }" style="border-radius: 50%!important; margin: 25% 25% 25% 30%">&nbsp;</div>
+                        </td>
+                        <td>{{equipe.equipeId}}</td>
+                        <td>{{equipe.descricao}}</td>
+                        <td>{{equipe.centroCustoDescricao}}</td>
+                        <td>{{equipe.ultimaColeta | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{equipe.ultimaLatitude}}</td>
+                        <td>{{equipe.ultimaLongitude}}</td>
+                        <td class="text-center">
+                            <input value="false"
+                                   name="selecionada"
+                                   type="checkbox"
+                                   ng-checked="verificarEquipeSelecionada(equipe)"
+                                    >                            
+                    </tr>
+                    
+                </tbody>
+            </table>
+          
+
+            <div class="form-actions right" ng-show="equipes.length > '0'">
+                <div class="form-actions right" ng-show="equipes.length > '0'">
+                   
+                    <button class="button btn blue"
+                            ng-click="selecionarTodasEquipes(equipes)"
+                            ng-disabled="equipesSelecionadas.length == equipes.length">
+                        Selecionar Todas
+                    </button>
+                    <button class="button btn yellow"
+                            ng-click="limparTodasEquipes(equipes)"
+                            ng-disabled="equipesSelecionadas.length == '0'">
+                        Limpar Seleção
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="equipes.length > 0">
+    <h4 class="caption">Tempo desde a última coleta: </h4>
+    <table border="0" class="table table-striped table-bordered table-hover table-condensed">
+        <tr>
+            <td bgcolor="#D0E9C6">&nbsp;</td>
+            <td>Até 5 minutos</td>
+            <td bgcolor="#FAF2CC">&nbsp;</td>
+            <td>Entre 5 e 15 minutos</td>
+            <td bgcolor="#EBCCCC">&nbsp;</td>
+            <td>Mais de 15 minutos</td>
+        </tr>
+    </table>
+    <div class="row">
+        <div id="map" style="height: 800px; width: auto;" ng-hide="equipes.length == 0"></div>
+    </div>
+    <br />
+    
+</div>
+<div class="portlet box grey-cascade"  ng-show="ordensServicoEquipe.length > '0' ">
+    <div class="portlet-title">
+        <div class="caption">Ordens de Serviço Em Execução Da Equipe: {{equipe.equipeId}} - {{equipe.descricao}}</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <h4 class="caption">Legenda: </h4>
+            <table border="0" class="table table-striped table-bordered table-hover table-condensed">
+                <tr>
+                    <td bgcolor="#EBCCCC">&nbsp;</td>
+                    <td>Em Atraso</td>
+                    <td bgcolor="#FAF2CC">&nbsp;</td>
+                    <td>A Vencer</td>
+                    <td bgcolor="#D0E9C6">&nbsp;</td>
+                    <td>No Prazo</td>
+                </tr>
+            </table>
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstanceEmExecucao"
+                   class="table table-striped table-bordered table-hover table-condensed"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>Data Envio</th>
+                        <th>O.S.</th>
+                        <th>Chamado</th>
+                        <th>Evento</th>
+                        <th>Data Evento</th>
+                        <th ng-show="tipoIntegracaoSistema == 1" title="Carga Horária">C.H.</th>
+                        <th ng-show="tipoIntegracaoSistema == 1" title="Tempo Decorrido">Tempo (Horas)</th>
+                        <th>Tipo Chamado</th>
+                        <th>Serviço</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">Cdc</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">Setor</th>
+                        <th ng-show="tipoIntegracaoSistema == 1">Quadra</th>
+                        <th>Solicitante</th>
+                        <th>Endereço</th>
+                        <th>Bairro</th>
+                        <th ng-show="tipoIntegracaoSistema == 2">Loteamento(Vila)</th>
+                        <th ng-show="tipoIntegracaoSistema == 2">Cep</th>
+                        <th ng-show="tipoIntegracaoSistema == 2">Telefone</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ordensServicoEquipe"
+                        ng-class="{'success': item.statusProgramacaoEvento == 2 ,
+                        'warning': item.statusProgramacaoEvento == 3 ,
+                        'danger': item.statusProgramacaoEvento == 4 }">
+
+                        <td>{{item.dataProgramacao | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td>
+                            <a class="textDecorN" data-toggle="modal" ui-sref="ordensServico.editar.geral.chamados({ordemServicoId: item.ordemServicoId})">{{item.ordemServicoId}}</a>
+                        </td>
+                        <td>{{item.chamadoId}}</td>
+                        <td>{{item.eventoid}}</td>
+                        <td>{{item.dataAberturaEvento | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td ng-show="tipoIntegracaoSistema == 1">{{item.cargaHoraria}}</td>
+                        <td ng-show="tipoIntegracaoSistema == 1">{{item.tempoDecorrido}}</td>
+                        <td>{{item.tipoChamadoSsbId}} - {{item.descricaoTipoChamado}}</td>
+                        <td>{{item.tipoServicoId}} - {{item.descricaoServico}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 1">{{item.cdc}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 1">{{item.setor}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 1">{{item.quadra}}</td>
+                        <td>{{item.nomeSolicitante}}</td>
+                        <td>{{item.endereco}}</td>
+                        <td>{{item.bairro}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 2">{{item.loteamento}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 2">{{item.cep}}</td>
+                        <td ng-show="item.tipoIntegracaoSistema == 2">{{item.telefone}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

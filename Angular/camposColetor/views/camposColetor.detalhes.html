@@ -1,0 +1,118 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Campo Coletor <small>Detalhes de Campo Coletor</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="camposColetor.lista">Campo Coletor</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Detalhes de Campo Coletor
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="camposColetor.editar({ id: item.campoColetorId})">Editar</a>
+                </li>
+                <li>
+                    <a ui-sref="camposColetor.incluir">Novo Campo Coletor</a>
+                </li>
+                <li class="divider">
+                </li>
+                <li>
+                    <a ui-sref="camposColetor.lista">Ver Lista</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN SAMPLE FORM PORTLET-->
+<div class="portlet box blue ">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i> Detalhes de Campo Coletor
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div id="messages" ng-show="message">{{ message }}</div>
+
+        <form name="detalhesForm" class="horizontal-form" role="form" ng-submit="gravar()">
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="labelInfo">Descrição:</label>
+                            <div class="textInfo">
+                                <p>
+                                    {{ item.descricao }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="labelInfo">Tipo:</label>
+                            <div class="textInfo">
+                                <p>
+                                    {{ item.descricaoTipo }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" ng-show="item.tamanhoConteudo">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="labelInfo">Tamanho Conteúdo:</label>
+                            <div class="textInfo">
+                                <p>
+                                    {{ item.tamanhoConteudo }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" ng-show="item.descricaoLista">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="labelInfo">Lista:</label>
+                            <div class="textInfo">
+                                <p>
+                                    {{ item.descricaoLista }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-actions right">
+                <a class="btn default" ng-click="voltar()">Voltar</a>
+                <a class="btn blue" ui-sref="camposColetor.editar({ id: item.campoColetorId})">Editar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- END SAMPLE FORM PORTLET-->

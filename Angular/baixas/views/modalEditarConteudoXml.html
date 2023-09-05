@@ -1,0 +1,41 @@
+<div class="modal fade" id="modalEditarConteudoXml" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" ng-if="baixa.mensagemErro == null">Conteúdo Xml</h4>
+                <h4 class="modal-title" ng-if="baixa.mensagemErro != null">Editar Xml</h4>
+            </div>
+            <div class="modal-body">
+                <form name="$parent.informacaoAdicionalForm" class="horizontal-form form-condensed" role="form" novalidate>
+                    <div class="tab-content">        
+                         <label ng-if="baixa.mensagemErro != null">
+                                Mensagem de Erro
+                            </label>
+                        <br/ ng-if="baixa.mensagemErro != null"> 
+                        <textarea class="form-control" ng-if="baixa.mensagemErro != null" ng-model="baixa.mensagemErro" style="height: auto; min-height: 150px; resize: none;" readonly></textarea>
+                        <br/> <br/ ng-if="baixa.mensagemErro != null">
+                        <label ng-if="baixa.mensagemErro != null">Conteúdo Xml</label>
+                        <br/> 
+                        <textarea class="form-control" ng-if="baixa.mensagemErro != null" ng-model="baixa.conteudoBaixa"  style="height: auto; min-height: 250px; resize: none;"></textarea>
+               <textarea class="form-control" ng-if="baixa.mensagemErro == null" ng-model="baixa.conteudoBaixa"  style="height: auto; min-height: 250px; resize: none;" readonly></textarea>
+
+                    </div>
+
+                    </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn blue"
+                        ng-disabled="!baixa.mensagemErro"
+                        ng-click="atualizarBaixa(baixa.eventoBaixaColetorId)"
+                        >
+                    Gravar
+                </button>
+            </div>
+        </div>
+           
+        </div>
+        <!-- /.modal-content -->
+    </div>

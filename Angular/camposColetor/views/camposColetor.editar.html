@@ -1,0 +1,144 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Campo Coletor <small>Editar Campo Coletor</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="camposColetor.lista">Campo Coletor</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Editar Campo Coletor
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Ações
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a ui-sref="camposColetor.lista">Ver Lista</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div class="portlet box yellow ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i> Editar Campo Coletor
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form name="editarForm" class="horizontal-form" role="form" ng-submit="gravar(editarForm)" novalidate>
+                    <div class="form-body">
+                        <div class="note note-danger" ng-if="postErrors && postErrors.length > 0">
+                            <p>Os seguintes erros foram encontrados:</p>
+                            <ul>
+                                <li ng-repeat="error in postErrors">{{ error }}</li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="Descricao" form-input="editarForm.descricao" validators="{maxlength: 100}">
+                                    <label class="control-label labelInfo">
+                                        Descrição<span class="required">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           placeholder="Descricao" 
+                                           name="descricao" 
+                                           ng-model="item.descricao" 
+                                           ng-maxlength="100"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label labelInfo">
+                                        Tipo<span class="required">*</span>
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="key"
+                                           data-field-text="value"
+                                           data-api-url="Api/Enums/TipoCamposColetorEnum"
+                                           placeholder="Tipo"
+                                           class="form-control"
+                                           name="tipo"
+                                           ng-model="item.tipo"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="TamanhoConteudo" form-input="editarForm.tamanhoConteudo" validators="{maxlength: 10}">
+                                    <label class="control-label labelInfo">
+                                        Tamanho Conteúdo<span ng-if="item.tipo == 1 || item.tipo == 2" class="required">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           placeholder="TamanhoConteudo" 
+                                           name="tamanhoConteudo" 
+                                           ng-model="item.tamanhoConteudo" 
+                                           ng-maxlength="3"
+                                           ng-required="item.tipo == 1 || item.tipo == 2"
+                                           ng-disabled="item.tipo != 1 && item.tipo != 2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group"
+                                     cb-form-validation field="ListaOpcaoId" form-input="editarForm.listaOpcaoId" validators="{maxlength: 10}">
+                                    <label class="control-label labelInfo">
+                                        Lista<span ng-if="item.tipo == 5" class="required">*</span>
+                                    </label>
+                                    <input type="hidden"
+                                           cb-select2=""
+                                           data-field-id="listaOpcaoColetorId"
+                                           data-field-text="descricao"
+                                           data-api-url="Api/ListaOpcoesColetor"
+                                           placeholder="Lista"
+                                           class="form-control"
+                                           name="listaOpcaoColetorId"
+                                           ng-model="item.listaOpcaoId"
+                                           ng-required="item.tipo == 5"
+                                           ng-disabled="item.tipo != 5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <button type="button" class="btn default" ng-click="cancelar()">Cancelar</button>
+                        <button type="button" class="btn default" data-toggle="modal" data-target="#modalExcluir">Excluir</button>
+                        <button type="submit" class="btn yellow" ng-disabled="editarForm.$invalid">Gravar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>
+<cb-confirmation-modal data-handler="modalExcluir" data-title="Excluir Registro" data-confirm-click="excluir()">
+    <p>Confirma a exclusão do registro atual ?</p>
+</cb-confirmation-modal>

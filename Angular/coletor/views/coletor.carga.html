@@ -1,0 +1,92 @@
+﻿<h3 class="page-title">
+    Coletor <small>Carga</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="painel.geral">Início</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Coletor
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            Carga
+        </li>
+    </ul>
+</div>
+<div class="portlet box grey-cascade" ng-show="equipes.length > '0'">
+    <div class="portlet-title">
+        <div class="caption">Equipes</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <table datatable="ng"
+                   dt-options="dtOptions"
+                   dt-instance="dtInstance"
+                   class="table table-striped table-bordered table-hover table-condensed table-clickable"
+                   id="tabelaOs">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>Centro de Custo</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="selecionarEquipe(equipe)" ng-repeat="equipe in equipes" ng-class="{'active': verificarEquipeSelecionada(equipe)}">
+                        <td>{{equipe.equipeId}}</td>
+                        <td>{{equipe.descricao}}</td>
+                        <td>{{equipe.descricaoCentroCusto}}</td>
+                        <td>{{equipe.descricaoStatus}}</td>
+                        <td>{{equipe.dataStatus | date:'short'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-actions right">
+                <button class="button btn green"
+                        ng-click="modalPerguntaCarga()"
+                        ng-disabled="equipesSelecionadas.length == '0'">
+                    Liberar Carga
+                </button>
+                <button class="button btn blue"
+                        ng-click="selecionarTodasEquipes(equipes)"
+                        ng-disabled="equipesSelecionadas.length == equipes.length">
+                    Selecionar Todas
+                </button>
+                <button class="button btn yellow"
+                        ng-click="limparTodasEquipes(equipes)"
+                        ng-disabled="equipesSelecionadas.length == '0'">
+                    Limpar Seleção
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-modal-lg" id="modalPerguntaCarga" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content form">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"></button>
+                <h4 class="modal-title">Confirma Liberação da Carga para as Equipes?</h4>
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue" data-dismiss="modal" ng-click="liberarCarga()">
+                    Sim
+                </button>
+                <button type="button" class="btn default" data-dismiss="modal">
+                    Não
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
